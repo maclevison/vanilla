@@ -21,6 +21,15 @@ Non-negotiable, taken from the family: the palette/colors, **Inter** type, the l
 
 Free per product, driven by the brief: **layout, composition, hierarchy/focus, density within range, and the signature.** Build the brief's signature *for real* — it's the one thing this product will be remembered by. A build with no signature has failed even if every token is correct.
 
+## App shell & navigation (from the brief)
+
+Build the frame from the brief's **Shell & navigation** first — get the shell right and every surface inherits the right structure.
+
+- **Sidebar** (if the brief calls for one) — shares the `canvas` with a `hairline` separating it (not a different fill); groups nav by section; the active item is a quiet-but-clear state (surface lift + weight, lavender only as a thin accent); collapsible if specified. Width states a relationship: a ~240–280px nav *serves* the content; ~320px+ reads as a *peer*.
+- **Top bar** (if specified) — holds only what the brief lists (wordmark, search, primary action, profile, theme toggle), as a thin band on the canvas with a hairline bottom; it must not compete with the page's focal point.
+- **Page shape** — full-width app shell, centered/contained, or split (list + detail) per the brief; hold one content max-width and consistent gutters.
+- **None** (a single focused view) — don't add chrome for its own sake; the screen is the shell.
+
 ## Visual hierarchy & composition (what makes it look designed)
 
 This is the highest-leverage craft, and now the main place creativity lives.
@@ -123,7 +132,7 @@ State (briefly): **Intent** (from the brief) · **Focal element** (and how it wi
 
 1. **Ensure the brief** — read `docs/vanilla/vanilla-brief.md`; if absent, run `vanilla-discovery` first.
 2. **Load the skin** — `design.md` + `tokens.css` (and `theme.css` if Tailwind).
-3. **Build screen by screen, signature first** — make the brief's signature real before filling in the rest.
+3. **Build the shell, then screen by screen, signature first** — frame the app from the brief's Shell & navigation, then make the signature real before filling in the rest.
 4. **Run the checks** (below).
 5. **Hand off to review:** `vanilla-review` for taste/family/soul, and `vanilla-audit` for the measurable pass (contrast, tokens, states, touch). Clear both before merge.
 
