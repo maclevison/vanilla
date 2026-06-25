@@ -1,0 +1,77 @@
+/* Vanilla design tokens — canonical technical source.
+   Edit values HERE. design.md is the human/semantic doc kept in sync.
+   Consumed directly (non-Tailwind) or via theme.css (Tailwind v4). */
+:root {
+  /* Brand & accent */
+  --vanilla-primary: #5e6ad2;
+  --vanilla-on-primary: #ffffff;
+  --vanilla-primary-hover: #828fff;
+  --vanilla-primary-focus: #5e69d1;
+  --vanilla-brand-secure: #7a7fad;
+
+  /* Text */
+  --vanilla-ink: #f7f8f8;
+  --vanilla-ink-muted: #d0d6e0;
+  --vanilla-ink-subtle: #8a8f98;
+  --vanilla-ink-tertiary: #62666d;
+
+  /* Surfaces */
+  --vanilla-canvas: #010102;
+  --vanilla-surface-1: #0f1011;
+  --vanilla-surface-2: #141516;
+  --vanilla-surface-3: #18191a;
+  --vanilla-surface-4: #191a1b;
+
+  /* Hairlines */
+  --vanilla-hairline: #23252a;
+  --vanilla-hairline-strong: #34343a;
+  --vanilla-hairline-tertiary: #3e3e44;
+
+  /* Inverse */
+  --vanilla-inverse-canvas: #ffffff;
+  --vanilla-inverse-surface-1: #f5f6f6;
+  --vanilla-inverse-surface-2: #f6f7f7;
+  --vanilla-inverse-ink: #000000;
+
+  /* Semantic */
+  --vanilla-success: #27a644;
+  --vanilla-overlay: #000000;
+
+  /* Radius */
+  --vanilla-radius-xs: 4px;
+  --vanilla-radius-sm: 6px;
+  --vanilla-radius-md: 8px;
+  --vanilla-radius-lg: 12px;
+  --vanilla-radius-xl: 16px;
+  --vanilla-radius-xxl: 24px;
+  --vanilla-radius-pill: 9999px;
+  --vanilla-radius-full: 9999px;
+
+  /* Spacing (4px base) */
+  --vanilla-space-xxs: 4px;
+  --vanilla-space-xs: 8px;
+  --vanilla-space-sm: 12px;
+  --vanilla-space-md: 16px;
+  --vanilla-space-lg: 24px;
+  --vanilla-space-xl: 32px;
+  --vanilla-space-xxl: 48px;
+  --vanilla-space-section: 96px;
+
+  /* Type families */
+  --vanilla-font-sans: "Inter", -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  --vanilla-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Type scale (font-size) */
+  --vanilla-text-display-xl: 80px;
+  --vanilla-text-display-lg: 56px;
+  --vanilla-text-display-md: 40px;
+  --vanilla-text-headline: 28px;
+  --vanilla-text-card-title: 22px;
+  --vanilla-text-subhead: 20px;
+  --vanilla-text-body-lg: 18px;
+  --vanilla-text-body: 16px;
+  --vanilla-text-body-sm: 14px;
+  --vanilla-text-caption: 12px;
+  --vanilla-text-eyebrow: 13px;
+  --vanilla-text-mono: 13px;
+}
