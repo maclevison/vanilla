@@ -201,13 +201,13 @@ OpenCode reads **all** of these (it supports the `.claude/` and `.agents/` paths
 
 ### Claude.ai (web / desktop)
 
-Claude.ai doesn't read your filesystem — skills are uploaded as zips. Package them from a clone (writes one `dist/<skill>.zip` per skill):
+Claude.ai doesn't read your filesystem — skills are uploaded as zips. Package them with one command — no clone needed; it writes one `dist/<skill>.zip` per skill into the current folder:
 
 ```bash
-./install.sh --zip
+curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --zip
 ```
 
-Then in claude.ai → **Settings → Skills**, upload each `dist/*.zip`. Requires a paid plan with code execution enabled; custom skills are per-user (they aren't shared org-wide and don't sync from Claude Code, so each person uploads their own).
+From a clone, it's `./install.sh --zip`. Then in claude.ai → **Settings → Skills**, upload each `dist/*.zip`. Requires a paid plan with code execution enabled; custom skills are per-user (they aren't shared org-wide and don't sync from Claude Code, so each person uploads their own).
 
 ### From a clone
 
