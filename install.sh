@@ -16,7 +16,7 @@
 #   ./install.sh --target agents     # ~/.agents/skills or ./.agents/skills
 #
 # Package for claude.ai (web/desktop) — one zip per skill, ready to upload:
-#   ./install.sh --zip               # writes ./dist/<skill>.zip
+#   ./install.sh --zip               # writes ./VanillaSkills/<skill>.zip
 #
 # Installs every vanilla* skill so it is available to Claude Code and OpenCode.
 # Note: OpenCode also reads .claude/skills, so the default target already works there.
@@ -51,7 +51,7 @@ Options:
                    opencode → ~/.config/opencode/skills | DIR/.opencode/skills
                    agents   → ~/.agents/skills          | DIR/.agents/skills
                    (OpenCode also reads .claude/skills, so claude works there too.)
-  --zip            Package each skill as ./dist/<skill>.zip for claude.ai upload.
+  --zip            Package each skill as ./VanillaSkills/<skill>.zip for claude.ai upload.
   --link           Symlink the skills instead of copying (local clone only).
   --ref REF        Branch or tag to fetch in remote mode (default: main).
   -h, --help       Show this help.
@@ -113,10 +113,10 @@ if [ -z "$SRC" ]; then
   SRC="$EXTRACTED/skills"
 fi
 
-# --zip: package each skill as dist/<skill>.zip for claude.ai upload, then stop.
+# --zip: package each skill as VanillaSkills/<skill>.zip for claude.ai upload, then stop.
 if [ "$MODE" = "zip" ]; then
   command -v zip >/dev/null 2>&1 || die "zip is required for --zip"
-  OUT="$PWD/dist"
+  OUT="$PWD/VanillaSkills"
   mkdir -p "$OUT"
   count=0
   for d in "$SRC"/vanilla*; do

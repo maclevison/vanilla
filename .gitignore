@@ -12,4 +12,4 @@
 docs/
 
 # Build output (./install.sh --zip)
-/dist/
+/VanillaSkills/
