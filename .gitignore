@@ -1,0 +1,5 @@
+# The Vanilla skills live in .claude/skills/ and MUST be versioned.
+# This overrides the user's global ignore of **/.claude/.
+!/.claude/
+!/.claude/skills/
+!/.claude/skills/**
