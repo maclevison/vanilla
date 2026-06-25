@@ -11,9 +11,23 @@ function frontmatter(text) {
   const m = text.match(/^---\n([\s\S]*?)\n---/);
   if (!m) return null;
   const fm = {};
-  for (const line of m[1].split("\n")) {
-    const mm = line.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
-    if (mm) fm[mm[1]] = mm[2].trim();
+  const lines = m[1].split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    const mm = lines[i].match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!mm) continue;
+    const key = mm[1];
+    let val = mm[2];
+    // Block scalar (| or >) or empty: collect following more-indented lines.
+    if (val === "|" || val === ">" || val === "") {
+      const collected = [];
+      while (i + 1 < lines.length && /^\s+\S/.test(lines[i + 1])) {
+        collected.push(lines[++i].trim());
+      }
+      if (collected.length) val = collected.join(" ");
+    }
+    // Strip a single pair of surrounding quotes.
+    val = val.trim().replace(/^(['"])([\s\S]*)\1$/, "$2");
+    fm[key] = val;
   }
   return fm;
 }

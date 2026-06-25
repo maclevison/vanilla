@@ -1,6 +1,6 @@
 ---
 name: vanilla
-description: Use when building product UI, dashboards, panels, admin tools, or app screens for PDM, so the result belongs to the shared Vanilla design family. The visual skin (dark canvas, Inter, lavender accent, surface ladder, Lucide icons, headless primitives) is fixed; creativity goes into the product's domain, layout, hierarchy, and signature. Orchestrates the vanilla-discovery, vanilla-build, vanilla-review, and vanilla-direction satellite skills.
+description: Use when building product UI, dashboards, panels, admin tools, or app screens for PDM, so the result belongs to the shared Vanilla design family. Loads the fixed visual skin (dark canvas, Inter, lavender accent, surface ladder, Lucide icons, headless primitives) from references/, and guides the discover-build-review flow. Creativity goes into the product's domain, layout, hierarchy, and signature — never the skin.
 ---
 
 # Vanilla
