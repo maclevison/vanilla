@@ -86,6 +86,15 @@ if (existsSync(discoveryPath)) {
   if (!/vanilla-brief\.md/.test(disc)) errors.push("vanilla-discovery: must reference vanilla-brief.md output");
 }
 
+// 4. vanilla-build must reference the skin and the brief (only if it exists)
+const buildPath = join(SKILLS_DIR, "vanilla-build/SKILL.md");
+if (existsSync(buildPath)) {
+  const build = readFileSync(buildPath, "utf8");
+  const mustMention = ["vanilla-brief.md", "tokens.css", "theme.css", "Base UI", "Reka UI", "Lucide"];
+  const absent = mustMention.filter((s) => !build.includes(s));
+  if (absent.length) errors.push(`vanilla-build: must reference skin/brief, missing: ${absent.join(", ")}`);
+}
+
 if (errors.length) {
   console.error("✗ Vanilla validation failed:");
   for (const e of errors) console.error("  - " + e);
