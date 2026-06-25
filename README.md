@@ -22,7 +22,6 @@ These are plain `SKILL.md` skills, **portable across Claude Code and OpenCode** 
 - [Usage](#usage)
 - [Conventions](#conventions)
 - [Development](#development)
-- [Specs & plans](#specs--plans)
 
 ---
 
@@ -159,7 +158,6 @@ If the project supplies a reference `design.md` (format `@google/design.md`, e.g
 
 install.sh                    installer (global or per-project; local or remote)
 scripts/validate-skills.mjs   validator (portability + token chain + skin)
-docs/superpowers/             design specs and plans
 ```
 
 ---

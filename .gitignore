@@ -7,3 +7,6 @@
 
 # macOS
 .DS_Store
+
+# Internal design docs — not published
+docs/
