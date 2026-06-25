@@ -1,0 +1,37 @@
+---
+name: vanilla
+description: Use when building product UI, dashboards, panels, admin tools, or app screens for PDM, so the result belongs to the shared Vanilla design family. The visual skin (dark canvas, Inter, lavender accent, surface ladder, Lucide icons, headless primitives) is fixed; creativity goes into the product's domain, layout, hierarchy, and signature. Orchestrates the vanilla-discovery, vanilla-build, vanilla-review, and vanilla-direction satellite skills.
+---
+
+# Vanilla
+
+Vanilla makes every PDM interface belong to the same family: recognizable skin, product-specific soul. **The skin is Vanilla; the soul is the product's.**
+
+## The skin is non-negotiable (load it first)
+
+Read these files, relative to this skill, before designing anything:
+
+- `references/design.md` — the semantic design system (the "why").
+- `references/tokens.css` — the canonical token values. Import directly when the project is not on Tailwind.
+- `references/theme.css` — the Tailwind v4 preset. Import when the project uses Tailwind.
+
+Non-negotiable skin (never reinvent): the palette/colors, **Inter** type, the lavender accent used sparingly, the surface ladder, the radius and spacing scales, **Lucide** icons, and the use of **headless primitives** for controls (Base UI for React, Reka UI for Vue) — never a styled UI kit (Material, Vuetify, Chakra, Ant).
+
+## The soul is the product's (this is where creativity goes)
+
+Free per product: layout, composition, hierarchy/focus, density within range, which screens/components exist, content, and the **signature** — one element that could only exist for this product.
+
+## Flow
+
+1. **Discover the product** — for greenfield, invoke the `vanilla-discovery` skill: it interviews the developer and writes a `vanilla-brief.md` (in the target project root) capturing the user, task, domain, feel, and the one signature. For an existing project, read `vanilla-brief.md` if present, else infer from the code.
+2. **Load the family** — read `references/design.md` + `references/tokens.css` (and `theme.css` if Tailwind).
+3. **Build** — invoke the `vanilla-build` skill, guided by `vanilla-brief.md`. If Tailwind is present, import `theme.css`; otherwise import `tokens.css`. Controls from headless primitives; icons from Lucide.
+4. **Review** — invoke the `vanilla-review` skill: craft bar + family test (does it read as PDM?) + uniqueness test (does it have a signature, or could it be any PDM product?).
+
+Invoke `vanilla-direction` in step 1–2 only when the product needs stronger visual character — always within the skin.
+
+> Satellite skills (`vanilla-discovery`, `vanilla-build`, `vanilla-review`, `vanilla-direction`) are added in later phases. Until they exist, apply `references/design.md` directly and follow this flow inline.
+
+## Portability
+
+This skill is plain Markdown + referenced files, and works in both Claude Code and OpenCode. It uses no agent-specific tools, slash commands, or hardcoded paths beyond its own `references/`.
