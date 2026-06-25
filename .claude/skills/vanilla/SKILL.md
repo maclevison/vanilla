@@ -32,7 +32,7 @@ Invoke `vanilla-direction` in step 1–2 only when the product needs stronger vi
 
 > **Convention:** every document the Vanilla skills generate (the brief, notes, reports) lives in the project's `docs/vanilla/` — never scattered in the root.
 
-> Satellite skills (`vanilla-discovery`, `vanilla-build`, `vanilla-review`, `vanilla-direction`) are added in later phases. Until they exist, apply `references/design.md` directly and follow this flow inline.
+> The satellite skills (`vanilla-discovery`, `vanilla-build`, `vanilla-review`, `vanilla-direction`) are invoked by name as the flow reaches each step.
 
 ## Portability
 
