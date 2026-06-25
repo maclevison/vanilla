@@ -1,11 +1,11 @@
 ---
 name: vanilla
-description: Use when building product UI, dashboards, panels, admin tools, or app screens for Vanilla, so the result belongs to the shared Vanilla design family. Loads the fixed visual skin (dark canvas, Inter, lavender accent, surface ladder, Lucide icons, headless primitives) from references/, and guides the discover-build-review flow. Creativity goes into the product's domain, layout, hierarchy, and signature — never the skin.
+description: Use when building product UI, dashboards, panels, admin tools, or app screens, so the result belongs to the shared Vanilla design family. Loads the fixed visual skin (dark canvas, Inter, lavender accent, surface ladder, Lucide icons, headless primitives) from references/, and guides the discover-build-review flow. Creativity goes into the product's domain, layout, hierarchy, and signature — never the skin.
 ---
 
 # Vanilla
 
-Vanilla makes every Vanilla interface belong to the same family: recognizable skin, product-specific soul. **The skin is Vanilla; the soul is the product's.**
+Vanilla makes every interface belong to the same family: recognizable skin, product-specific soul. **The skin is Vanilla; the soul is the product's.**
 
 ## The skin is non-negotiable (load it first)
 
@@ -29,7 +29,7 @@ Free per product: layout, composition, hierarchy/focus, density within range, wh
 1. **Discover the product** — for greenfield (if the repo isn't initialized yet, offer `git init` first), invoke the `vanilla-discovery` skill: it interviews the developer and writes `docs/vanilla/vanilla-brief.md` capturing the user, task, domain, feel, and the one signature. The brief also records the theme (dark / light / both). For an existing project, read `docs/vanilla/vanilla-brief.md` if present, else infer from the code.
 2. **Load the family** — read `references/design.md` + `references/tokens.css` (and `theme.css` if Tailwind); read `references/motion.md` when the screen has any movement.
 3. **Build** — invoke the `vanilla-build` skill, guided by `vanilla-brief.md`. If Tailwind is present, import `theme.css`; otherwise import `tokens.css`. Controls from headless primitives; icons from Lucide.
-4. **Review & audit** — two passes, both before merge. Invoke `vanilla-review` for the *taste* half: craft bar + family test (does it read as Vanilla?) + uniqueness test (signature, or could it be any Vanilla product?). Invoke `vanilla-audit` for the *measurable* half: WCAG contrast on both themes (via `references/contrast.mjs`), token fidelity, responsive/touch, complete states, family-mechanical. A build ships only when both clear.
+4. **Review & audit** — two passes, both before merge. Invoke `vanilla-review` for the *taste* half: craft bar + family test (does it read as Vanilla?) + uniqueness test (signature, or could it be any product?). Invoke `vanilla-audit` for the *measurable* half: WCAG contrast on both themes (via `references/contrast.mjs`), token fidelity, responsive/touch, complete states, family-mechanical. A build ships only when both clear.
 
 Invoke `vanilla-direction` in step 1–2 only when the product needs stronger visual character — always within the skin.
 

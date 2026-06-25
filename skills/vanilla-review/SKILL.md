@@ -13,7 +13,7 @@ An unusually strict review. Most generated UI is *correct* (it renders, it align
 
 1. **Craft** — would a design lead at Linear or Apple put their name on this? Real hierarchy, restraint, polish.
 2. **Family** — is this unmistakably Vanilla? Bound to tokens, Inter, surface ladder, lavender used sparingly, Lucide icons, headless primitives — no skin violation.
-3. **Soul** — does the brief's signature actually exist and do work? Or could this be any Vanilla product (convergence)?
+3. **Soul** — does the brief's signature actually exist and do work? Or could this be any product (convergence)?
 
 ## Inputs — load first
 
@@ -54,7 +54,7 @@ Then look again at **reading distance** — squint judges the macro, reading jud
   - **Accessibility** — `prefers-reduced-motion` honored (gentler, not zero); `:hover` motion gated behind `@media (hover: hover) and (pointer: fine)`.
   - **Layer discipline** — springs/decorative delight belong to a deliberate `vanilla-direction` moment, not sprayed into routine UI.
 - **F · Structure & reuse** — native → headless primitive (Base UI / Reka UI) → hand-roll? Any reinvented control missing keyboard / focus / ARIA? Hardcoded literals where tokens exist?
-- **G · Soul / uniqueness** — read the brief's signature; is it present and doing real work? Strip the product name: could this screen be any Vanilla product? If yes, the soul is missing.
+- **G · Soul / uniqueness** — read the brief's signature; is it present and doing real work? Strip the product name: could this screen be any product? If yes, the soul is missing.
 - **H · Copy & voice** — does the wording fit the brief's feel, and do the mechanics hold (no em dashes or `--`, no marketing buzzwords, button labels = verb + object, links that stand alone, one noun per concept, clean seed/mock data)? Empty and error copy says what happened and the way out, not just "Nada aqui". The hard rules live in `vanilla-build`'s Copy section.
 - **I · Micro-craft / detail** — at reading distance (not squint), scan each component against `vanilla-build`'s micro-craft tells: does every element declare its rank — accessory receding, related grouped, interactive separated? Catch the failures that survive the squint test — a count glued to its label, segments with no separation or no visible selected state, everything at one weight, content jammed to the edge, an icon off the text axis, proportional numbers that jump. The principle is rank; cite the specific tell and the fix, not just "looks off".
 

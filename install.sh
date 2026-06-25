@@ -154,4 +154,4 @@ done
 echo
 ok "Installed $count skill(s) → $DEST"
 [ "$USE_LINK" = "1" ] && info "Symlinked — pull the clone to update."
-info "Ask your agent to \"use the vanilla skill\" to build Vanilla product UI."
+info "Ask your agent to \"use the vanilla skill\" to build product UI."

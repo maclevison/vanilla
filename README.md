@@ -4,7 +4,7 @@
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![release](https://img.shields.io/github/v/release/maclevison/vanilla)
 
-**Vanilla** is Vanilla's design system, delivered as a set of *skills*. Turn it on and the interfaces you build belong to the same visual family — recognizably Vanilla — while each product keeps its own layout and personality.
+**Vanilla** is a design system, delivered as a set of *skills*. Turn it on and the interfaces you build belong to the same visual family — instantly recognizable — while each product keeps its own layout and personality.
 
 > **The skin is Vanilla; the soul is the product's.**
 
@@ -31,7 +31,7 @@ These are plain `SKILL.md` skills, **portable across Claude Code and OpenCode** 
 
 ## Concept
 
-What is **non-negotiable** (the skin — identical across every Vanilla project):
+What is **non-negotiable** (the skin — identical across every project):
 
 - Palette and color · **Inter** type · lavender accent (used sparingly)
 - *Surface ladder* (canvas → surface-1..4) and *hairlines*
@@ -44,7 +44,7 @@ What is **free** (the soul — decided per product):
 - Which screens/components exist · content and voice
 - The **signature** — the one element that could only exist in *this* product
 
-Rule of thumb: if the change alters *what the Vanilla brand looks like*, it's skin (fixed). If it alters *what this product does/prioritizes*, it's soul (free).
+Rule of thumb: if the change alters *what the brand looks like*, it's skin (fixed). If it alters *what this product does/prioritizes*, it's soul (free).
 
 ---
 
@@ -52,7 +52,7 @@ Rule of thumb: if the change alters *what the Vanilla brand looks like*, it's sk
 
 | Skill | Role | When to use |
 |---|---|---|
-| **`vanilla`** | Hub / orchestrator | Entry point for building any Vanilla product UI |
+| **`vanilla`** | Hub / orchestrator | Entry point for building any product UI |
 | **`vanilla-discovery`** | Interview the soul | At the start of a new project, before any code |
 | **`vanilla-build`** | Construction | Build or extend the UI from the brief |
 | **`vanilla-review`** | Taste pass | Judge craft, family, and soul before merge |
@@ -65,7 +65,7 @@ The entry point. Loads the family (`design.md`, `tokens.css`, `theme.css`, `moti
 
 ### `vanilla-discovery` — the soul
 
-A **short interview** that captures what makes the product unique: real user, task, domain, *feel*, **signature**, and stack (framework, Tailwind, theme). It persists everything to a **`vanilla-brief.md`** in the project's `docs/vanilla/`. This is the main **antidote to convergence** (the risk that every Vanilla product comes out the same). On a new project, it offers `git init` before writing.
+A **short interview** that captures what makes the product unique: real user, task, domain, *feel*, **signature**, and stack (framework, Tailwind, theme). It persists everything to a **`vanilla-brief.md`** in the project's `docs/vanilla/`. This is the main **antidote to convergence** (the risk that every product comes out the same). On a new project, it offers `git init` before writing.
 
 ### `vanilla-build` — the construction
 

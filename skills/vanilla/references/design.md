@@ -276,7 +276,7 @@ The page rhythm is **dense product screenshots** — Vanilla leads with high-fid
 
 ## Colors
 
-> Source: Vanilla design system (Vanilla) — base tokens for dashboards and panels.
+> Source: Vanilla design system — base tokens for dashboards and panels.
 
 ### Brand & Accent
 - **Lavender-Blue** ({colors.primary}): The signature Vanilla accent — primary CTA, brand mark, link emphasis.
