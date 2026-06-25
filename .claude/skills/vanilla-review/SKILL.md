@@ -36,7 +36,7 @@ Look at the rendered output as a user would (use a render/screenshot tool if ava
 
 ### 3. Run the lenses (independently — one concern at a time)
 - **A · Hierarchy** — name the focal element; does it win (size, weight, contrast, isolation)? Are tiers (primary / secondary / meta) distinct via size + weight + the ink ramp, not size alone?
-- **B · Family conformance** — bound to tokens, or hardcoded hex/px? Inter, or a stray font? Surface ladder + hairlines, or ad-hoc colors/borders? Lavender ≤ ~10% (focus / CTA / selection), or decorative? Lucide icons, or another set? Controls from headless primitives, or a styled UI kit?
+- **B · Family conformance** — bound to tokens, or hardcoded hex/px? Inter, or a stray font? Surface ladder + hairlines, or ad-hoc colors/borders? Lavender ≤ ~10% (focus / CTA / selection), or decorative? Lucide icons, or another set? Controls from headless primitives, or a styled UI kit? If the brief is "both", squint-test in both themes; confirm the toggle persists and there is no theme flash on reload. On light, elevation must read (shadow, not a flat ladder) and the lavender must hold AA.
 - **C · Surfaces & depth** — quiet elevation (the surface ladder), findable-not-harsh hairlines, one committed depth strategy?
 - **D · Composition & rhythm** — does it breathe unevenly, or is it monotone (same card, gap, density everywhere)? Do proportions state a relationship?
 - **E · States, polish & motion** — every interactive element has default / hover / active / focus / disabled; every data view has loading / empty / error? Concentric radius, tabular-nums, ≥44px hit areas? Motion < 300ms, ease-out, `prefers-reduced-motion` respected?
