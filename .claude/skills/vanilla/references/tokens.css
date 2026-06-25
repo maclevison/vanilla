@@ -74,4 +74,43 @@
   --vanilla-text-caption: 12px;
   --vanilla-text-eyebrow: 13px;
   --vanilla-text-mono: 13px;
+
+  /* Theme control + elevation (dark leans on borders, not shadows) */
+  color-scheme: dark;
+  --vanilla-shadow-1: none;
+  --vanilla-shadow-2: none;
+}
+
+/* ── Light theme ──────────────────────────────────────────────────────────
+   The inverted, in-family counterpart: same Inter, same lavender accent (value
+   nudged darker for AA on light surfaces), same surface-ladder + hairline model,
+   plus shadows for elevation (the ladder alone is too subtle on light).
+   Applied via <html data-theme="light">; dark is the default (no attribute). */
+:root[data-theme="light"] {
+  --vanilla-ink: #1c1d21;
+  --vanilla-ink-muted: #44474f;
+  --vanilla-ink-subtle: #6c7079;
+  --vanilla-ink-tertiary: #9499a2;
+
+  --vanilla-canvas: #f4f5f7;     /* off-white "whitespace", not pure white */
+  --vanilla-surface-1: #ffffff;  /* cards lift to white */
+  --vanilla-surface-2: #f7f8fa;
+  --vanilla-surface-3: #eef0f3;
+  --vanilla-surface-4: #e8eaee;
+
+  --vanilla-hairline: #e6e8ec;
+  --vanilla-hairline-strong: #d5d8de;
+  --vanilla-hairline-tertiary: #c2c6ce;
+
+  /* Lavender darkened for AA on light (>=4.5:1 as text on surface-1 and as
+     fill under white text). Hue preserved; value carries the function. */
+  --vanilla-primary: #4850c0;
+  --vanilla-primary-hover: #5a62d6;
+  --vanilla-primary-focus: #4850c0;
+
+  /* Elevation by shadow on light */
+  --vanilla-shadow-1: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --vanilla-shadow-2: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 4px 8px -2px rgba(0, 0, 0, 0.08), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
+
+  color-scheme: light;
 }
