@@ -60,6 +60,21 @@ The skin ships dark + light as two fixed states; the brief picks which the produ
 
 - **Elevation:** use `var(--vanilla-shadow-1)` / `--vanilla-shadow-2` for lifted cards/popovers — they resolve to a real shadow on light and to `none` on dark, so the same component reads correctly in both. Don't hardcode shadows.
 
+## Brand override (optional)
+
+If the project provides a reference `design.md` (any `@google/design.md`-format skin — e.g. a client's brand), apply a **light brand override**: adjust only a few axes, keep everything else Vanilla. This is not adopting the other skin — it's giving Vanilla the brand's color and shape.
+
+Take **only** these from the reference, by name (the names are consistent across skins):
+
+- **Primary/accent** — `colors.primary` (derive hover/focus) → redefine `--vanilla-primary`, `--vanilla-primary-hover`, `--vanilla-primary-focus`.
+- **Secondary colors** — brand accent extras and semantic status (`success` / `warning` / `error`) if present → redefine the matching tokens (e.g. `--vanilla-success`) or add brand extras as `--vanilla-x-<name>`.
+- **Spacing scale** — `spacing.*` → redefine `--vanilla-space-*` (density).
+- **Radius scale** — `rounded.*` → redefine `--vanilla-radius-*` (geometry: flat / medium / pill).
+
+Emit a small `:root` override block applied **after** the base `tokens.css` (cascade wins) — e.g. `docs/vanilla/brand-overrides.css`, imported right after the skin. **Everything else stays Vanilla:** surfaces/canvas, dark + light, **Inter**, the ink ramp, components, craft, polish, primitives.
+
+Rules: never pull typography, surfaces, components, or the depth model from the reference; never normalize its whole vocabulary; check the brand accent for AA on the active theme. This is a revisable suggestion — show the result and let the dev adjust. A few tokens, not a new skin.
+
 ## Polish & motion (ship-quality)
 
 - **States are not optional.** Every interactive element: default, hover, active, focus, disabled. Every data view: loading, empty, error. Missing states are the fastest tell of unfinished work.
