@@ -93,13 +93,21 @@ Invoked **on demand**, when the brief's *feel* asks for more personality. It dec
 
 ## The flow
 
-```
-        ┌─────────────────────────── vanilla (hub) ───────────────────────────┐
-        │                                                                      │
-   1. discover ──▶ vanilla-brief.md ──▶ 3. build ──▶ UI on the skin ──▶ 4. review + audit ──▶ verdict
-  (vanilla-discovery)   (the soul)      (vanilla-build)        (vanilla-review · vanilla-audit)
-        │                                                                      │
-        └── 2. direction (optional, when the product needs character) ─────────┘
+```mermaid
+flowchart LR
+    subgraph hub["vanilla · hub"]
+        direction LR
+        D["1 · discover<br/>(vanilla-discovery)"]
+        S["vanilla-brief.md<br/>(the soul)"]
+        B["3 · build<br/>(vanilla-build)"]
+        U["UI on the skin"]
+        R["4 · review + audit<br/>(vanilla-review · vanilla-audit)"]
+        V(["verdict"])
+        DIR["2 · direction (optional)<br/>when the product needs character"]
+
+        D --> S --> B --> U --> R --> V
+        D -.->|optional| DIR -.-> B
+    end
 ```
 
 1. **Discover** — the interview produces `vanilla-brief.md`. *This is where the soul lives.*
