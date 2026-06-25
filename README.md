@@ -112,6 +112,7 @@ The skin lives in `skills/vanilla/references/`:
 - **`tokens.css`** — the canonical technical source: CSS custom properties (`--vanilla-*`).
 - **`theme.css`** — the **Tailwind v4** preset (`@theme`) that *references* `tokens.css` (never redeclaring values).
 - **`motion.md`** — the family's motion layer (curves, durations, the decision-before-how discipline).
+- **`shells.md`** — app-shell archetypes (Console / Focused / Workbench / Reader / Canvas); structure starting points, not skin.
 - **`contrast.mjs`** — the WCAG contrast checker over the tokens (used by `vanilla-audit`).
 
 The `design.md → tokens.css → theme.css` chain makes Tailwind **inherit the skin at runtime**: change one value in `tokens.css` and it propagates everywhere, with no rebuild.
@@ -148,6 +149,7 @@ skills/
 │       ├── tokens.css        the skin (canonical technical source)
 │       ├── theme.css         Tailwind v4 preset
 │       ├── motion.md         the motion layer
+│       ├── shells.md         app-shell archetypes
 │       └── contrast.mjs      WCAG contrast checker
 ├── vanilla-discovery/SKILL.md
 ├── vanilla-build/SKILL.md

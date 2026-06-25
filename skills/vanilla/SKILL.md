@@ -15,6 +15,7 @@ Read these files, relative to this skill, before designing anything:
 - `references/tokens.css` — the canonical token values. Import directly when the project is not on Tailwind.
 - `references/theme.css` — the Tailwind v4 preset. Import when the project uses Tailwind.
 - `references/motion.md` — the family's motion layer (the "why" behind movement); curves and durations live as tokens in `tokens.css`. Load when a value, rule, or decision about animation is needed.
+- `references/shells.md` — the app-shell archetypes (Console / Focused / Workbench / Reader / Canvas). Load when deciding or building the navigation structure. This is structure, not skin — it never overrides the soul.
 - `references/contrast.mjs` — the WCAG contrast checker over the skin's tokens (both themes), used by `vanilla-audit`. Run `node references/contrast.mjs` to audit the skin pairs, or pass `<fg> <bg>` for an ad-hoc product pair.
 
 Non-negotiable skin (never reinvent): the palette/colors, **Inter** type, the lavender accent used sparingly, the surface ladder, the radius and spacing scales, **Lucide** icons, the **motion defaults** (strong custom curves, sub-300ms, the decision-before-how discipline in `motion.md`), and the use of **headless primitives** for controls (Base UI for React, Reka UI for Vue) — never a styled UI kit (Material, Vuetify, Chakra, Ant).

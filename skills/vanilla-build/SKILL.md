@@ -23,7 +23,7 @@ Free per product, driven by the brief: **layout, composition, hierarchy/focus, d
 
 ## App shell & navigation (from the brief)
 
-Build the frame from the brief's **Shell & navigation** first — get the shell right and every surface inherits the right structure.
+Build the frame from the brief's **Shell & navigation** first — get the shell right and every surface inherits the right structure. The brief names a **shell archetype** (Console / Focused / Workbench / Reader / Canvas); read its build notes in the skin's `references/shells.md` and frame the app from there. The archetype is the structure only — the signature, hierarchy, and content still come from the brief, so two builds of the same archetype must not look alike.
 
 - **Sidebar** (if the brief calls for one) — shares the `canvas` with a `hairline` separating it (not a different fill); groups nav by section; the active item is a quiet-but-clear state (surface lift + weight, lavender only as a thin accent); collapsible if specified. Width states a relationship: a ~240–280px nav *serves* the content; ~320px+ reads as a *peer*.
 - **Top bar** (if specified) — holds only what the brief lists (wordmark, search, primary action, profile, theme toggle), as a thin band on the canvas with a hairline bottom; it must not compete with the page's focal point.

@@ -26,7 +26,7 @@ Cover these dimensions (they are the brief's sections):
 6. **Signature** — the one element (visual, structural, or interaction) that could only exist for THIS product. If you can't name one, keep probing.
 7. **Density** — tight / balanced / airy, within the family range.
 8. **Key surfaces** — the main screens/areas that exist.
-9. **Shell & navigation** — the app frame around those surfaces: a left **sidebar** (sections, collapsible?), a **top bar** (wordmark, search, primary actions, profile/account, theme toggle), both, or none (a single focused view). And the page shape: full-width app shell, centered/contained content, or split (list + detail). Propose a default from the product type — dashboards/admin tools → collapsible sidebar + top bar; a single-purpose tool → top bar only; a reading/doc app → centered, minimal chrome — then let them confirm or correct.
+9. **Shell & navigation** — the app frame around those surfaces. Offer a **shell archetype** as the starting point (full catalog in the hub's `references/shells.md`): **Console** (sidebar + top bar — dashboards/admin), **Focused** (top bar only, contained — wizards/forms), **Workbench** (split list + detail — inbox/CRM/editors), **Reader** (centered, minimal chrome — docs/content), or **Canvas** (full-bleed + floating panels — visual editors). Suggest one from the product type, then confirm the details (sidebar sections/collapsible, what the top bar holds, page shape) — or go custom. The archetype is the frame only; the soul still comes from the rest of the brief.
 10. **Stack** — framework (React or Vue), Tailwind (yes/no), and **theme**: Dark (the family default) / Light / Both (a toggle). Primitives follow the framework (Base UI for React, Reka UI for Vue); icons are always Lucide. Optionally, a reference `design.md` for a light **brand override** (only primary/secondary colors, spacing, and radius are taken — see `vanilla-build`).
 
 ## Before writing
@@ -75,6 +75,7 @@ Write exactly this structure (fill every section; keep it concise — it's an an
 <the main screens/areas that exist>
 
 ## Shell & navigation
+- Archetype: <Console | Focused | Workbench | Reader | Canvas | custom>
 - Sidebar: <none | collapsible left nav with sections: …>
 - Top bar: <none | what it holds: wordmark, search, primary actions, profile, theme toggle>
 - Page shape: <full-width app shell | centered/contained | split (list + detail)>
