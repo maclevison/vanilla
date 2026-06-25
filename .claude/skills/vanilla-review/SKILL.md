@@ -35,6 +35,8 @@ Look at the rendered output as a user would (use a render/screenshot tool if ava
 - Does it read as *Vanilla* (dark canvas, Inter, lavender restraint, quiet surfaces)?
 - Is the brief's **signature** visible and alive?
 
+Then look again at **reading distance** — squint judges the macro, reading judges the micro. Zoom into each component and scan for the detail tells that survive the blur (a value glued to its label, interactives with no separation or selected state, everything at one weight) — run them through lens I.
+
 ### 3. Run the lenses (independently — one concern at a time)
 - **A · Hierarchy** — name the focal element; does it win (size, weight, contrast, isolation)? Are tiers (primary / secondary / meta) distinct via size + weight + the ink ramp, not size alone?
 - **B · Family conformance** — bound to tokens, or hardcoded hex/px? Inter, or a stray font? Surface ladder + hairlines, or ad-hoc colors/borders? Lavender ≤ ~10% (focus / CTA / selection), or decorative? Lucide icons, or another set? Controls from headless primitives, or a styled UI kit? If the brief is "both", squint-test in both themes; confirm the toggle persists and there is no theme flash on reload. On light, elevation must read (shadow, not a flat ladder) and the lavender must hold AA.
@@ -54,6 +56,7 @@ Look at the rendered output as a user would (use a render/screenshot tool if ava
 - **F · Structure & reuse** — native → headless primitive (Base UI / Reka UI) → hand-roll? Any reinvented control missing keyboard / focus / ARIA? Hardcoded literals where tokens exist?
 - **G · Soul / uniqueness** — read the brief's signature; is it present and doing real work? Strip the product name: could this screen be any Vanilla product? If yes, the soul is missing.
 - **H · Copy & voice** — does the wording fit the brief's feel, and do the mechanics hold (no em dashes or `--`, no marketing buzzwords, button labels = verb + object, links that stand alone, one noun per concept, clean seed/mock data)? Empty and error copy says what happened and the way out, not just "Nada aqui". The hard rules live in `vanilla-build`'s Copy section.
+- **I · Micro-craft / detail** — at reading distance (not squint), scan each component against `vanilla-build`'s micro-craft tells: does every element declare its rank — accessory receding, related grouped, interactive separated? Catch the failures that survive the squint test — a count glued to its label, segments with no separation or no visible selected state, everything at one weight, content jammed to the edge, an icon off the text axis, proportional numbers that jump. The principle is rank; cite the specific tell and the fix, not just "looks off".
 
 ### 4. Score & filter
 Severity per finding:
@@ -64,16 +67,16 @@ Severity per finding:
 Then drop false positives: taste (a coherent choice you'd merely make differently), a bold choice working as intended, out-of-scope, ratified by the brief or the skin, or a lint/compile concern. If you can't say *why a finding costs the user or breaks the family*, cut it. Prefer a few high-conviction findings over a long cosmetic list.
 
 ### 5. Report & verdict
-Synthesize across lenses, prioritized: hierarchy → family violations → surfaces/composition → states & polish → motion → structure → copy → soul. For each finding give: what defaulted or violated, why it costs the user or breaks the family, the specific fix (the decision, not a patch), and its severity. Then state the verdict against the bar. If `vanilla-audit` ran, fold its open P0/P1 into the verdict — a build is not approved while either pass has an unresolved blocker.
+Synthesize across lenses, prioritized: hierarchy → family violations → surfaces/composition → states & polish → micro-craft → motion → structure → copy → soul. For each finding give: what defaulted or violated, why it costs the user or breaks the family, the specific fix (the decision, not a patch), and its severity. Then state the verdict against the bar. If `vanilla-audit` ran, fold its open P0/P1 into the verdict — a build is not approved while either pass has an unresolved blocker.
 
 ## Approval bar
 
 To pass, all three must hold:
-- **Craft:** a clear focal point and readable hierarchy (survives the squint test); real size + weight + color hierarchy; restrained, meaningful color; quiet layering; complete states; purposeful sub-300ms motion; no structural hacks.
+- **Craft:** a clear focal point and readable hierarchy (survives the squint test); real size + weight + color hierarchy; restrained, meaningful color; quiet layering; clean detail at reading distance (every element ranked, no component blobs); complete states; purposeful sub-300ms motion; no structural hacks.
 - **Family:** binds to tokens (no hardcoded skin), Inter, the surface ladder, lavender sparingly, Lucide icons, headless primitives — no styled UI kit, no reinvented skin.
 - **Soul:** the brief's signature is present and doing work; the screen could not be mistaken for a different product.
 
-**Presumptive blockers** (unless justified against the brief): no focal point · size-only or defaulted hierarchy · monotone layout · harsh or fragmented surfaces · missing states · structural hacks · an inaccessible hand-rolled control · **skin violation** (hardcoded palette/font, a styled UI kit, non-Lucide icons) · **feel-breaking motion** (`ease-in` on UI, `scale(0)` entry, animation on a keyboard/100+×/day action, a non-GPU animation with an easy GPU fix) · **missing signature** (generic — could be any product). Any one present → **not approved**; leave explicit, actionable feedback.
+**Presumptive blockers** (unless justified against the brief): no focal point · size-only or defaulted hierarchy · monotone layout · harsh or fragmented surfaces · missing states · structural hacks · an inaccessible hand-rolled control · **component blob** (accessories that don't recede, interactives with no separation, a value glued to its label — fails at reading distance) · **skin violation** (hardcoded palette/font, a styled UI kit, non-Lucide icons) · **feel-breaking motion** (`ease-in` on UI, `scale(0)` entry, animation on a keyboard/100+×/day action, a non-GPU animation with an easy GPU fix) · **missing signature** (generic — could be any product). Any one present → **not approved**; leave explicit, actionable feedback.
 
 ## Applying fixes
 
