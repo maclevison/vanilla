@@ -20,6 +20,7 @@ An unusually strict review. Most generated UI is *correct* (it renders, it align
 - `docs/vanilla/vanilla-brief.md` — the soul (for the uniqueness test). If absent, review craft + family only and note the gap.
 - `references/design.md` + `references/tokens.css` — the skin (for the family test). Load `references/motion.md` when the build has movement, to cite exact curves, durations, and motion rules.
 - The build under review (a screen, a component, or a branch's UI changes).
+- **Pair with `vanilla-audit`.** This review is the *taste* half — craft, family-as-read, soul. The *measurable* half (WCAG contrast numbers, token resolution, touch-target px, triggered data states) is `vanilla-audit`'s job. Run both before merge; don't re-derive the mechanical checks here — judge what only a person can, and fold the audit's P0/P1 into your verdict.
 
 ## How to run it
 
@@ -29,7 +30,7 @@ Five steps, in order. The procedure is what keeps the review honest.
 Bound what's under review. The intent is **given, not inferred** — read the brief for the user, task, feel, and signature; read the skin (`design.md`/`tokens.css`). Review against the product's own intent, not a generic ideal.
 
 ### 2. See the whole first
-Look at the rendered output as a user would (use a render/screenshot tool if available; otherwise read the layout holistically). Squint:
+Look at the rendered output as a user would (use a render/screenshot tool if available; otherwise read the layout holistically). A clean compile is not evidence — the rendered screen is. If the tool is there, render at desktop and mobile widths and **trigger the non-happy states** (empty, error), so you judge what the user sees, not what the code implies. Squint:
 - Does one thing lead, or is it a parking lot where everything competes equally?
 - Does it read as *Vanilla* (dark canvas, Inter, lavender restraint, quiet surfaces)?
 - Is the brief's **signature** visible and alive?
@@ -52,6 +53,7 @@ Look at the rendered output as a user would (use a render/screenshot tool if ava
   - **Layer discipline** — springs/decorative delight belong to a deliberate `vanilla-direction` moment, not sprayed into routine UI.
 - **F · Structure & reuse** — native → headless primitive (Base UI / Reka UI) → hand-roll? Any reinvented control missing keyboard / focus / ARIA? Hardcoded literals where tokens exist?
 - **G · Soul / uniqueness** — read the brief's signature; is it present and doing real work? Strip the product name: could this screen be any Vanilla product? If yes, the soul is missing.
+- **H · Copy & voice** — does the wording fit the brief's feel, and do the mechanics hold (no em dashes or `--`, no marketing buzzwords, button labels = verb + object, links that stand alone, one noun per concept, clean seed/mock data)? Empty and error copy says what happened and the way out, not just "Nada aqui". The hard rules live in `vanilla-build`'s Copy section.
 
 ### 4. Score & filter
 Severity per finding:
@@ -62,7 +64,7 @@ Severity per finding:
 Then drop false positives: taste (a coherent choice you'd merely make differently), a bold choice working as intended, out-of-scope, ratified by the brief or the skin, or a lint/compile concern. If you can't say *why a finding costs the user or breaks the family*, cut it. Prefer a few high-conviction findings over a long cosmetic list.
 
 ### 5. Report & verdict
-Synthesize across lenses, prioritized: hierarchy → family violations → surfaces/composition → states & polish → motion → structure → soul. For each finding give: what defaulted or violated, why it costs the user or breaks the family, the specific fix (the decision, not a patch), and its severity. Then state the verdict against the bar.
+Synthesize across lenses, prioritized: hierarchy → family violations → surfaces/composition → states & polish → motion → structure → copy → soul. For each finding give: what defaulted or violated, why it costs the user or breaks the family, the specific fix (the decision, not a patch), and its severity. Then state the verdict against the bar. If `vanilla-audit` ran, fold its open P0/P1 into the verdict — a build is not approved while either pass has an unresolved blocker.
 
 ## Approval bar
 

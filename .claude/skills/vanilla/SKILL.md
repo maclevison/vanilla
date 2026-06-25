@@ -15,6 +15,7 @@ Read these files, relative to this skill, before designing anything:
 - `references/tokens.css` — the canonical token values. Import directly when the project is not on Tailwind.
 - `references/theme.css` — the Tailwind v4 preset. Import when the project uses Tailwind.
 - `references/motion.md` — the family's motion layer (the "why" behind movement); curves and durations live as tokens in `tokens.css`. Load when a value, rule, or decision about animation is needed.
+- `references/contrast.mjs` — the WCAG contrast checker over the skin's tokens (both themes), used by `vanilla-audit`. Run `node references/contrast.mjs` to audit the skin pairs, or pass `<fg> <bg>` for an ad-hoc product pair.
 
 Non-negotiable skin (never reinvent): the palette/colors, **Inter** type, the lavender accent used sparingly, the surface ladder, the radius and spacing scales, **Lucide** icons, the **motion defaults** (strong custom curves, sub-300ms, the decision-before-how discipline in `motion.md`), and the use of **headless primitives** for controls (Base UI for React, Reka UI for Vue) — never a styled UI kit (Material, Vuetify, Chakra, Ant).
 
@@ -27,13 +28,13 @@ Free per product: layout, composition, hierarchy/focus, density within range, wh
 1. **Discover the product** — for greenfield (if the repo isn't initialized yet, offer `git init` first), invoke the `vanilla-discovery` skill: it interviews the developer and writes `docs/vanilla/vanilla-brief.md` capturing the user, task, domain, feel, and the one signature. The brief also records the theme (dark / light / both). For an existing project, read `docs/vanilla/vanilla-brief.md` if present, else infer from the code.
 2. **Load the family** — read `references/design.md` + `references/tokens.css` (and `theme.css` if Tailwind); read `references/motion.md` when the screen has any movement.
 3. **Build** — invoke the `vanilla-build` skill, guided by `vanilla-brief.md`. If Tailwind is present, import `theme.css`; otherwise import `tokens.css`. Controls from headless primitives; icons from Lucide.
-4. **Review** — invoke the `vanilla-review` skill: craft bar + family test (does it read as Vanilla?) + uniqueness test (does it have a signature, or could it be any Vanilla product?).
+4. **Review & audit** — two passes, both before merge. Invoke `vanilla-review` for the *taste* half: craft bar + family test (does it read as Vanilla?) + uniqueness test (signature, or could it be any Vanilla product?). Invoke `vanilla-audit` for the *measurable* half: WCAG contrast on both themes (via `references/contrast.mjs`), token fidelity, responsive/touch, complete states, family-mechanical. A build ships only when both clear.
 
 Invoke `vanilla-direction` in step 1–2 only when the product needs stronger visual character — always within the skin.
 
 > **Convention:** every document the Vanilla skills generate (the brief, notes, reports) lives in the project's `docs/vanilla/` — never scattered in the root.
 
-> The satellite skills (`vanilla-discovery`, `vanilla-build`, `vanilla-review`, `vanilla-direction`) are invoked by name as the flow reaches each step.
+> The satellite skills (`vanilla-discovery`, `vanilla-build`, `vanilla-review`, `vanilla-audit`, `vanilla-direction`) are invoked by name as the flow reaches each step.
 
 ## Portability
 
