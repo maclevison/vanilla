@@ -9,7 +9,7 @@ Build product UI on the **fixed Vanilla skin**, from the **soul in the brief**. 
 
 ## Inputs — load these first
 
-1. **`vanilla-brief.md`** (the soul) from the project root. If it's missing, run the `vanilla-discovery` skill first — don't build without a brief.
+1. **`vanilla-brief.md`** (the soul) from the project's `docs/vanilla/`. If it's missing, run the `vanilla-discovery` skill first — don't build without a brief. Any documents you generate also go under `docs/vanilla/`.
 2. **The skin:** `references/design.md` (semantic) + `references/tokens.css` (canonical values). Plus `references/theme.css` if the project uses Tailwind.
 
 ## The skin is decided — don't reinvent it
@@ -60,7 +60,7 @@ State (briefly): **Intent** (from the brief) · **Focal element** (and how it wi
 
 ## Build flow
 
-1. **Ensure the brief** — read `vanilla-brief.md`; if absent, run `vanilla-discovery` first.
+1. **Ensure the brief** — read `docs/vanilla/vanilla-brief.md`; if absent, run `vanilla-discovery` first.
 2. **Load the skin** — `design.md` + `tokens.css` (and `theme.css` if Tailwind).
 3. **Build screen by screen, signature first** — make the brief's signature real before filling in the rest.
 4. **Run the checks** (below).
