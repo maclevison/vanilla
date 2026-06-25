@@ -490,7 +490,6 @@ Vanilla's depth is carried by surface ladder + hairline borders. The system resi
 
 ### Don't
 
-- Don't ship a light-mode page.
 - Don't use lavender as a section background or card fill.
 - Don't introduce a second chromatic accent (orange, pink, green).
 - Don't add atmospheric gradients or spotlight cards.
@@ -528,6 +527,17 @@ Vanilla's depth is carried by surface ladder + hairline borders. The system resi
 - Product UI screenshots maintain aspect ratio and never crop.
 - Customer logos in the marquee may collapse from 6-up to 3-up below 768px.
 
+## Light Theme
+
+Vanilla ships dark by default and a light counterpart as the *same skin inverted* — not a different identity. Same Inter, same lavender as the single accent, same surface-ladder + hairline model. Only surfaces, ink, hairlines, the accent value (for legibility), and the depth strategy change.
+
+- **Activation:** `<html data-theme="light">`. No attribute = dark. Tokens are redefined under `:root[data-theme="light"]` in `tokens.css`; `theme.css` (Tailwind) inherits via the vars, no rebuild.
+- **Surfaces invert:** canvas becomes off-white `#f4f5f7` (not pure white); cards lift to `#ffffff`; ink is dark in four levels; hairlines are light.
+- **Accent stays lavender, value nudged:** `#5e6ad2` fails AA on light surfaces, so light uses `#4850c0` (hue preserved, ≥4.5:1 as text and as fill). The accent's identity is the hue; the value carries the function — the same way the system desaturates semantic colors per theme.
+- **Depth inverts:** dark carries elevation through the surface ladder + hairlines, with almost no shadow. On light the ladder (white-on-off-white) is too subtle, so elevation adds **shadow** (`--vanilla-shadow-1/2`), which resolve to `none` in dark. The white edge-highlight on lifted panels is a dark-only trick; on light it is replaced by the shadow. The `inverse-*` pill CTA is dark-only.
+
+Light is a *state* of the fixed skin, chosen per project (dark / light / both) — never a per-product re-paint.
+
 ## Iteration Guide
 
 1. Focus on ONE component at a time and reference it by its `components:` token name.
@@ -542,6 +552,6 @@ Vanilla's depth is carried by surface ladder + hairline borders. The system resi
 
 - The four-step surface ladder values are Vanilla's canonical surface spec (`bg-level-3`, `line-tint`, etc.) — treat them as the base tokens for any dashboard.
 - Form-field error and validation styling is not yet documented.
-- Light mode is not documented because the system does not ship a light theme.
+- Light mode is an official second state of the skin — see "Light Theme". Dark remains the default and the family's face.
 - A richer color-tag palette (red, orange, yellow, green, blue, purple) for priorities and labels lives in the in-product surfaces shown in mockups, not on the marketing chrome.
 - Inter and JetBrains Mono are the canonical, freely-distributed Vanilla typefaces.
