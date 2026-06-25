@@ -170,14 +170,21 @@ By default the skills install into `.claude/skills/` (project) or `~/.claude/ski
 
 The repo is public, so a single command installs everything — no clone needed:
 
+**Global — available in every project (installs to ~/.claude/skills/)**
+
 ```bash
-# Global — available in every project (installs to ~/.claude/skills/)
 curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash
+```
 
-# Per-project — into a target repo's .claude/skills/
+**Per-project — into a target repo's .claude/skills/**
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --project ./my-app
+```
 
-# OpenCode's native folder instead of .claude/
+**OpenCode's native folder instead of .claude/**
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --target opencode
 ```
 
