@@ -14,7 +14,8 @@ OpenCode**.
   - `references/tokens.css` — canonical CSS custom properties.
   - `references/theme.css` — Tailwind v4 preset (references tokens.css).
 - `.claude/skills/vanilla-discovery/` — the soul interview; writes `vanilla-brief.md` to a product's repo.
-- Satellites (`vanilla-build`, `vanilla-review`, `vanilla-direction`) — added in later phases.
+- `.claude/skills/vanilla-build/` — builds product UI on the skin, from the brief.
+- Satellites (`vanilla-review`, `vanilla-direction`) — added in later phases.
 
 ## Install
 
