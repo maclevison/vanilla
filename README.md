@@ -1,219 +1,262 @@
 # Vanilla
 
-**Vanilla** é o design system da PDM entregue como um conjunto de *skills*. Ative-o e as interfaces que você constrói pertencem à mesma família visual — reconhecidamente PDM — enquanto cada produto mantém o seu próprio layout e personalidade.
+**Vanilla** is PDM's design system, delivered as a set of *skills*. Turn it on and the interfaces you build belong to the same visual family — recognizably PDM — while each product keeps its own layout and personality.
 
-> **A pele é Vanilla; a alma é do produto.**
+> **The skin is Vanilla; the soul is the product's.**
 
-A *pele* (cores, tipografia, profundidade, ícones) é fixa e garante o reconhecimento; a *alma* (domínio, layout, hierarquia e o *signature* de cada produto) é livre. O Vanilla cuida do *craft* — hierarquia, primitivos acessíveis, polish, motion, estados — para que toda UI saia com qualidade de produto, sem parecer "gerada por IA".
+The *skin* (color, type, depth, icons) is fixed and guarantees recognition; the *soul* (domain, layout, hierarchy, and each product's *signature*) is free. Vanilla handles the *craft* — hierarchy, accessible primitives, polish, motion, states — so every UI ships with product quality, without looking "AI-generated."
 
-São skills em `SKILL.md` puro, **portáteis entre Claude Code e OpenCode** (sem subagentes, plugins ou config específicos de um ambiente).
-
----
-
-## Índice
-
-- [Conceito](#conceito)
-- [As 5 skills](#as-5-skills)
-- [O fluxo](#o-fluxo)
-- [A pele](#a-pele)
-- [Stack padrão](#stack-padrão)
-- [Estrutura do repositório](#estrutura-do-repositório)
-- [Instalação](#instalação)
-- [Como usar](#como-usar)
-- [Convenções](#convenções)
-- [Desenvolvimento](#desenvolvimento)
-- [Specs & planos](#specs--planos)
+These are plain `SKILL.md` skills, **portable across Claude Code and OpenCode** (no subagents, plugins, or environment-specific config).
 
 ---
 
-## Conceito
+## Contents
 
-O que é **inegociável** (a pele — igual em todo projeto PDM):
-
-- Paleta e cores · tipografia **Inter** · accent lavanda (usado com parcimônia)
-- *Surface ladder* (canvas → surface-1..4) e *hairlines*
-- Escalas de raio e espaçamento · ícones **Lucide**
-- **Primitivos headless** para controles (Base UI no React, Reka UI no Vue) — nunca um UI kit estilizado
-
-O que é **livre** (a alma — decidido por produto):
-
-- Layout, composição, hierarquia e foco · densidade dentro da faixa
-- Quais telas/componentes existem · conteúdo e voz
-- O **signature** — o único elemento que só existiria *neste* produto
-
-Regra prática: se a mudança altera *o que a marca PDM parece*, é pele (fixa). Se altera *o que este produto faz/prioriza*, é alma (livre).
+- [Concept](#concept)
+- [The 6 skills](#the-6-skills)
+- [The flow](#the-flow)
+- [The skin](#the-skin)
+- [Default stack](#default-stack)
+- [Repository layout](#repository-layout)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Conventions](#conventions)
+- [Development](#development)
+- [Specs & plans](#specs--plans)
 
 ---
 
-## As 5 skills
+## Concept
 
-| Skill | Papel | Quando usar |
+What is **non-negotiable** (the skin — identical across every PDM project):
+
+- Palette and color · **Inter** type · lavender accent (used sparingly)
+- *Surface ladder* (canvas → surface-1..4) and *hairlines*
+- Radius and spacing scales · **Lucide** icons
+- **Headless primitives** for controls (Base UI in React, Reka UI in Vue) — never a styled UI kit
+
+What is **free** (the soul — decided per product):
+
+- Layout, composition, hierarchy, and focus · density within range
+- Which screens/components exist · content and voice
+- The **signature** — the one element that could only exist in *this* product
+
+Rule of thumb: if the change alters *what the PDM brand looks like*, it's skin (fixed). If it alters *what this product does/prioritizes*, it's soul (free).
+
+---
+
+## The 6 skills
+
+| Skill | Role | When to use |
 |---|---|---|
-| **`vanilla`** | Hub / orquestrador | Ponto de entrada para construir qualquer UI de produto PDM |
-| **`vanilla-discovery`** | Entrevista da alma | No início de um projeto novo, antes de qualquer código |
-| **`vanilla-build`** | Construção | Construir ou estender a UI a partir do brief |
-| **`vanilla-review`** | Fiscalização | Revisar uma UI antes de mergear/entregar |
-| **`vanilla-direction`** | Caráter extra | Quando o produto pede personalidade visual mais forte |
+| **`vanilla`** | Hub / orchestrator | Entry point for building any PDM product UI |
+| **`vanilla-discovery`** | Interview the soul | At the start of a new project, before any code |
+| **`vanilla-build`** | Construction | Build or extend the UI from the brief |
+| **`vanilla-review`** | Taste pass | Judge craft, family, and soul before merge |
+| **`vanilla-audit`** | Evidence pass | Verify the measurable quality before merge |
+| **`vanilla-direction`** | Extra character | When the product needs stronger visual personality |
 
-### `vanilla` — a hub
+### `vanilla` — the hub
 
-Ponto de entrada. Carrega a família (`design.md`, `tokens.css`, `theme.css`) e conduz o fluxo `descobrir → construir → revisar` (+ direção sob demanda), invocando os satélites na ordem certa. É leve: orquestra, não duplica.
+The entry point. Loads the family (`design.md`, `tokens.css`, `theme.css`, `motion.md`) and runs the `discover → build → review & audit` flow (+ direction on demand), invoking the satellites in the right order. It's lightweight: it orchestrates, it doesn't duplicate.
 
-### `vanilla-discovery` — a alma
+### `vanilla-discovery` — the soul
 
-Uma **entrevista curta** que captura o que torna o produto único: usuário real, tarefa, domínio, *feel*, **signature** e stack (framework, Tailwind, tema). Persiste tudo num **`vanilla-brief.md`** em `docs/vanilla/` do projeto. É o principal **antídoto contra a convergência** (o risco de todo produto PDM sair igual). Em projeto novo, oferece `git init` antes de gravar.
+A **short interview** that captures what makes the product unique: real user, task, domain, *feel*, **signature**, and stack (framework, Tailwind, theme). It persists everything to a **`vanilla-brief.md`** in the project's `docs/vanilla/`. This is the main **antidote to convergence** (the risk that every PDM product comes out the same). On a new project, it offers `git init` before writing.
 
-### `vanilla-build` — a construção
+### `vanilla-build` — the construction
 
-Constrói a UI **a partir do brief**, aplicando a pele (tokens) com *craft* real: hierarquia (peso + cor + ink ramp, não só tamanho), *surface ladder*, polish, motion < 300ms, estados completos. Usa **primitivos headless** (Base UI / Reka UI) e ícones **Lucide**. Aplica o **tema** (dark / light / both com toggle + script anti-FOUC) e o **brand override** se houver.
+Builds the UI **from the brief**, applying the skin (tokens) with real *craft*: hierarchy (weight + color + ink ramp, not just size), the *surface ladder*, polish, motion < 300ms, complete states. Uses **headless primitives** (Base UI / Reka UI) and **Lucide** icons. Applies the **theme** (dark / light / both with a toggle + anti-FOUC script) and the **brand override** if there is one.
 
-### `vanilla-review` — a fiscalização
+### `vanilla-review` — the taste pass
 
-Revisão **estrita**, contra três barras:
+A **strict** review against three bars:
 
-1. **Craft** — um líder de design assinaria embaixo? (hierarquia, restraint, polish)
-2. **Família** — é inconfundivelmente Vanilla? (tokens, Inter, surface ladder, Lucide, primitivos)
-3. **Alma** — carrega o *signature* do brief, ou poderia ser qualquer produto?
+1. **Craft** — would a design lead put their name on it? (hierarchy, restraint, polish)
+2. **Family** — is it unmistakably Vanilla? (tokens, Inter, surface ladder, Lucide, primitives)
+3. **Soul** — does it carry the brief's *signature*, or could it be any product?
 
-Julga por padrão (reporta achados + veredito, com severidade *Blocker / Should-fix / Note*); só reconstrói quando você pede.
+Judges by default (reports findings + verdict, severity *Blocker / Should-fix / Note*); rebuilds only when you ask.
 
-### `vanilla-direction` — o caráter
+### `vanilla-audit` — the evidence pass
 
-Acionada **sob demanda**, quando o *feel* do brief pede mais personalidade. Decide **onde gastar a ousadia dentro da pele fixa** — amplifica o signature, o layout, o motion, a densidade e o uso expressivo da Inter — e gasta num lugar só. Nunca repinta a pele (cor/fonte/ícones novos = violação).
+The *measurable* sibling of `vanilla-review`. Where review judges what only a person can, audit verifies what a machine can: **WCAG contrast** on both themes (via `references/contrast.mjs`), **token fidelity** (no hardcoded hex/px, no undefined vars, no off-scale type/space), responsive and touch targets, complete interaction/data states, and family-mechanical conformance (Lucide, headless primitives, surface ladder). Run **both** before merge — review for taste, audit for evidence. Reports findings by severity; fixes only when asked.
+
+### `vanilla-direction` — the character
+
+Invoked **on demand**, when the brief's *feel* asks for more personality. It decides **where to spend boldness within the fixed skin** — amplifying the signature, the layout, the motion, the density, and the expressive use of Inter — and spends it in one place. It never repaints the skin (a new color/font/icon set = a violation).
 
 ---
 
-## O fluxo
+## The flow
 
 ```
         ┌─────────────────────────── vanilla (hub) ───────────────────────────┐
         │                                                                      │
-   1. discover ──▶ vanilla-brief.md ──▶ 3. build ──▶ UI na pele ──▶ 4. review ──▶ veredito
-  (vanilla-discovery)   (a alma)      (vanilla-build)            (vanilla-review)
+   1. discover ──▶ vanilla-brief.md ──▶ 3. build ──▶ UI on the skin ──▶ 4. review + audit ──▶ verdict
+  (vanilla-discovery)   (the soul)      (vanilla-build)        (vanilla-review · vanilla-audit)
         │                                                                      │
-        └── 2. direction (opcional, quando o produto pede caráter) ───────────┘
+        └── 2. direction (optional, when the product needs character) ─────────┘
 ```
 
-1. **Descobrir** — a entrevista gera o `vanilla-brief.md`. *Aqui mora a alma.*
-2. **Direção** *(opcional)* — amplifica o caráter dentro da pele.
-3. **Construir** — a UI é montada sobre a pele, guiada pelo brief.
-4. **Revisar** — o build é julgado contra craft + família + alma.
+1. **Discover** — the interview produces `vanilla-brief.md`. *This is where the soul lives.*
+2. **Direction** *(optional)* — amplifies character within the skin.
+3. **Build** — the UI is assembled on top of the skin, guided by the brief.
+4. **Review & audit** — taste (`vanilla-review`) plus evidence (`vanilla-audit`). Ship only when both clear.
 
 ---
 
-## A pele
+## The skin
 
-A pele vive em `.claude/skills/vanilla/references/`:
+The skin lives in `.claude/skills/vanilla/references/`:
 
-- **`design.md`** — a fonte semântica (o "porquê" de cada decisão).
-- **`tokens.css`** — a fonte técnica canônica: CSS custom properties (`--vanilla-*`).
-- **`theme.css`** — preset **Tailwind v4** (`@theme`) que *referencia* `tokens.css` (nunca redeclara valores).
+- **`design.md`** — the semantic source (the "why" behind each decision).
+- **`tokens.css`** — the canonical technical source: CSS custom properties (`--vanilla-*`).
+- **`theme.css`** — the **Tailwind v4** preset (`@theme`) that *references* `tokens.css` (never redeclaring values).
+- **`motion.md`** — the family's motion layer (curves, durations, the decision-before-how discipline).
+- **`contrast.mjs`** — the WCAG contrast checker over the tokens (used by `vanilla-audit`).
 
-A cadeia `design.md → tokens.css → theme.css` faz o Tailwind **herdar a pele em runtime**: trocar um valor em `tokens.css` propaga para tudo, sem rebuild.
+The `design.md → tokens.css → theme.css` chain makes Tailwind **inherit the skin at runtime**: change one value in `tokens.css` and it propagates everywhere, with no rebuild.
 
-### Temas (dark / light)
+### Themes (dark / light)
 
-Dark é o padrão e o rosto da família. Light é a **mesma pele invertida** (`:root[data-theme="light"]`): mesma Inter, mesma lavanda (com o valor ajustado para passar AA), surface ladder invertido + sombras para elevação. Escolha por projeto na descoberta: **dark / light / both**. "Both" gera um toggle (Lucide sol/lua) com persistência e script anti-FOUC (chave `vanilla-theme`).
+Dark is the default and the family's face. Light is the **same skin inverted** (`:root[data-theme="light"]`): same Inter, same lavender (with the value tuned to pass AA), inverted surface ladder + shadows for elevation. Choose per project at discovery: **dark / light / both**. "Both" generates a toggle (Lucide sun/moon) with persistence and an anti-FOUC script (key `vanilla-theme`).
 
-### Brand override (leve)
+### Brand override (light)
 
-Se o projeto fornece um `design.md` de referência (formato `@google/design.md`, ex.: a marca de um cliente), o `vanilla-build` aplica um **ajuste de marca leve**: extrai **apenas** a cor primária, as secundárias, a escala de espaçamento e a de raio, e sobrescreve os tokens correspondentes. Todo o resto permanece Vanilla. É um override revisável — não a adoção de outra pele.
+If the project supplies a reference `design.md` (format `@google/design.md`, e.g. a client's brand), `vanilla-build` applies a **light brand adjustment**: it extracts **only** the primary color, the secondaries, the spacing scale, and the radius scale, and overrides the matching tokens. Everything else stays Vanilla. It's a reviewable override — not the adoption of another skin.
 
 ---
 
-## Stack padrão
+## Default stack
 
-| Camada | Escolha | Observação |
+| Layer | Choice | Note |
 |---|---|---|
-| Tipografia | **Inter** (+ JetBrains Mono) | Parte fixa da pele |
-| CSS | **Tailwind v4** (preset `theme.css`) | Recomendado, não obrigatório — sem Tailwind, importe `tokens.css` |
-| Primitivos | **Base UI** (React) · **Reka UI** (Vue) | Headless; nunca um UI kit estilizado (Material/Vuetify/Chakra/Ant) |
-| Ícones | **Lucide** | `lucide-react` / `lucide-vue-next` — mesmos ícones nos dois frameworks |
+| Type | **Inter** (+ JetBrains Mono) | Fixed part of the skin |
+| CSS | **Tailwind v4** (`theme.css` preset) | Recommended, not required — without Tailwind, import `tokens.css` |
+| Primitives | **Base UI** (React) · **Reka UI** (Vue) | Headless; never a styled UI kit (Material/Vuetify/Chakra/Ant) |
+| Icons | **Lucide** | `lucide-react` / `lucide-vue-next` — same icons in both frameworks |
 
 ---
 
-## Estrutura do repositório
+## Repository layout
 
 ```
 .claude/skills/
 ├── vanilla/                  hub
 │   ├── SKILL.md
 │   └── references/
-│       ├── design.md         a pele (fonte semântica)
-│       ├── tokens.css        a pele (fonte técnica canônica)
-│       └── theme.css         preset Tailwind v4
+│       ├── design.md         the skin (semantic source)
+│       ├── tokens.css        the skin (canonical technical source)
+│       ├── theme.css         Tailwind v4 preset
+│       ├── motion.md         the motion layer
+│       └── contrast.mjs      WCAG contrast checker
 ├── vanilla-discovery/SKILL.md
 ├── vanilla-build/SKILL.md
 ├── vanilla-review/SKILL.md
+├── vanilla-audit/SKILL.md
 └── vanilla-direction/SKILL.md
 
-scripts/validate-skills.mjs   validador (portabilidade + cadeia de tokens + pele)
-docs/superpowers/             specs e planos de design
+install.sh                    installer (global or per-project; local or remote)
+scripts/validate-skills.mjs   validator (portability + token chain + skin)
+docs/superpowers/             design specs and plans
 ```
 
 ---
 
-## Instalação
+## Installation
 
-As skills são lidas tanto pelo Claude Code quanto pelo OpenCode, de `.claude/skills/` ou `~/.claude/skills/`.
+The skills are read by both Claude Code and OpenCode, from `.claude/skills/` or `~/.claude/skills/`.
 
-- **Por projeto:** copie a pasta `.claude/skills/` para a raiz do repositório-alvo.
-- **Global (vale nos dois ambientes):** copie as pastas `vanilla*` para `~/.claude/skills/`.
+### One-liner (recommended)
 
-> Este repositório inclui um `.gitignore` que sobrepõe o ignore global de `**/.claude/`, para que `.claude/skills/` seja versionado aqui (mantendo o resto de `.claude/`, como `settings.local.json`, ignorado).
+The repo is public, so a single command installs everything — no clone needed:
+
+```bash
+# Global — available in every project (installs to ~/.claude/skills/)
+curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla-ai/main/install.sh | bash
+
+# Per-project — into a target repo's .claude/skills/
+curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla-ai/main/install.sh | bash -s -- --project ./my-app
+```
+
+### From a clone
+
+For contributors, or to track updates with a symlink:
+
+```bash
+git clone https://github.com/maclevison/vanilla-ai.git
+cd vanilla-ai
+./install.sh                 # global, into ~/.claude/skills/
+./install.sh --project .     # into ./.claude/skills/
+./install.sh --link          # symlink instead of copy — pull to update
+```
+
+### Manual
+
+Copy the `vanilla*` folders from `.claude/skills/` into the target repo's `.claude/skills/`, or into `~/.claude/skills/` for a global install.
+
+> This repository ships a `.gitignore` that overrides the global ignore of `**/.claude/`, so that `.claude/skills/` is versioned here (while the rest of `.claude/`, such as `settings.local.json`, stays ignored).
 
 ---
 
-## Como usar
+## Usage
 
-Peça ao agente para usar a skill `vanilla` ao construir UI de produto. A hub carrega a família e conduz o fluxo descobrir → construir → revisar.
+Ask the agent to use the `vanilla` skill when building product UI. The hub loads the family and runs the discover → build → review flow.
 
-Exemplos de prompt:
+Prompt examples:
 
 ```
-/vanilla Quero construir um dashboard de monitoramento de status de usuários.
+/vanilla I want to build a dashboard that monitors user status.
 ```
 ```
-use a skill vanilla para criar a tela de configurações deste app
+use the vanilla skill to create this app's settings screen
 ```
 
-A partir daí, a hub entrevista o produto (discovery), constrói sobre a pele (build) e pode revisar (review). Para projeto novo, ela oferece inicializar o git e grava o brief em `docs/vanilla/`.
+From there, the hub interviews the product (discovery), builds on top of the skin (build), and can review/audit it. For a new project, it offers to initialize git and writes the brief to `docs/vanilla/`.
 
 ---
 
-## Convenções
+## Conventions
 
-- **Artefatos gerados** pelas skills (o brief, planos de caráter, notas) ficam em **`docs/vanilla/`** do projeto-alvo — nunca soltos na raiz.
-- **Projeto novo:** a descoberta **oferece `git init`** antes de gravar qualquer coisa.
-- **`vanilla-brief.md`** é a âncora da alma: produzido pela `vanilla-discovery`, consumido por `vanilla-build` e usado pela `vanilla-review` como teste de unicidade.
+- **Artifacts generated** by the skills (the brief, direction notes, reports) live in the target project's **`docs/vanilla/`** — never loose in the root.
+- **New project:** discovery **offers `git init`** before writing anything.
+- **`vanilla-brief.md`** is the soul's anchor: produced by `vanilla-discovery`, consumed by `vanilla-build`, and used by `vanilla-review` as the uniqueness test.
 
 ---
 
-## Desenvolvimento
+## Development
 
-Rode o validador depois de editar skills ou tokens:
+Run the validator after editing skills or tokens:
 
 ```bash
 node scripts/validate-skills.mjs
 ```
 
-É um script Node **sem dependências**. Ele faz 7 verificações:
+It's a dependency-free Node script. It runs 7 checks:
 
-1. **Portabilidade** de cada skill — `name` em kebab-case, igual ao nome da pasta, sem `:` (compatível com OpenCode).
-2. **Cadeia de tokens** — `theme.css` referencia `tokens.css` via `var()` e nunca redeclara hex no `@theme`.
-3. **Template do brief** presente na `vanilla-discovery`.
-4. **`vanilla-build`** referencia a pele e o brief (tokens, Base UI/Reka UI, Lucide).
-5. **`vanilla-review`** referencia brief, pele e o teste de *signature*.
-6. **`vanilla-direction`** mantém a pele fixa (Inter, surface ladder, Lucide).
-7. **Light theme** — `tokens.css` traz o bloco `:root[data-theme="light"]` com os tokens core.
+1. **Portability** of every skill — `name` in kebab-case, matching the folder name, with no `:` (OpenCode-compatible).
+2. **Token chain** — `theme.css` references `tokens.css` via `var()` and never redeclares hex in `@theme`.
+3. **Brief template** present in `vanilla-discovery`.
+4. **`vanilla-build`** references the skin and the brief (tokens, Base UI/Reka UI, Lucide).
+5. **`vanilla-review`** references the brief, the skin, and the *signature* test.
+6. **`vanilla-direction`** keeps the skin fixed (Inter, surface ladder, Lucide).
+7. **Light theme** — `tokens.css` ships the `:root[data-theme="light"]` block with the core tokens.
+
+You can also audit the skin's contrast directly:
+
+```bash
+node .claude/skills/vanilla/references/contrast.mjs        # check the skin pairs on both themes
+node .claude/skills/vanilla/references/contrast.mjs <fg> <bg>   # ad-hoc product pair
+```
 
 ---
 
-## Specs & planos
+## Specs & plans
 
-O desenho do sistema foi feito com brainstorming → spec → plano, com revisão a cada etapa. Tudo versionado em:
+The system was designed with brainstorming → spec → plan, reviewed at each step. Everything is versioned in:
 
 - **Specs:** `docs/superpowers/specs/`
-  - `2026-06-25-vanilla-design-system-skill.md` — o sistema (hub + satélites)
+  - `2026-06-25-vanilla-design-system-skill.md` — the system (hub + satellites)
   - `2026-06-25-vanilla-light-mode-design.md` — dark + light
-- **Planos:** `docs/superpowers/plans/` — um plano de implementação por fase.
+- **Plans:** `docs/superpowers/plans/` — one implementation plan per phase.
