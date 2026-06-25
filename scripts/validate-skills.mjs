@@ -73,6 +73,16 @@ if (existsSync(tokensPath) && existsSync(themePath)) {
   errors.push("vanilla skill: missing references/tokens.css or references/theme.css");
 }
 
+// 3. vanilla-discovery brief-template integrity (only if the skill exists)
+const discoveryPath = join(SKILLS_DIR, "vanilla-discovery/SKILL.md");
+if (existsSync(discoveryPath)) {
+  const disc = readFileSync(discoveryPath, "utf8");
+  const requiredSections = ["Product", "User", "Task", "Domain", "Feel", "Signature"];
+  const missing = requiredSections.filter((s) => !new RegExp(`##\\s+${s}\\b`).test(disc));
+  if (missing.length) errors.push(`vanilla-discovery: brief template missing section(s): ${missing.join(", ")}`);
+  if (!/vanilla-brief\.md/.test(disc)) errors.push("vanilla-discovery: must reference vanilla-brief.md output");
+}
+
 if (errors.length) {
   console.error("✗ Vanilla validation failed:");
   for (const e of errors) console.error("  - " + e);
