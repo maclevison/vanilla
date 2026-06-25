@@ -1,0 +1,15 @@
+%%{init: {'theme':'base','themeVariables':{'background':'#010102','clusterBkg':'#0b0c0f','clusterBorder':'#23252a','primaryColor':'#15171b','primaryBorderColor':'#2e313a','primaryTextColor':'#f7f8f8','lineColor':'#6e7681','edgeLabelBackground':'#010102','fontFamily':'Inter, ui-sans-serif, system-ui, sans-serif'}}}%%
+flowchart LR
+    subgraph hub["vanilla · hub"]
+        direction LR
+        D["1 · discover<br/>(vanilla-discovery)"]
+        S["vanilla-brief.md<br/>(the soul)"]
+        B["3 · build<br/>(vanilla-build)"]
+        U["UI on the skin"]
+        R["4 · review + audit<br/>(vanilla-review · vanilla-audit)"]
+        V(["verdict"])
+        DIR["2 · direction (optional)<br/>when the product needs character"]
+
+        D --> S --> B --> U --> R --> V
+        D -.->|optional| DIR -.-> B
+    end

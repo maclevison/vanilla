@@ -93,22 +93,9 @@ Invoked **on demand**, when the brief's *feel* asks for more personality. It dec
 
 ## The flow
 
-```mermaid
-flowchart LR
-    subgraph hub["vanilla · hub"]
-        direction LR
-        D["1 · discover<br/>(vanilla-discovery)"]
-        S["vanilla-brief.md<br/>(the soul)"]
-        B["3 · build<br/>(vanilla-build)"]
-        U["UI on the skin"]
-        R["4 · review + audit<br/>(vanilla-review · vanilla-audit)"]
-        V(["verdict"])
-        DIR["2 · direction (optional)<br/>when the product needs character"]
+![The Vanilla flow — discover → build → review & audit, with optional direction, all under the vanilla hub](assets/flow.svg)
 
-        D --> S --> B --> U --> R --> V
-        D -.->|optional| DIR -.-> B
-    end
-```
+<sub>Diagram source: [`assets/flow.mmd`](assets/flow.mmd) — regenerate with `npx -y @mermaid-js/mermaid-cli -i assets/flow.mmd -o assets/flow.svg -b "#010102"`.</sub>
 
 1. **Discover** — the interview produces `vanilla-brief.md`. *This is where the soul lives.*
 2. **Direction** *(optional)* — amplifies character within the skin.
