@@ -87,7 +87,7 @@ SRC=""
 SELF="${BASH_SOURCE[0]:-}"
 if [ -n "$SELF" ] && [ -f "$SELF" ]; then
   SCRIPT_DIR="$(cd "$(dirname "$SELF")" && pwd)"
-  [ -d "$SCRIPT_DIR/.claude/skills" ] && SRC="$SCRIPT_DIR/.claude/skills"
+  [ -d "$SCRIPT_DIR/skills" ] && SRC="$SCRIPT_DIR/skills"
 fi
 
 if [ -z "$SRC" ]; then
@@ -102,8 +102,8 @@ if [ -z "$SRC" ]; then
     || die "download failed for ref '${REF}'"
   tar -xzf "$TMP/v.tar.gz" -C "$TMP"
   EXTRACTED="$(find "$TMP" -maxdepth 1 -type d -name "${REPO##*/}-*" | head -1)"
-  [ -n "$EXTRACTED" ] && [ -d "$EXTRACTED/.claude/skills" ] || die "skills not found in the downloaded archive"
-  SRC="$EXTRACTED/.claude/skills"
+  [ -n "$EXTRACTED" ] && [ -d "$EXTRACTED/skills" ] || die "skills not found in the downloaded archive"
+  SRC="$EXTRACTED/skills"
 fi
 
 # Install every vanilla* skill.

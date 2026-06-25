@@ -107,7 +107,7 @@ Invoked **on demand**, when the brief's *feel* asks for more personality. It dec
 
 ## The skin
 
-The skin lives in `.claude/skills/vanilla/references/`:
+The skin lives in `skills/vanilla/references/`:
 
 - **`design.md`** — the semantic source (the "why" behind each decision).
 - **`tokens.css`** — the canonical technical source: CSS custom properties (`--vanilla-*`).
@@ -141,7 +141,7 @@ If the project supplies a reference `design.md` (format `@google/design.md`, e.g
 ## Repository layout
 
 ```
-.claude/skills/
+skills/
 ├── vanilla/                  hub
 │   ├── SKILL.md
 │   └── references/
@@ -208,9 +208,9 @@ cd vanilla
 
 ### Manual
 
-Copy the `vanilla*` folders from `.claude/skills/` into the target repo's `.claude/skills/`, or into `~/.claude/skills/` for a global install.
+Copy the `vanilla*` folders from `skills/` into the target repo's `.claude/skills/`, or into `~/.claude/skills/` for a global install.
 
-> This repository ships a `.gitignore` that overrides the global ignore of `**/.claude/`, so that `.claude/skills/` is versioned here (while the rest of `.claude/`, such as `settings.local.json`, stays ignored).
+> The skills are versioned at `skills/` in the repo root. The installer copies (or symlinks) them into each agent's skills directory, so the repo itself carries no `.claude/` folder. For local development, `./install.sh --link --project .` symlinks them into `.claude/skills/` (gitignored) so the repo's own skills auto-load in Claude Code / OpenCode.
 
 ---
 
@@ -260,8 +260,8 @@ It's a dependency-free Node script. It runs 7 checks:
 You can also audit the skin's contrast directly:
 
 ```bash
-node .claude/skills/vanilla/references/contrast.mjs        # check the skin pairs on both themes
-node .claude/skills/vanilla/references/contrast.mjs <fg> <bg>   # ad-hoc product pair
+node skills/vanilla/references/contrast.mjs        # check the skin pairs on both themes
+node skills/vanilla/references/contrast.mjs <fg> <bg>   # ad-hoc product pair
 ```
 
 ---

@@ -1,9 +1,9 @@
-# The Vanilla skills live in .claude/skills/ and MUST be versioned.
-# This overrides the user's global ignore of **/.claude/, while keeping the
-# rest of .claude/ (e.g. settings.local.json) ignored.
-!/.claude/
-/.claude/*
-!/.claude/skills/
+# The Vanilla skills are versioned at skills/ in the repo root.
+# Agent skill directories are install targets, not sources — ignore them
+# (e.g. created locally by `./install.sh --link --project .` for dogfooding).
+/.claude/
+/.opencode/
+/.agents/
 
 # macOS
 .DS_Store

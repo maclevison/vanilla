@@ -3,7 +3,7 @@
 import { readdirSync, readFileSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 
-const SKILLS_DIR = ".claude/skills";
+const SKILLS_DIR = "skills";
 const NAME_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const errors = [];
 
@@ -32,7 +32,7 @@ function frontmatter(text) {
   return fm;
 }
 
-// 1. Portability of every skill under .claude/skills
+// 1. Portability of every skill under skills/
 if (!existsSync(SKILLS_DIR)) {
   errors.push(`missing ${SKILLS_DIR}/`);
 } else {
