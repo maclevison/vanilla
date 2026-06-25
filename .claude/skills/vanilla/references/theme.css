@@ -1,0 +1,54 @@
+/* Vanilla preset for Tailwind v4.
+   References tokens.css — NEVER redeclare raw values here.
+   Usage in a project: @import "tokens.css"; @import "theme.css";
+   Spacing note: Vanilla uses a 4px base, which matches Tailwind v4's
+   default --spacing scale, so p-4 = 16px etc. already align — no override. */
+@import "./tokens.css";
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-primary: var(--vanilla-primary);
+  --color-on-primary: var(--vanilla-on-primary);
+  --color-primary-hover: var(--vanilla-primary-hover);
+  --color-primary-focus: var(--vanilla-primary-focus);
+  --color-brand-secure: var(--vanilla-brand-secure);
+  --color-ink: var(--vanilla-ink);
+  --color-ink-muted: var(--vanilla-ink-muted);
+  --color-ink-subtle: var(--vanilla-ink-subtle);
+  --color-ink-tertiary: var(--vanilla-ink-tertiary);
+  --color-canvas: var(--vanilla-canvas);
+  --color-surface-1: var(--vanilla-surface-1);
+  --color-surface-2: var(--vanilla-surface-2);
+  --color-surface-3: var(--vanilla-surface-3);
+  --color-surface-4: var(--vanilla-surface-4);
+  --color-hairline: var(--vanilla-hairline);
+  --color-hairline-strong: var(--vanilla-hairline-strong);
+  --color-hairline-tertiary: var(--vanilla-hairline-tertiary);
+  --color-success: var(--vanilla-success);
+
+  /* Radius */
+  --radius-xs: var(--vanilla-radius-xs);
+  --radius-sm: var(--vanilla-radius-sm);
+  --radius-md: var(--vanilla-radius-md);
+  --radius-lg: var(--vanilla-radius-lg);
+  --radius-xl: var(--vanilla-radius-xl);
+  --radius-xxl: var(--vanilla-radius-xxl);
+
+  /* Fonts */
+  --font-sans: var(--vanilla-font-sans);
+  --font-mono: var(--vanilla-font-mono);
+
+  /* Type scale */
+  --text-display-xl: var(--vanilla-text-display-xl);
+  --text-display-lg: var(--vanilla-text-display-lg);
+  --text-display-md: var(--vanilla-text-display-md);
+  --text-headline: var(--vanilla-text-headline);
+  --text-card-title: var(--vanilla-text-card-title);
+  --text-subhead: var(--vanilla-text-subhead);
+  --text-body-lg: var(--vanilla-text-body-lg);
+  --text-body: var(--vanilla-text-body);
+  --text-body-sm: var(--vanilla-text-body-sm);
+  --text-caption: var(--vanilla-text-caption);
+  --text-eyebrow: var(--vanilla-text-eyebrow);
+}
