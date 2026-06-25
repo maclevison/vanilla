@@ -11,6 +11,7 @@ Build product UI on the **fixed Vanilla skin**, from the **soul in the brief**. 
 
 1. **`vanilla-brief.md`** (the soul) from the project's `docs/vanilla/`. If it's missing, run the `vanilla-discovery` skill first — don't build without a brief. Any documents you generate also go under `docs/vanilla/`.
 2. **The skin:** `references/design.md` (semantic) + `references/tokens.css` (canonical values). Plus `references/theme.css` if the project uses Tailwind.
+3. **If present, `docs/vanilla/vanilla-direction.md`** — the character plan from `vanilla-direction`; read it alongside the brief and let it guide how far to push the signature, layout, and motion.
 
 ## The skin is decided — don't reinvent it
 

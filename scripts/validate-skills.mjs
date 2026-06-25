@@ -104,6 +104,15 @@ if (existsSync(reviewPath)) {
   if (absent.length) errors.push(`vanilla-review: must reference brief/skin/signature, missing: ${absent.join(", ")}`);
 }
 
+// 6. vanilla-direction must keep the skin fixed and reference the brief/signature (only if it exists)
+const directionPath = join(SKILLS_DIR, "vanilla-direction/SKILL.md");
+if (existsSync(directionPath)) {
+  const direction = readFileSync(directionPath, "utf8");
+  const mustMention = ["vanilla-brief.md", "signature", "Inter", "surface ladder", "Lucide"];
+  const absent = mustMention.filter((s) => !direction.includes(s));
+  if (absent.length) errors.push(`vanilla-direction: must reference skin/brief, missing: ${absent.join(", ")}`);
+}
+
 if (errors.length) {
   console.error("✗ Vanilla validation failed:");
   for (const e of errors) console.error("  - " + e);
