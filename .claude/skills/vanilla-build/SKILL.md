@@ -40,6 +40,25 @@ This is the highest-leverage craft, and now the main place creativity lives.
 - **Inputs sit slightly inset/darker**, not lighter.
 - **Squint test:** blur your eyes — you still perceive structure, but nothing jumps out harshly.
 
+## Micro-craft — detailing inside the component
+
+Macro composition can be right and the screen still read as generated, because the failure hides *inside* a single control — the gap the squint test can't see (it survives the blur). The rule:
+
+**Inside a component, every element declares its rank: the accessory recedes, the related groups, the interactive separates.**
+
+Scan each component you build against these tells — the concrete shapes that rule gets violated in. Each is failure → cost → fix:
+
+- **Value glued to its label** — a count/figure touches the text (`9Publicado`), so it reads as one word. → Give label↔value a dedicated gap, and demote the value (`ink-subtle`, or a badge on `surface-2`).
+- **Everything at one rank** — label, value, icon, meta all at the same size/weight/color = a flat blob. → Only the component's protagonist stays at `ink`; the rest steps down the ink ramp.
+- **Interactives fused** — segments/tabs/chips with no separation and no visible selected state. → Separate with a hairline divider, a gap, or an individual pill; the selected one is a surface lift (`surface-2`), not just bold.
+- **Padding missing or lopsided** — content jammed against the edge, asymmetric padding. → Token padding, symmetric unless there's a reason; concentric radius on nested elements.
+- **Icon off the axis** — icon not aligned to the text's x-height, no gap to the label. → Align to x-height, give a dedicated label↔icon gap, nudge ~2px optically.
+- **Numbers that dance** — proportional counters/metrics jump on update. → `tabular-nums` on any dynamic figure.
+- **Flat grouping** — uniform gap between everything, related and unrelated at the same distance. → Tighten the related, open real air between groups (the build's rhythm, now *inside* the component).
+- **Loud border, dead center** — the container has a strong border but nothing inside is ranked. → Quiet hairline outside, hierarchy inside (weight + ink + surface).
+
+These are recognition aids, not a scorecard — the one principle behind all of them is rank. Fix the rank, not the symptom.
+
 ## Use what exists (controls, styling, icons)
 
 - **Controls: native → headless primitive → hand-roll (last resort).** Use `<button>`/`<a>`/`<input>` where they fit. For anything stateful (select, combobox, dialog, popover, tooltip, tabs, date picker) compose a headless primitive — **Base UI for React, Reka UI for Vue** — then style it to the skin. Never ship a styled UI kit (Material, Vuetify, Chakra, Ant): it brings its own skin and hijacks the family. Hand-roll only if no primitive fits, and then owe the full a11y contract (keyboard, focus trap/return, ARIA, click-outside, scroll-lock).
@@ -111,13 +130,14 @@ State (briefly): **Intent** (from the brief) · **Focal element** (and how it wi
 ## The checks (before showing)
 
 - **Squint test** — hierarchy readable, nothing harsh?
+- **Reading-distance pass** — squint catches the macro (what leads); reading catches the micro (collisions, separation, accessories). Walk each component at reading distance against the micro-craft tells — these survive the squint.
 - **States** — every interactive element and data view has its states?
 - **Primitives** — every non-native control is a headless primitive, not hand-rolled, not a styled kit?
 - **Tokens** — no hardcoded hex/px that a token covers?
 - **Signature** — is the brief's signature actually present and doing work? If a generic version of this screen would look the same, the soul is missing.
 - **Copy** — UI strings and seed data clean (no em dashes, buzzwords, "click here" links, or inconsistent names)?
 - **Contrast** — text on tints/fills clears AA? Run `references/contrast.mjs` for the skin pairs, and `node references/contrast.mjs '<fg>' '<bg>'` for any product-specific pair (status seals, gray on a hover tint).
-- **Render it and walk it** if a render/screenshot tool is available — verify at desktop and mobile widths, and **trigger the non-happy states** (empty, error) rather than assuming them. A clean compile is not evidence; the rendered screen is. Otherwise read the layout holistically.
+- **Render it and walk it** — if a render/screenshot tool is available, verify at desktop and mobile widths and **trigger the non-happy states** (empty, error) rather than assuming them, then **zoom into each component and scan it against the micro-craft tells**, fixing what you find before showing. A clean compile is not evidence; the rendered screen is. Without a render tool, read the markup at detail level against the same tells.
 
 ## Avoid
 
@@ -125,6 +145,7 @@ State (briefly): **Intent** (from the brief) · **Focal element** (and how it wi
 - A styled UI kit instead of headless primitives.
 - Hardcoded hex/px where a token exists.
 - Flat hierarchy; monotone layout; missing states.
+- Component blobs: accessories that don't recede, interactives with no separation, a value glued to its label.
 - Mixed depth strategies (the family uses surface ladder + hairlines).
 - Ignoring the brief's signature — the most important failure.
 
