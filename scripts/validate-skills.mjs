@@ -113,6 +113,19 @@ if (existsSync(directionPath)) {
   if (absent.length) errors.push(`vanilla-direction: must reference skin/brief, missing: ${absent.join(", ")}`);
 }
 
+// 7. The canonical tokens must ship a light theme block redefining the core surfaces
+if (existsSync(tokensPath)) {
+  const tokensLight = readFileSync(tokensPath, "utf8");
+  const lightBlock = tokensLight.match(/:root\[data-theme="light"\]\s*\{([\s\S]*?)\}/);
+  if (!lightBlock) {
+    errors.push('tokens.css: missing :root[data-theme="light"] block');
+  } else {
+    const need = ["--vanilla-canvas", "--vanilla-ink", "--vanilla-surface-1", "--vanilla-hairline", "--vanilla-primary"];
+    const miss = need.filter((v) => !new RegExp(v + "\\s*:").test(lightBlock[1]));
+    if (miss.length) errors.push(`tokens.css light theme missing: ${miss.join(", ")}`);
+  }
+}
+
 if (errors.length) {
   console.error("✗ Vanilla validation failed:");
   for (const e of errors) console.error("  - " + e);
