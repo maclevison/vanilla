@@ -14,7 +14,7 @@ The skin is fixed (Vanilla). This skill captures the **soul** — what makes *th
 
 ## How to interview
 
-Keep it **short and respectful of the developer's time**. Don't ask twenty questions. Work one area at a time, and for each: propose a sensible default or 2–4 options inferred from the product name and context, then let them confirm or correct. Stop as soon as you can write a confident brief — the `Feel` and `Signature` are the parts worth pushing on; the rest can often be inferred.
+Keep it **short and respectful of the developer's time**. Don't ask twenty questions. Work one area at a time, and for each: propose a sensible default or 2–4 options inferred from the product name and context, then let them confirm or correct. Stop as soon as you can write a confident brief — the `Feel` and `Signature` are the parts worth pushing on; the rest can often be inferred. Always confirm the draft before writing (see *Before writing*).
 
 Cover these dimensions (they are the brief's sections):
 
