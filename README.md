@@ -16,7 +16,7 @@ OpenCode**.
 - `.claude/skills/vanilla-discovery/` — the soul interview; writes `vanilla-brief.md` to a product's repo.
 - `.claude/skills/vanilla-build/` — builds product UI on the skin, from the brief.
 - `.claude/skills/vanilla-review/` — strict review: craft + family + soul.
-- Satellites (`vanilla-direction`) — added in a later phase.
+- `.claude/skills/vanilla-direction/` — amplifies character within the skin (on demand).
 
 ## Install
 
