@@ -95,6 +95,15 @@ if (existsSync(buildPath)) {
   if (absent.length) errors.push(`vanilla-build: must reference skin/brief, missing: ${absent.join(", ")}`);
 }
 
+// 5. vanilla-review must reference the brief, the skin, and the uniqueness test (only if it exists)
+const reviewPath = join(SKILLS_DIR, "vanilla-review/SKILL.md");
+if (existsSync(reviewPath)) {
+  const review = readFileSync(reviewPath, "utf8");
+  const mustMention = ["vanilla-brief.md", "tokens.css", "signature", "Lucide", "Base UI", "Reka UI"];
+  const absent = mustMention.filter((s) => !review.includes(s));
+  if (absent.length) errors.push(`vanilla-review: must reference brief/skin/signature, missing: ${absent.join(", ")}`);
+}
+
 if (errors.length) {
   console.error("✗ Vanilla validation failed:");
   for (const e of errors) console.error("  - " + e);
