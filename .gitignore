@@ -4,3 +4,6 @@
 !/.claude/
 /.claude/*
 !/.claude/skills/
+
+# macOS
+.DS_Store
