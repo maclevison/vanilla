@@ -3,8 +3,8 @@
 # Vanilla — installer for the Vanilla design-system skills.
 #
 # Remote (the repo is public — no clone needed):
-#   curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla-ai/main/install.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla-ai/main/install.sh | bash -s -- --project ./my-app
+#   curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --project ./my-app
 #
 # From a local clone:
 #   ./install.sh                 # installs globally into ~/.claude/skills
@@ -15,7 +15,7 @@
 
 set -euo pipefail
 
-REPO="maclevison/vanilla-ai"
+REPO="maclevison/vanilla"
 REF="main"          # branch or tag to fetch in remote mode
 MODE="global"       # global | project
 TARGET_DIR=""       # project mode target; defaults to the current directory
@@ -82,7 +82,7 @@ if [ -z "$SRC" ]; then
     || curl -fsSL "https://codeload.github.com/${REPO}/tar.gz/refs/tags/${REF}" -o "$TMP/v.tar.gz" 2>/dev/null \
     || die "download failed for ref '${REF}'"
   tar -xzf "$TMP/v.tar.gz" -C "$TMP"
-  EXTRACTED="$(find "$TMP" -maxdepth 1 -type d -name 'vanilla-ai-*' | head -1)"
+  EXTRACTED="$(find "$TMP" -maxdepth 1 -type d -name "${REPO##*/}-*" | head -1)"
   [ -n "$EXTRACTED" ] && [ -d "$EXTRACTED/.claude/skills" ] || die "skills not found in the downloaded archive"
   SRC="$EXTRACTED/.claude/skills"
 fi
