@@ -172,10 +172,10 @@ The repo is public, so a single command installs everything — no clone needed:
 
 ```bash
 # Global — available in every project (installs to ~/.claude/skills/)
-curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla-ai/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash
 
 # Per-project — into a target repo's .claude/skills/
-curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla-ai/main/install.sh | bash -s -- --project ./my-app
+curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --project ./my-app
 ```
 
 ### From a clone
@@ -183,7 +183,7 @@ curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla-ai/main/install.
 For contributors, or to track updates with a symlink:
 
 ```bash
-git clone https://github.com/maclevison/vanilla-ai.git
+git clone https://github.com/maclevison/vanilla.git
 cd vanilla-ai
 ./install.sh                 # global, into ~/.claude/skills/
 ./install.sh --project .     # into ./.claude/skills/
