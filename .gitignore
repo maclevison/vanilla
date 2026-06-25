@@ -10,3 +10,6 @@
 
 # Internal design docs — not published
 docs/
+
+# Build output (./install.sh --zip)
+/dist/

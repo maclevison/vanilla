@@ -15,6 +15,9 @@
 #   ./install.sh --target opencode   # ~/.config/opencode/skills or ./.opencode/skills
 #   ./install.sh --target agents     # ~/.agents/skills or ./.agents/skills
 #
+# Package for claude.ai (web/desktop) — one zip per skill, ready to upload:
+#   ./install.sh --zip               # writes ./dist/<skill>.zip
+#
 # Installs every vanilla* skill so it is available to Claude Code and OpenCode.
 # Note: OpenCode also reads .claude/skills, so the default target already works there.
 
@@ -22,7 +25,7 @@ set -euo pipefail
 
 REPO="maclevison/vanilla"
 REF="main"          # branch or tag to fetch in remote mode
-MODE="global"       # global | project
+MODE="global"       # global | project | zip
 TARGET_DIR=""       # project mode target; defaults to the current directory
 TARGET="claude"     # destination layout: claude | opencode | agents
 USE_LINK=0
@@ -48,6 +51,7 @@ Options:
                    opencode → ~/.config/opencode/skills | DIR/.opencode/skills
                    agents   → ~/.agents/skills          | DIR/.agents/skills
                    (OpenCode also reads .claude/skills, so claude works there too.)
+  --zip            Package each skill as ./dist/<skill>.zip for claude.ai upload.
   --link           Symlink the skills instead of copying (local clone only).
   --ref REF        Branch or tag to fetch in remote mode (default: main).
   -h, --help       Show this help.
@@ -61,6 +65,7 @@ while [ $# -gt 0 ]; do
       MODE="project"
       if [ $# -ge 2 ] && [ "${2#-}" = "$2" ]; then TARGET_DIR="$2"; shift 2; else shift; fi ;;
     --target)  TARGET="${2:?--target needs a value}"; shift 2 ;;
+    --zip)     MODE="zip"; shift ;;
     --link)    USE_LINK=1; shift ;;
     --ref)     REF="${2:?--ref needs a value}"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
@@ -68,18 +73,20 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-# Destination — resolve the skills dir for the chosen target layout.
-case "$TARGET" in
-  claude)   GLOBAL_DIR="${HOME}/.claude/skills";          PROJECT_SUBDIR=".claude/skills" ;;
-  opencode) GLOBAL_DIR="${HOME}/.config/opencode/skills"; PROJECT_SUBDIR=".opencode/skills" ;;
-  agents)   GLOBAL_DIR="${HOME}/.agents/skills";          PROJECT_SUBDIR=".agents/skills" ;;
-  *)        die "unknown --target: $TARGET (use claude, opencode, or agents)" ;;
-esac
+# Destination — resolve the skills dir for the chosen target layout (not needed for --zip).
+if [ "$MODE" != "zip" ]; then
+  case "$TARGET" in
+    claude)   GLOBAL_DIR="${HOME}/.claude/skills";          PROJECT_SUBDIR=".claude/skills" ;;
+    opencode) GLOBAL_DIR="${HOME}/.config/opencode/skills"; PROJECT_SUBDIR=".opencode/skills" ;;
+    agents)   GLOBAL_DIR="${HOME}/.agents/skills";          PROJECT_SUBDIR=".agents/skills" ;;
+    *)        die "unknown --target: $TARGET (use claude, opencode, or agents)" ;;
+  esac
 
-if [ "$MODE" = "global" ]; then
-  DEST="$GLOBAL_DIR"
-else
-  DEST="${TARGET_DIR:-$PWD}/${PROJECT_SUBDIR}"
+  if [ "$MODE" = "global" ]; then
+    DEST="$GLOBAL_DIR"
+  else
+    DEST="${TARGET_DIR:-$PWD}/${PROJECT_SUBDIR}"
+  fi
 fi
 
 # Locate the skills source: a local clone if we're inside one, else download a tarball.
@@ -104,6 +111,27 @@ if [ -z "$SRC" ]; then
   EXTRACTED="$(find "$TMP" -maxdepth 1 -type d -name "${REPO##*/}-*" | head -1)"
   [ -n "$EXTRACTED" ] && [ -d "$EXTRACTED/skills" ] || die "skills not found in the downloaded archive"
   SRC="$EXTRACTED/skills"
+fi
+
+# --zip: package each skill as dist/<skill>.zip for claude.ai upload, then stop.
+if [ "$MODE" = "zip" ]; then
+  command -v zip >/dev/null 2>&1 || die "zip is required for --zip"
+  OUT="$PWD/dist"
+  mkdir -p "$OUT"
+  count=0
+  for d in "$SRC"/vanilla*; do
+    [ -d "$d" ] || continue
+    name="$(basename "$d")"
+    rm -f "$OUT/$name.zip"
+    ( cd "$SRC" && zip -qr "$OUT/$name.zip" "$name" )
+    count=$((count + 1))
+    ok "$name.zip"
+  done
+  [ "$count" -gt 0 ] || die "no vanilla* skills found in $SRC"
+  echo
+  ok "Wrote $count zip(s) → $OUT"
+  info "Upload each .zip in claude.ai → Settings → Skills."
+  exit 0
 fi
 
 # Install every vanilla* skill.
