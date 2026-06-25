@@ -40,8 +40,9 @@ Run the validator after editing skills or tokens:
 node scripts/validate-skills.mjs
 ```
 
-It checks skill-name portability (kebab-case, matches folder, no `:`) and the
-token chain (`theme.css` must reference `tokens.css`, never redeclare values).
+It checks skill-name portability (kebab-case, matches folder, no `:`), the
+token chain (`theme.css` must reference `tokens.css`, never redeclare values),
+and that each satellite skill references the skin and the brief.
 
 > Note: this repo ships a `.gitignore` that overrides the user's global
 > `**/.claude/` ignore, so `.claude/skills/` is versioned here.
