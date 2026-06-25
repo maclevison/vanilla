@@ -46,6 +46,20 @@ This is the highest-leverage craft, and now the main place creativity lives.
 - **Styling:** if the project uses **Tailwind**, import `theme.css` and use the family utilities (`bg-canvas`, `text-ink`, `border-hairline`, `rounded-md`, `text-display-md`). If **not Tailwind**, import `tokens.css` and style with the custom properties (`var(--vanilla-canvas)`, etc.). Either way: bind to tokens, never hardcode literals; extract a component on the second reuse.
 - **Icons: Lucide only** (`lucide-react` / `lucide-vue-next`). Icons inherit `currentColor`, so they respect the ink ramp automatically.
 
+## Theme (from the brief's Stack)
+
+The skin ships dark + light as two fixed states; the brief picks which the product exposes. Never re-paint — only switch.
+
+- **Dark or Light (fixed):** set (or omit) `data-theme="light"` on `<html>`. No toggle.
+- **Both:** build a toggle (Lucide `sun` / `moon`) that flips `document.documentElement.dataset.theme` and persists to `localStorage` under the fixed key **`vanilla-theme`**. First load with nothing saved → **dark**. `prefers-color-scheme` is opt-in per project, not the default.
+- **No FOUC:** when "both", put this inline script in `<head>` **before any CSS/JS**, reading the same `vanilla-theme` key:
+
+  ```html
+  <script>try{if(localStorage.getItem('vanilla-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
+  ```
+
+- **Elevation:** use `var(--vanilla-shadow-1)` / `--vanilla-shadow-2` for lifted cards/popovers — they resolve to a real shadow on light and to `none` on dark, so the same component reads correctly in both. Don't hardcode shadows.
+
 ## Polish & motion (ship-quality)
 
 - **States are not optional.** Every interactive element: default, hover, active, focus, disabled. Every data view: loading, empty, error. Missing states are the fastest tell of unfinished work.

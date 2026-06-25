@@ -23,7 +23,7 @@ Free per product: layout, composition, hierarchy/focus, density within range, wh
 
 ## Flow
 
-1. **Discover the product** — for greenfield (if the repo isn't initialized yet, offer `git init` first), invoke the `vanilla-discovery` skill: it interviews the developer and writes `docs/vanilla/vanilla-brief.md` capturing the user, task, domain, feel, and the one signature. For an existing project, read `docs/vanilla/vanilla-brief.md` if present, else infer from the code.
+1. **Discover the product** — for greenfield (if the repo isn't initialized yet, offer `git init` first), invoke the `vanilla-discovery` skill: it interviews the developer and writes `docs/vanilla/vanilla-brief.md` capturing the user, task, domain, feel, and the one signature. The brief also records the theme (dark / light / both). For an existing project, read `docs/vanilla/vanilla-brief.md` if present, else infer from the code.
 2. **Load the family** — read `references/design.md` + `references/tokens.css` (and `theme.css` if Tailwind).
 3. **Build** — invoke the `vanilla-build` skill, guided by `vanilla-brief.md`. If Tailwind is present, import `theme.css`; otherwise import `tokens.css`. Controls from headless primitives; icons from Lucide.
 4. **Review** — invoke the `vanilla-review` skill: craft bar + family test (does it read as PDM?) + uniqueness test (does it have a signature, or could it be any PDM product?).
