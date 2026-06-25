@@ -20,7 +20,7 @@ Classic visual direction invents a palette, a typeface, a whole identity. In Van
 
 - **The signature** — amplify the brief's signature into the one thing the product is remembered by. This is the primary lever; most of your boldness goes here.
 - **Layout & composition** — expressive structure, deliberate asymmetry, a real focal moment; proportions that state a strong relationship.
-- **Motion & micro-interaction** — atmosphere, a page-load sequence, a scroll reveal, the signature animating. One orchestrated moment lands harder than scattered effects. Motion stays within the family's sub-300ms, ease-out range.
+- **Motion & micro-interaction** — atmosphere, a page-load sequence, a scroll reveal, the signature animating. One orchestrated moment lands harder than scattered effects. This is the one place springs and delight are licensed (see the "Springs & delight" section of `references/motion.md`) — everywhere else stays the family default: sub-300ms, the `ease-out` token, crisp.
 - **Density & rhythm** — push tighter or airier *within the family range* to match the feel.
 - **Expressive use of the fixed type** — dramatic scale jumps, tight tracking on large display, weight contrast — all using **Inter** and the token type scale, never a new font or typeface.
 - **Meaningful accent** — the lavender and the status colors used with intent (status that *means* something), never decoratively.
