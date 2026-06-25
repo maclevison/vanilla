@@ -271,14 +271,3 @@ You can also audit the skin's contrast directly:
 node skills/vanilla/references/contrast.mjs        # check the skin pairs on both themes
 node skills/vanilla/references/contrast.mjs <fg> <bg>   # ad-hoc product pair
 ```
-
----
-
-## Specs & plans
-
-The system was designed with brainstorming → spec → plan, reviewed at each step. Everything is versioned in:
-
-- **Specs:** `docs/superpowers/specs/`
-  - `2026-06-25-vanilla-design-system-skill.md` — the system (hub + satellites)
-  - `2026-06-25-vanilla-light-mode-design.md` — dark + light
-- **Plans:** `docs/superpowers/plans/` — one implementation plan per phase.
