@@ -199,16 +199,6 @@ curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh 
 
 OpenCode reads **all** of these (it supports the `.claude/` and `.agents/` paths for compatibility), so `claude` already works there — `opencode` only matters when you want an OpenCode-only project to stay free of a `.claude/` folder.
 
-### Claude.ai (web / desktop)
-
-Claude.ai doesn't read your filesystem — skills are uploaded as zips. Package them with one command — no clone needed; it writes one `VanillaSkills/<skill>.zip` per skill into the current folder:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --zip
-```
-
-From a clone, it's `./install.sh --zip`. Then in claude.ai → **Settings → Skills**, upload each `VanillaSkills/*.zip`. Requires a paid plan with code execution enabled; custom skills are per-user (they aren't shared org-wide and don't sync from Claude Code, so each person uploads their own).
-
 ### From a clone
 
 For contributors, or to track updates with a symlink:
