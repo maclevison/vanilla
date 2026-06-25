@@ -18,7 +18,7 @@ An unusually strict review. Most generated UI is *correct* (it renders, it align
 ## Inputs — load first
 
 - `docs/vanilla/vanilla-brief.md` — the soul (for the uniqueness test). If absent, review craft + family only and note the gap.
-- `references/design.md` + `references/tokens.css` — the skin (for the family test).
+- `references/design.md` + `references/tokens.css` — the skin (for the family test). Load `references/motion.md` when the build has movement, to cite exact curves, durations, and motion rules.
 - The build under review (a screen, a component, or a branch's UI changes).
 
 ## How to run it
@@ -39,7 +39,17 @@ Look at the rendered output as a user would (use a render/screenshot tool if ava
 - **B · Family conformance** — bound to tokens, or hardcoded hex/px? Inter, or a stray font? Surface ladder + hairlines, or ad-hoc colors/borders? Lavender ≤ ~10% (focus / CTA / selection), or decorative? Lucide icons, or another set? Controls from headless primitives, or a styled UI kit? If the brief is "both", squint-test in both themes; confirm the toggle persists and there is no theme flash on reload. On light, elevation must read (shadow, not a flat ladder) and the lavender must hold AA.
 - **C · Surfaces & depth** — quiet elevation (the surface ladder), findable-not-harsh hairlines, one committed depth strategy?
 - **D · Composition & rhythm** — does it breathe unevenly, or is it monotone (same card, gap, density everywhere)? Do proportions state a relationship?
-- **E · States, polish & motion** — every interactive element has default / hover / active / focus / disabled; every data view has loading / empty / error? Concentric radius, tabular-nums, ≥44px hit areas? Motion < 300ms, ease-out, `prefers-reduced-motion` respected?
+- **E · States & polish** — every interactive element has default / hover / active / focus / disabled; every data view has loading / empty / error? Concentric radius, tabular-nums, ≥44px hit areas?
+- **E2 · Motion** — judge against the family's motion layer (`references/motion.md`); these are non-negotiable, a violation is a finding:
+  - **Justified & frequency-appropriate** — does each animation answer *why it moves*? Anything on a **keyboard-initiated or 100+×/day action is a block** (it should not animate at all). "Looks cool" on a frequently-seen element fails.
+  - **Responsive easing** — entering/exiting uses `var(--vanilla-ease-out)` or a strong curve. **`ease-in` on UI is a block.** No hardcoded `cubic-bezier`/ms where a motion token exists.
+  - **Sub-300ms** — UI motion under 300ms; only drawers/modals may use `--vanilla-duration-drawer`. Slower than that on routine UI needs a reason.
+  - **Physical correctness** — never `scale(0)` (start `scale(0.95)` + opacity); popovers/dropdowns scale from their trigger, modals stay centered; press feedback `scale(0.97)`.
+  - **GPU-only** — animate `transform`/`opacity` only; `width`/`height`/`margin`/`padding`/`top`/`left` (or Framer `x`/`y`/`scale` shorthands under load) is a performance finding. No `transition: all`.
+  - **Interruptibility** — rapidly re-fired/gesture motion uses transitions or springs that retarget, not keyframes that restart from zero.
+  - **Asymmetric timing** — deliberate phase slow, system response snaps; symmetric timing on press-and-release/hold is a finding.
+  - **Accessibility** — `prefers-reduced-motion` honored (gentler, not zero); `:hover` motion gated behind `@media (hover: hover) and (pointer: fine)`.
+  - **Layer discipline** — springs/decorative delight belong to a deliberate `vanilla-direction` moment, not sprayed into routine UI.
 - **F · Structure & reuse** — native → headless primitive (Base UI / Reka UI) → hand-roll? Any reinvented control missing keyboard / focus / ARIA? Hardcoded literals where tokens exist?
 - **G · Soul / uniqueness** — read the brief's signature; is it present and doing real work? Strip the product name: could this screen be any Vanilla product? If yes, the soul is missing.
 
@@ -52,7 +62,7 @@ Severity per finding:
 Then drop false positives: taste (a coherent choice you'd merely make differently), a bold choice working as intended, out-of-scope, ratified by the brief or the skin, or a lint/compile concern. If you can't say *why a finding costs the user or breaks the family*, cut it. Prefer a few high-conviction findings over a long cosmetic list.
 
 ### 5. Report & verdict
-Synthesize across lenses, prioritized: hierarchy → family violations → surfaces/composition → states & polish → structure → soul. For each finding give: what defaulted or violated, why it costs the user or breaks the family, the specific fix (the decision, not a patch), and its severity. Then state the verdict against the bar.
+Synthesize across lenses, prioritized: hierarchy → family violations → surfaces/composition → states & polish → motion → structure → soul. For each finding give: what defaulted or violated, why it costs the user or breaks the family, the specific fix (the decision, not a patch), and its severity. Then state the verdict against the bar.
 
 ## Approval bar
 
@@ -61,7 +71,7 @@ To pass, all three must hold:
 - **Family:** binds to tokens (no hardcoded skin), Inter, the surface ladder, lavender sparingly, Lucide icons, headless primitives — no styled UI kit, no reinvented skin.
 - **Soul:** the brief's signature is present and doing work; the screen could not be mistaken for a different product.
 
-**Presumptive blockers** (unless justified against the brief): no focal point · size-only or defaulted hierarchy · monotone layout · harsh or fragmented surfaces · missing states · structural hacks · an inaccessible hand-rolled control · **skin violation** (hardcoded palette/font, a styled UI kit, non-Lucide icons) · **missing signature** (generic — could be any product). Any one present → **not approved**; leave explicit, actionable feedback.
+**Presumptive blockers** (unless justified against the brief): no focal point · size-only or defaulted hierarchy · monotone layout · harsh or fragmented surfaces · missing states · structural hacks · an inaccessible hand-rolled control · **skin violation** (hardcoded palette/font, a styled UI kit, non-Lucide icons) · **feel-breaking motion** (`ease-in` on UI, `scale(0)` entry, animation on a keyboard/100+×/day action, a non-GPU animation with an easy GPU fix) · **missing signature** (generic — could be any product). Any one present → **not approved**; leave explicit, actionable feedback.
 
 ## Applying fixes
 

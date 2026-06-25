@@ -75,6 +75,17 @@
   --vanilla-text-eyebrow: 13px;
   --vanilla-text-mono: 13px;
 
+  /* Motion — strong custom curves (built-in CSS easings are too weak) +
+     a duration ladder. UI motion stays under 300ms; --duration-drawer is the
+     deliberate exception for drawers/modals. Never use ease-in on UI. */
+  --vanilla-ease-out: cubic-bezier(0.23, 1, 0.32, 1);      /* enter/exit — feels responsive */
+  --vanilla-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);  /* on-screen move/morph */
+  --vanilla-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);   /* iOS-like drawer curve (Ionic) */
+  --vanilla-duration-fast: 120ms;    /* button press, small tooltips/popovers */
+  --vanilla-duration-base: 200ms;    /* dropdowns, selects, default UI */
+  --vanilla-duration-slow: 280ms;    /* heavier UI, still under 300 */
+  --vanilla-duration-drawer: 400ms;  /* drawers/modals — the physical exception */
+
   /* Theme control + elevation (dark leans on borders, not shadows) */
   color-scheme: dark;
   --vanilla-shadow-1: none;
