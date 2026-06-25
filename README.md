@@ -32,6 +32,8 @@ Claude Code and OpenCode both read `.claude/skills/` and `~/.claude/skills/`.
 Ask the agent to use the `vanilla` skill when building product UI. It loads the
 family from `references/` and walks the discover → build → review flow.
 
+Themes: dark (default), light, or both (a toggle) — chosen per project during discovery.
+
 ## Develop
 
 Run the validator after editing skills or tokens:
