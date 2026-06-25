@@ -13,7 +13,8 @@ OpenCode**.
   - `references/design.md` — the design system (canonical, agnostic source).
   - `references/tokens.css` — canonical CSS custom properties.
   - `references/theme.css` — Tailwind v4 preset (references tokens.css).
-- Satellites (`vanilla-discovery`, `vanilla-build`, `vanilla-review`, `vanilla-direction`) — added in later phases.
+- `.claude/skills/vanilla-discovery/` — the soul interview; writes `vanilla-brief.md` to a product's repo.
+- Satellites (`vanilla-build`, `vanilla-review`, `vanilla-direction`) — added in later phases.
 
 ## Install
 
