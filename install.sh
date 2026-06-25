@@ -11,7 +11,12 @@
 #   ./install.sh --project .     # installs into ./.claude/skills
 #   ./install.sh --link          # symlink instead of copy (track the clone)
 #
+# Pick the destination layout with --target (default: claude):
+#   ./install.sh --target opencode   # ~/.config/opencode/skills or ./.opencode/skills
+#   ./install.sh --target agents     # ~/.agents/skills or ./.agents/skills
+#
 # Installs every vanilla* skill so it is available to Claude Code and OpenCode.
+# Note: OpenCode also reads .claude/skills, so the default target already works there.
 
 set -euo pipefail
 
@@ -19,6 +24,7 @@ REPO="maclevison/vanilla"
 REF="main"          # branch or tag to fetch in remote mode
 MODE="global"       # global | project
 TARGET_DIR=""       # project mode target; defaults to the current directory
+TARGET="claude"     # destination layout: claude | opencode | agents
 USE_LINK=0
 
 c_info='\033[0;36m'; c_ok='\033[0;32m'; c_warn='\033[0;33m'; c_err='\033[0;31m'; c_off='\033[0m'
@@ -32,11 +38,16 @@ usage() {
 Vanilla installer — installs the vanilla* design-system skills.
 
 Usage:
-  install.sh [--global | --project [DIR]] [--link] [--ref REF]
+  install.sh [--global | --project [DIR]] [--target NAME] [--link] [--ref REF]
 
 Options:
-  --global         Install into ~/.claude/skills (default; available everywhere).
-  --project [DIR]  Install into DIR/.claude/skills (DIR defaults to the current dir).
+  --global         Install into the global skills dir (default; available everywhere).
+  --project [DIR]  Install into DIR's project skills dir (DIR defaults to the current dir).
+  --target NAME    Destination layout: claude (default), opencode, or agents.
+                   claude   → ~/.claude/skills          | DIR/.claude/skills
+                   opencode → ~/.config/opencode/skills | DIR/.opencode/skills
+                   agents   → ~/.agents/skills          | DIR/.agents/skills
+                   (OpenCode also reads .claude/skills, so claude works there too.)
   --link           Symlink the skills instead of copying (local clone only).
   --ref REF        Branch or tag to fetch in remote mode (default: main).
   -h, --help       Show this help.
@@ -49,6 +60,7 @@ while [ $# -gt 0 ]; do
     --project)
       MODE="project"
       if [ $# -ge 2 ] && [ "${2#-}" = "$2" ]; then TARGET_DIR="$2"; shift 2; else shift; fi ;;
+    --target)  TARGET="${2:?--target needs a value}"; shift 2 ;;
     --link)    USE_LINK=1; shift ;;
     --ref)     REF="${2:?--ref needs a value}"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
@@ -56,11 +68,18 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-# Destination
+# Destination — resolve the skills dir for the chosen target layout.
+case "$TARGET" in
+  claude)   GLOBAL_DIR="${HOME}/.claude/skills";          PROJECT_SUBDIR=".claude/skills" ;;
+  opencode) GLOBAL_DIR="${HOME}/.config/opencode/skills"; PROJECT_SUBDIR=".opencode/skills" ;;
+  agents)   GLOBAL_DIR="${HOME}/.agents/skills";          PROJECT_SUBDIR=".agents/skills" ;;
+  *)        die "unknown --target: $TARGET (use claude, opencode, or agents)" ;;
+esac
+
 if [ "$MODE" = "global" ]; then
-  DEST="${HOME}/.claude/skills"
+  DEST="$GLOBAL_DIR"
 else
-  DEST="${TARGET_DIR:-$PWD}/.claude/skills"
+  DEST="${TARGET_DIR:-$PWD}/${PROJECT_SUBDIR}"
 fi
 
 # Locate the skills source: a local clone if we're inside one, else download a tarball.

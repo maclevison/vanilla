@@ -164,7 +164,7 @@ scripts/validate-skills.mjs   validator (portability + token chain + skin)
 
 ## Installation
 
-The skills are read by both Claude Code and OpenCode, from `.claude/skills/` or `~/.claude/skills/`.
+By default the skills install into `.claude/skills/` (project) or `~/.claude/skills/` (global) — a path that **both Claude Code and OpenCode read**, so the default works in either agent. If you use OpenCode and prefer its native folder, pass `--target opencode` (see [Choosing the target](#choosing-the-target)).
 
 ### One-liner (recommended)
 
@@ -176,7 +176,22 @@ curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh 
 
 # Per-project — into a target repo's .claude/skills/
 curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --project ./my-app
+
+# OpenCode's native folder instead of .claude/
+curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --target opencode
 ```
+
+### Choosing the target
+
+`--target` selects the destination layout — the skills are identical, only the folder differs:
+
+| `--target` | Global | Per-project |
+|---|---|---|
+| `claude` *(default)* | `~/.claude/skills/` | `./.claude/skills/` |
+| `opencode` | `~/.config/opencode/skills/` | `./.opencode/skills/` |
+| `agents` | `~/.agents/skills/` | `./.agents/skills/` |
+
+OpenCode reads **all** of these (it supports the `.claude/` and `.agents/` paths for compatibility), so `claude` already works there — `opencode` only matters when you want an OpenCode-only project to stay free of a `.claude/` folder.
 
 ### From a clone
 
@@ -184,10 +199,11 @@ For contributors, or to track updates with a symlink:
 
 ```bash
 git clone https://github.com/maclevison/vanilla.git
-cd vanilla-ai
-./install.sh                 # global, into ~/.claude/skills/
-./install.sh --project .     # into ./.claude/skills/
-./install.sh --link          # symlink instead of copy — pull to update
+cd vanilla
+./install.sh                          # global, into ~/.claude/skills/
+./install.sh --project .              # into ./.claude/skills/
+./install.sh --project . --target opencode   # into ./.opencode/skills/
+./install.sh --link                   # symlink instead of copy — pull to update
 ```
 
 ### Manual
