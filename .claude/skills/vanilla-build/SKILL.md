@@ -85,6 +85,17 @@ Rules: never pull typography, surfaces, components, or the depth model from the 
 - **Motion — decide *whether* before *how*.** The first question is never "how do I animate this", it's "should this move at all?" Match motion to frequency: **100+×/day or keyboard-initiated → no animation, ever**; tens/day → reduce; occasional (modals, drawers, toasts) → standard; rare/first-time → delight (and that delight is `vanilla-direction`'s job, not the default). Every animation must answer *why it moves* (feedback, spatial consistency, state, preventing a jarring change) — "looks cool" is not a reason. When in doubt, the strongest move is to delete it. The full decision tables, curves, and rules live in `references/motion.md`.
 - **Motion is felt, not watched (the family defaults).** Bind to the motion tokens, never hardcode a curve or ms: easing `var(--vanilla-ease-out)` (or the `ease-out` utility on Tailwind), never `ease-in`; durations from `--vanilla-duration-fast/base/slow` (UI < 300ms; only drawers/modals earn `--vanilla-duration-drawer`). Press feedback `transform: scale(0.97)`; animate only `transform`/`opacity` (never `transition: all`); never animate from `scale(0)` (start at 0.95 + opacity 0); popovers/dropdowns scale from their trigger (origin-aware; modals stay centered); use transitions (not keyframes) for anything rapidly re-fired; stagger entrances 30–80ms; respect `prefers-reduced-motion` (gentler, not zero) and gate `:hover` motion behind `@media (hover: hover) and (pointer: fine)`.
 
+## Copy is part of the build (it ships in the UI)
+
+Words render alongside pixels; sloppy copy reads as unfinished just like a missing hover. Hold the same bar:
+
+- **No em dashes or `--` in UI strings.** Use a comma, colon, period, or parentheses. (Prose in docs is fine; product copy is not.)
+- **No marketing buzzwords** — streamline / empower / supercharge / leverage / seamless / world-class / next-generation. Name the specific noun and the verb the thing actually does.
+- **Button labels = verb + object.** "Salvar alterações" beats "OK"; "Excluir post" beats "Sim". The label says what will happen.
+- **Link text stands alone.** "Ver planos" beats "clique aqui" — screen readers announce links out of context.
+- **One noun per concept, consistent casing.** The same thing is called the same name everywhere; pick sentence case or Title Case and hold it. This includes **seed/mock data** — it ships in screenshots, so no `LiaNogueira` or `Caio REIS`.
+- **Empty / error copy says what happened and the way out**, not just "Nada aqui".
+
 ## Before writing each component — checkpoint
 
 State (briefly): **Intent** (from the brief) · **Focal element** (and how it wins) · **Tokens used** · **Surface level** · **Primitive or native** · **Icons**. If you can't say *why* for each, you're defaulting — stop and think.
@@ -95,7 +106,7 @@ State (briefly): **Intent** (from the brief) · **Focal element** (and how it wi
 2. **Load the skin** — `design.md` + `tokens.css` (and `theme.css` if Tailwind).
 3. **Build screen by screen, signature first** — make the brief's signature real before filling in the rest.
 4. **Run the checks** (below).
-5. **Hand off to `vanilla-review`.**
+5. **Hand off to review:** `vanilla-review` for taste/family/soul, and `vanilla-audit` for the measurable pass (contrast, tokens, states, touch). Clear both before merge.
 
 ## The checks (before showing)
 
@@ -104,7 +115,9 @@ State (briefly): **Intent** (from the brief) · **Focal element** (and how it wi
 - **Primitives** — every non-native control is a headless primitive, not hand-rolled, not a styled kit?
 - **Tokens** — no hardcoded hex/px that a token covers?
 - **Signature** — is the brief's signature actually present and doing work? If a generic version of this screen would look the same, the soul is missing.
-- **Render it** if a render/screenshot tool is available — verify visually at desktop and mobile widths; otherwise read the layout holistically.
+- **Copy** — UI strings and seed data clean (no em dashes, buzzwords, "click here" links, or inconsistent names)?
+- **Contrast** — text on tints/fills clears AA? Run `references/contrast.mjs` for the skin pairs, and `node references/contrast.mjs '<fg>' '<bg>'` for any product-specific pair (status seals, gray on a hover tint).
+- **Render it and walk it** if a render/screenshot tool is available — verify at desktop and mobile widths, and **trigger the non-happy states** (empty, error) rather than assuming them. A clean compile is not evidence; the rendered screen is. Otherwise read the layout holistically.
 
 ## Avoid
 
