@@ -77,8 +77,11 @@ if (existsSync(tokensPath) && existsSync(themePath)) {
 const discoveryPath = join(SKILLS_DIR, "vanilla-discovery/SKILL.md");
 if (existsSync(discoveryPath)) {
   const disc = readFileSync(discoveryPath, "utf8");
+  // Anchor the section check to the brief template block, not the whole file.
+  const briefBlock = (disc.match(/```markdown\n([\s\S]*?)```/g) || []).find((b) => /#\s+Vanilla Brief/.test(b)) || "";
+  if (!briefBlock) errors.push("vanilla-discovery: missing the vanilla-brief.md template block");
   const requiredSections = ["Product", "User", "Task", "Domain", "Feel", "Signature"];
-  const missing = requiredSections.filter((s) => !new RegExp(`##\\s+${s}\\b`).test(disc));
+  const missing = requiredSections.filter((s) => !new RegExp(`##\\s+${s}\\b`).test(briefBlock));
   if (missing.length) errors.push(`vanilla-discovery: brief template missing section(s): ${missing.join(", ")}`);
   if (!/vanilla-brief\.md/.test(disc)) errors.push("vanilla-discovery: must reference vanilla-brief.md output");
 }
