@@ -271,3 +271,14 @@ You can also audit the skin's contrast directly:
 node skills/vanilla/references/contrast.mjs        # check the skin pairs on both themes
 node skills/vanilla/references/contrast.mjs <fg> <bg>   # ad-hoc product pair
 ```
+
+`<fg>` is the text color and `<bg>` the background behind it — pass hex (quoted, since `#` is special in the shell) or a token name. For example, muted gray text on the dark canvas:
+
+```bash
+node skills/vanilla/references/contrast.mjs '#8a8f98' '#010102'
+```
+
+```text
+  #8a8f98 on #010102  →  6.42:1  [AA]
+  AA normal (4.5): PASS   AA large (3.0): PASS
+```
