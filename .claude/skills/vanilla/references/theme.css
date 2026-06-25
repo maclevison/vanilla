@@ -39,6 +39,13 @@
   --font-sans: var(--vanilla-font-sans);
   --font-mono: var(--vanilla-font-mono);
 
+  /* Motion — strong family curves; `ease-out`/`ease-in-out` utilities now carry
+     the punch, plus a `ease-drawer`. Durations: use the --vanilla-duration-* vars
+     directly, e.g. duration-[var(--vanilla-duration-base)]. */
+  --ease-out: var(--vanilla-ease-out);
+  --ease-in-out: var(--vanilla-ease-in-out);
+  --ease-drawer: var(--vanilla-ease-drawer);
+
   /* Type scale */
   --text-display-xl: var(--vanilla-text-display-xl);
   --text-display-lg: var(--vanilla-text-display-lg);
