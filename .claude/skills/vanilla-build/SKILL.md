@@ -10,7 +10,7 @@ Build product UI on the **fixed Vanilla skin**, from the **soul in the brief**. 
 ## Inputs — load these first
 
 1. **`vanilla-brief.md`** (the soul) from the project's `docs/vanilla/`. If it's missing, run the `vanilla-discovery` skill first — don't build without a brief. Any documents you generate also go under `docs/vanilla/`.
-2. **The skin:** `references/design.md` (semantic) + `references/tokens.css` (canonical values). Plus `references/theme.css` if the project uses Tailwind.
+2. **The skin:** `references/design.md` (semantic) + `references/tokens.css` (canonical values). Plus `references/theme.css` if the project uses Tailwind, and `references/motion.md` whenever the screen has any movement.
 3. **If present, `docs/vanilla/vanilla-direction.md`** — the character plan from `vanilla-direction`; read it alongside the brief and let it guide how far to push the signature, layout, and motion.
 
 ## The skin is decided — don't reinvent it
@@ -82,7 +82,8 @@ Rules: never pull typography, surfaces, components, or the depth model from the 
 - **Tabular numbers** on any dynamic figure (counters, metrics, tables): `font-variant-numeric: tabular-nums`.
 - **Hit areas ≥ 44×44px** (40 minimum); extend small controls with a pseudo-element.
 - **Optical alignment & text:** nudge icons/glyphs that look off-center (~2px); `text-wrap: balance` on headings and `text-wrap: pretty` on body to kill orphans; `-webkit-font-smoothing: antialiased` on the root.
-- **Motion is felt, not watched:** UI durations < 300ms; custom ease-out (`cubic-bezier(0.23, 1, 0.32, 1)`), never ease-in; press feedback `transform: scale(0.97)`; animate only `transform`/`opacity` (never `transition: all`); never animate from `scale(0)` (start at 0.95 + opacity 0); stagger entrances 30–80ms; popovers scale from their trigger (origin-aware); respect `prefers-reduced-motion`. Actions repeated 100+×/day get no animation.
+- **Motion — decide *whether* before *how*.** The first question is never "how do I animate this", it's "should this move at all?" Match motion to frequency: **100+×/day or keyboard-initiated → no animation, ever**; tens/day → reduce; occasional (modals, drawers, toasts) → standard; rare/first-time → delight (and that delight is `vanilla-direction`'s job, not the default). Every animation must answer *why it moves* (feedback, spatial consistency, state, preventing a jarring change) — "looks cool" is not a reason. When in doubt, the strongest move is to delete it. The full decision tables, curves, and rules live in `references/motion.md`.
+- **Motion is felt, not watched (the family defaults).** Bind to the motion tokens, never hardcode a curve or ms: easing `var(--vanilla-ease-out)` (or the `ease-out` utility on Tailwind), never `ease-in`; durations from `--vanilla-duration-fast/base/slow` (UI < 300ms; only drawers/modals earn `--vanilla-duration-drawer`). Press feedback `transform: scale(0.97)`; animate only `transform`/`opacity` (never `transition: all`); never animate from `scale(0)` (start at 0.95 + opacity 0); popovers/dropdowns scale from their trigger (origin-aware; modals stay centered); use transitions (not keyframes) for anything rapidly re-fired; stagger entrances 30–80ms; respect `prefers-reduced-motion` (gentler, not zero) and gate `:hover` motion behind `@media (hover: hover) and (pointer: fine)`.
 
 ## Before writing each component — checkpoint
 
