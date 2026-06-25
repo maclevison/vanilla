@@ -1,5 +1,9 @@
 # Vanilla
 
+[![install](https://img.shields.io/badge/install-curl_%7C_bash-8b5cf6)](#installation)
+![license](https://img.shields.io/badge/license-MIT-blue)
+![release](https://img.shields.io/github/v/release/maclevison/vanilla)
+
 **Vanilla** is Vanilla's design system, delivered as a set of *skills*. Turn it on and the interfaces you build belong to the same visual family — recognizably Vanilla — while each product keeps its own layout and personality.
 
 > **The skin is Vanilla; the soul is the product's.**
