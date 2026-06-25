@@ -26,7 +26,7 @@ Cover these dimensions (they are the brief's sections):
 6. **Signature** — the one element (visual, structural, or interaction) that could only exist for THIS product. If you can't name one, keep probing.
 7. **Density** — tight / balanced / airy, within the family range.
 8. **Key surfaces** — the main screens/areas that exist.
-9. **Stack** — framework (React or Vue), Tailwind (yes/no), and **theme**: Dark (the family default) / Light / Both (a toggle). Primitives follow the framework (Base UI for React, Reka UI for Vue); icons are always Lucide.
+9. **Stack** — framework (React or Vue), Tailwind (yes/no), and **theme**: Dark (the family default) / Light / Both (a toggle). Primitives follow the framework (Base UI for React, Reka UI for Vue); icons are always Lucide. Optionally, a reference `design.md` for a light **brand override** (only primary/secondary colors, spacing, and radius are taken — see `vanilla-build`).
 
 ## Before writing
 
@@ -79,6 +79,7 @@ Write exactly this structure (fill every section; keep it concise — it's an an
 - Primitives: <Base UI (React) | Reka UI (Vue)>
 - Icons: Lucide
 - Theme: <dark | light | both>
+- Brand override: <reference design.md, or none>
 ```
 
 ## Handoff
