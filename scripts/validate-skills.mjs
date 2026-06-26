@@ -137,8 +137,8 @@ if (existsSync(designPath)) {
       `design.md must be value-free (values live in tokens.css); found ${hexes.length} literal hex value(s): ${[...new Set(hexes)].slice(0, 5).join(", ")}${hexes.length > 5 ? " …" : ""}`,
     );
   }
-  if (/^\s*colors:\s*$/m.test(design) || /^\s*radius:\s*$/m.test(design) || /^\s*spacing:\s*$/m.test(design)) {
-    errors.push("design.md must not carry a structured colors/spacing/radius token block — that duplicates tokens.css");
+  if (/^\s*(colors|typography|spacing|radius):\s*$/m.test(design)) {
+    errors.push("design.md must not carry a structured colors/typography/spacing/radius token block — that duplicates tokens.css");
   }
 }
 
