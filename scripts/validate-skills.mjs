@@ -155,6 +155,29 @@ if (existsSync(brandPath)) {
   }
 }
 
+// 10. Brand orchestration is reconciled: the old import-based override is gone,
+//     the hub and build know the canonical brand.css, and nothing references the
+//     retired brand-overrides.css filename as a live mechanism.
+for (const [name, rel] of [["vanilla", "vanilla/SKILL.md"], ["vanilla-build", "vanilla-build/SKILL.md"], ["vanilla-discovery", "vanilla-discovery/SKILL.md"]]) {
+  const p = join(SKILLS_DIR, rel);
+  if (!existsSync(p)) continue;
+  const txt = readFileSync(p, "utf8");
+  if (/brand-overrides\.css/.test(txt) && !/retired|legacy|superseded/i.test(txt)) {
+    errors.push(`${name}: references brand-overrides.css without marking it retired/legacy — use docs/vanilla/brand.css`);
+  }
+}
+const hubTxt = existsSync(join(SKILLS_DIR, "vanilla/SKILL.md")) ? readFileSync(join(SKILLS_DIR, "vanilla/SKILL.md"), "utf8") : "";
+if (hubTxt && (!hubTxt.includes("vanilla-brand") || !hubTxt.includes("brand.css"))) {
+  errors.push("vanilla hub: must orchestrate vanilla-brand and mention brand.css");
+}
+const buildTxt2 = existsSync(buildPath) ? readFileSync(buildPath, "utf8") : "";
+if (buildTxt2 && /##\s+Brand override \(optional\)/.test(buildTxt2)) {
+  errors.push("vanilla-build: the import-based 'Brand override (optional)' section must be removed (superseded by vanilla-brand)");
+}
+if (buildTxt2 && !buildTxt2.includes("brand.css")) {
+  errors.push("vanilla-build: must load docs/vanilla/brand.css if present");
+}
+
 if (errors.length) {
   console.error("✗ Vanilla validation failed:");
   for (const e of errors) console.error("  - " + e);
