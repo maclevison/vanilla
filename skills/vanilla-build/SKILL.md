@@ -1,6 +1,6 @@
 ---
 name: vanilla-build
-description: Use to build or extend product UI (dashboards, panels, admin tools, app screens) in the Vanilla design family. Reads the vanilla-brief.md for the product's soul and the fixed skin (design.md, tokens.css, theme.css), then builds with real visual hierarchy, headless primitives (Base UI / Reka UI), and Lucide icons. The skin is decided; creativity goes into layout, hierarchy, and the product's signature.
+description: Use to build or extend product UI (dashboards, panels, admin tools, app screens) in the Vanilla design family. Reads the vanilla-brief.md for the product's soul and the skin (design.md, tokens.css, theme.css) plus the client's brand.css if present, then builds with real visual hierarchy, headless primitives (Base UI / Reka UI), and Lucide icons. The skin is decided; creativity goes into layout, hierarchy, and the product's signature.
 ---
 
 # Vanilla Build
@@ -88,20 +88,22 @@ The skin ships dark + light as two fixed states; the brief picks which the produ
 
 - **Elevation:** use `var(--vanilla-shadow-1)` / `--vanilla-shadow-2` for lifted cards/popovers — they resolve to a real shadow on light and to `none` on dark, so the same component reads correctly in both. Don't hardcode shadows.
 
-## Brand override (optional)
+## Brand layer (per client)
 
-If the project provides a reference `design.md` (any `@google/design.md`-format skin — e.g. a client's brand), apply a **light brand override**: adjust only a few axes, keep everything else Vanilla. This is not adopting the other skin — it's giving Vanilla the brand's color and shape.
+If the project has **`docs/vanilla/brand.css`** (written by the `vanilla-brand` skill), load
+it **after** the skin so it overrides the `--vanilla-*` tokens by cascade — this is the
+client's brand. The build does not derive overrides itself.
 
-Take **only** these from the reference, by name (the names are consistent across skins):
+- Non-Tailwind: `@import "tokens.css"; @import "brand.css";` — brand last.
+- Tailwind: `@import "tokens.css"; @import "theme.css"; @import "brand.css";` — brand last.
+  `@theme` maps to `var(--vanilla-*)` resolved at runtime, so a later `brand.css` wins by
+  cascade with no utility regeneration.
 
-- **Primary/accent** — `colors.primary` (derive hover/focus) → redefine `--vanilla-primary`, `--vanilla-primary-hover`, `--vanilla-primary-focus`.
-- **Secondary colors** — brand accent extras and semantic status (`success` / `warning` / `error`) if present → redefine the matching tokens (e.g. `--vanilla-success`) or add brand extras as `--vanilla-x-<name>`.
-- **Spacing scale** — `spacing.*` → redefine `--vanilla-space-*` (density).
-- **Radius scale** — `rounded.*` → redefine `--vanilla-radius-*` (geometry: flat / medium / pill).
-
-Emit a small `:root` override block applied **after** the base `tokens.css` (cascade wins) — e.g. `docs/vanilla/brand-overrides.css`, imported right after the skin. **Everything else stays Vanilla:** surfaces/canvas, dark + light, **Inter**, the ink ramp, components, craft, polish, primitives.
-
-Rules: never pull typography, surfaces, components, or the depth model from the reference; never normalize its whole vocabulary; check the brand accent for AA on the active theme. This is a revisable suggestion — show the result and let the dev adjust. A few tokens, not a new skin.
+A light re-skin overrides a few tokens; a full identity overrides many — same mechanism.
+Reason about the **effective tokens** (default overlaid by brand), never the default
+literals. AA over the effective tokens is enforced by `vanilla-audit`. If you find a legacy
+`docs/vanilla/brand-overrides.css` (the retired import path), don't load it — tell the user
+to regenerate with `vanilla-brand`.
 
 ## Polish & motion (ship-quality)
 
