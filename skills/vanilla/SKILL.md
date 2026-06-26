@@ -28,14 +28,15 @@ Free per product: layout, composition, hierarchy/focus, density within range, wh
 
 1. **Discover the product** — for greenfield (if the repo isn't initialized yet, offer `git init` first), invoke the `vanilla-discovery` skill: it interviews the developer and writes `docs/vanilla/vanilla-brief.md` capturing the user, task, domain, feel, and the one signature. The brief also records the theme (dark / light / both). For an existing project, read `docs/vanilla/vanilla-brief.md` if present, else infer from the code.
 2. **Load the family** — read `references/design.md` + `references/tokens.css` (and `theme.css` if Tailwind); read `references/motion.md` when the screen has any movement.
-3. **Build** — invoke the `vanilla-build` skill, guided by `vanilla-brief.md`. If Tailwind is present, import `theme.css`; otherwise import `tokens.css`. Controls from headless primitives; icons from Lucide.
-4. **Review & audit** — two passes, both before merge. Invoke `vanilla-review` for the *taste* half: craft bar + family test (does it read as Vanilla?) + uniqueness test (signature, or could it be any product?). Invoke `vanilla-audit` for the *measurable* half: WCAG contrast on both themes (via `references/contrast.mjs`), token fidelity, responsive/touch, complete states, family-mechanical. A build ships only when both clear.
+3. **Brand (per client, optional)** — check for `docs/vanilla/brand.css`. If present, the build inherits the client's brand automatically (no action). If absent, offer to run the `vanilla-brand` skill to capture the client's identity — or proceed on the **default Vanilla skin** if they want the default. The brand is defined once per company and reused across their products. If you find a legacy `docs/vanilla/brand-overrides.css`, treat it as retired and offer to regenerate with `vanilla-brand`.
+4. **Build** — invoke the `vanilla-build` skill, guided by `vanilla-brief.md`. If Tailwind is present, import `theme.css`; otherwise import `tokens.css`. Controls from headless primitives; icons from Lucide.
+5. **Review & audit** — two passes, both before merge. Invoke `vanilla-review` for the *taste* half: craft bar + family test (does it read as Vanilla?) + uniqueness test (signature, or could it be any product?). Invoke `vanilla-audit` for the *measurable* half: WCAG contrast on both themes (via `references/contrast.mjs`), token fidelity, responsive/touch, complete states, family-mechanical. A build ships only when both clear.
 
 Invoke `vanilla-direction` in step 1–2 only when the product needs stronger visual character — always within the skin.
 
 > **Convention:** every document the Vanilla skills generate (the brief, notes, reports) lives in the project's `docs/vanilla/` — never scattered in the root.
 
-> The satellite skills (`vanilla-discovery`, `vanilla-build`, `vanilla-review`, `vanilla-audit`, `vanilla-direction`) are invoked by name as the flow reaches each step.
+> The satellite skills (`vanilla-discovery`, `vanilla-brand`, `vanilla-build`, `vanilla-review`, `vanilla-audit`, `vanilla-direction`) are invoked by name as the flow reaches each step.
 
 ## Portability
 
