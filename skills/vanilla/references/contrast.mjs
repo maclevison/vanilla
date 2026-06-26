@@ -100,8 +100,8 @@ function auditTheme(theme) {
   console.log('  ' + '─'.repeat(64))
   let failed = 0
   for (const [fgTok, bgTok, min, note] of PAIRS) {
-    const fg = resolve(fgTok, theme)
-    const bg = resolve(bgTok, theme)
+    const fg = resolveEff(fgTok, theme)
+    const bg = resolveEff(bgTok, theme)
     if (!fg || !bg) {
       console.log(`  ${pad(fgTok + ' / ' + bgTok, 26)} skipped (non-hex token)`)
       continue
@@ -128,12 +128,34 @@ const themeFlag = (() => {
   args.splice(i, 2)
   return t
 })()
+// Optional per-client brand overlay: brand.css redefines a subset of --vanilla-* tokens.
+const brandFlag = (() => {
+  const i = args.indexOf("--brand");
+  if (i === -1) return null;
+  const v = args[i + 1];
+  args.splice(i, 2);
+  return v;
+})();
+let DARK_EFF = DARK, LIGHT_EFF = LIGHT;
+if (brandFlag) {
+  const bcss = fs.readFileSync(brandFlag, "utf8");
+  const bDark = parseTheme(bcss, ":root {");
+  const bLight = parseTheme(bcss, ':root[data-theme="light"]');
+  DARK_EFF = { ...DARK, ...bDark };
+  LIGHT_EFF = { ...LIGHT, ...bDark, ...bLight };
+}
+const THEMES_EFF = { dark: DARK_EFF, light: LIGHT_EFF };
+const resolveEff = (token, theme) => {
+  if (isHex(token)) return norm3(token);
+  const key = token.replace(/^--vanilla-/, "");
+  return THEMES_EFF[theme]?.[key];
+};
 const positional = args.filter((a) => !a.startsWith('--'))
 
 if (positional.length >= 2) {
   const theme = themeFlag || 'light'
-  const fg = resolve(positional[0], theme)
-  const bg = resolve(positional[1], theme)
+  const fg = resolveEff(positional[0], theme)
+  const bg = resolveEff(positional[1], theme)
   if (!fg || !bg) {
     console.error(`Could not resolve "${positional[0]}" / "${positional[1]}" in ${theme} theme.`)
     process.exit(2)
