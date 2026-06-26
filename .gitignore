@@ -13,3 +13,8 @@ docs/
 
 # Build output (./install.sh --zip)
 /VanillaSkills/
+
+# Temporary deps for the browser-audit integration test (never committed)
+node_modules/
+package.json
+package-lock.json
