@@ -36,6 +36,15 @@ Five dimensions, each scored **0–4**. Don't fix here; document for `vanilla-bu
 - **Check product-specific pairs the skin audit can't know** — any text on a tinted/colored surface (status seals, chips, accent fills, gray on a hover tint). Resolve `color-mix()` to hex and run ad-hoc: `node references/contrast.mjs '#6c7079' '#eef0f3' --theme light`. Body text ≥ 4.5:1; large/bold ≥ 3:1; placeholders ≥ 4.5:1.
 - **ARIA & semantics:** interactive elements have roles/labels/states; one logical heading order; landmarks present; real `<button>`/`<a>`, not click-divs.
 - **Keyboard:** every control reachable and operable; visible `:focus-visible`; no traps; logical tab order; focus returns after dialogs.
+- **Render evidence (deterministic):** if the build is servable and Playwright is available,
+  run `node references/browser-audit.mjs <url> [--brand docs/vanilla/brand.css]` from the
+  project root. It writes dark/light × desktop/mobile screenshots to `docs/vanilla/audit/`
+  and emits findings: **axe-core** a11y/contrast on the live screen (the gray-on-tint
+  `contrast.mjs` can't see), **brand overlay** applied (computed `--vanilla-*` match the
+  brand), **horizontal overflow**, and **touch targets** < 44px. Exit 1 on any P0. Open the
+  screenshots to judge craft. **If Playwright isn't installed** (`npm i -D playwright
+  @axe-core/playwright && npx playwright install chromium`), fall back to the manual checklist
+  below and say so — the helper is optional, like `contrast.mjs` needing Node.
 
 **0**=fails WCAG A · **2**=AA effort with real gaps · **3**=AA met, minor gaps · **4**=AA clean both themes, keyboard complete.
 
@@ -57,6 +66,8 @@ The skin lives in tokens; drift is measurable. From the project's style/source r
 - **No horizontal overflow** at any width: confirm `documentElement.scrollWidth === innerWidth` (note: some headless browsers clamp viewport width to ~500px min — measure, don't trust a cropped screenshot).
 - **Breakpoints** present and sane (skin grid: 3-up → 2-up at ~1024 → 1-up at ~640); headings don't overflow their container at any width.
 - **No real text below the caption floor (12px).** 11/10px hardcoded labels are drift.
+- The `browser-audit.mjs` helper (dim. 1) measures overflow and touch targets across
+  desktop/mobile and reports the real rendered width — use its findings here.
 
 **0**=desktop-only · **2**=works on mobile, rough edges · **3**=responsive, minor target/overflow issues · **4**=fluid, proper targets, zero overflow.
 
@@ -122,4 +133,4 @@ Lead with whichever the moment needs; clear both before merge.
 
 ## Portability
 
-Plain Markdown. `contrast.mjs` needs Node; if Node is unavailable, fall back to the checklist (compute ratios by hand, grep for drift) and say so. No agent-specific tools, slash commands, or hardcoded paths beyond the skill's own `references/`.
+Plain Markdown. `contrast.mjs` needs Node; `browser-audit.mjs` additionally needs Playwright + chromium in the target project (optional) — if either is unavailable, fall back to the checklist (compute ratios by hand, gather render evidence manually) and say so. No agent-specific tools, slash commands, or hardcoded paths beyond the skill's own `references/`.
