@@ -181,6 +181,20 @@ if (buildTxt2 && !buildTxt2.includes("brand.css")) {
   errors.push("vanilla-build: must load docs/vanilla/brand.css if present");
 }
 
+// 11. vanilla-audit must reference the browser-audit helper and keep the optional/fallback
+//     framing (so the conditional render-tool pattern isn't lost in a future edit).
+const auditPath = join(SKILLS_DIR, "vanilla-audit/SKILL.md");
+if (existsSync(auditPath)) {
+  const audit = readFileSync(auditPath, "utf8");
+  if (!audit.includes("browser-audit.mjs")) errors.push("vanilla-audit: must reference browser-audit.mjs");
+  if (audit.includes("browser-audit.mjs") && !/optional|fall back|fallback/i.test(audit)) {
+    errors.push("vanilla-audit: browser-audit.mjs must stay optional with a manual fallback");
+  }
+  if (!existsSync(join(SKILLS_DIR, "vanilla-audit/references/browser-audit.mjs"))) {
+    errors.push("vanilla-audit: missing references/browser-audit.mjs");
+  }
+}
+
 if (errors.length) {
   console.error("✗ Vanilla validation failed:");
   for (const e of errors) console.error("  - " + e);
