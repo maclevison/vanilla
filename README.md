@@ -17,7 +17,7 @@ These are plain `SKILL.md` skills, **portable across Claude Code and OpenCode** 
 ## Contents
 
 - [Concept](#concept)
-- [The 6 skills](#the-6-skills)
+- [The 7 skills](#the-7-skills)
 - [The flow](#the-flow)
 - [The skin](#the-skin)
 - [Default stack](#default-stack)
@@ -48,12 +48,13 @@ Rule of thumb: if the change alters *what the brand looks like*, it's skin (fixe
 
 ---
 
-## The 6 skills
+## The 7 skills
 
 | Skill | Role | When to use |
 |---|---|---|
 | **`vanilla`** | Hub / orchestrator | Entry point for building any product UI |
 | **`vanilla-discovery`** | Interview the soul | At the start of a new project, before any code |
+| **`vanilla-brand`** | Brand the skin per client | Once per company — capture their identity into `brand.css` |
 | **`vanilla-build`** | Construction | Build or extend the UI from the brief |
 | **`vanilla-review`** | Taste pass | Judge craft, family, and soul before merge |
 | **`vanilla-audit`** | Evidence pass | Verify the measurable quality before merge |
@@ -66,6 +67,10 @@ The entry point. Loads the family (`design.md`, `tokens.css`, `theme.css`, `moti
 ### `vanilla-discovery` — the soul
 
 A **short interview** that captures what makes the product unique: real user, task, domain, *feel*, **signature**, and stack (framework, Tailwind, theme). It persists everything to a **`vanilla-brief.md`** in the project's `docs/vanilla/`. This is the main **antidote to convergence** (the risk that every product comes out the same). On a new project, it offers `git init` before writing.
+
+### `vanilla-brand` — the per-client skin
+
+Run **once per client/company** to capture their visual identity — accent, neutrals, type, radii, density, elevation — into a **`brand.css`** in the project's `docs/vanilla/`. That file overrides only the `--vanilla-*` tokens the brand changes; everything else falls through to `tokens.css` (the default skin). It's the **values** layer, not the engine: a client that never runs it keeps the default Vanilla skin, and the engine (craft, headless primitives, the surface-ladder model, the flow) stays invariant. AA is enforced over the effective tokens by `vanilla-audit` (`contrast.mjs --brand`), which suggests a hue-preserving fix for any failing pair. Define once, inherit across every product for that client.
 
 ### `vanilla-build` — the construction
 
