@@ -130,11 +130,13 @@ async function main() {
       }
     }
 
+    // desktop analysis pass — overlay (if a brand was given) and axe both run at 1280×900
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(url, { waitUntil: "networkidle" }).catch(() => {});
+    await page.evaluate((th) => { document.documentElement.dataset.theme = th === "light" ? "light" : ""; }, t);
+
     // overlay check (desktop), if a brand was given
     if (expected) {
-      await page.setViewportSize({ width: 1280, height: 900 });
-      await page.goto(url, { waitUntil: "networkidle" }).catch(() => {});
-      await page.evaluate((th) => { document.documentElement.dataset.theme = th === "light" ? "light" : ""; }, t);
       for (const [token, val] of Object.entries(expected[t] || {})) {
         const r = await page.evaluate(({ token, val }) => {
           const probe = document.createElement("span");
