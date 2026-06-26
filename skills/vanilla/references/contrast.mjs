@@ -48,6 +48,56 @@ const norm3 = (hex) => {
 }
 const isHex = (v) => /^#?[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/.test(v.trim())
 
+// ── HSL (hue-preserving value adjustment) ────────────────────────────────────
+const hexToHsl = (hex) => {
+  const n = parseInt(norm3(hex).slice(1), 16);
+  let r = ((n >> 16) & 255) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0, s = 0; const l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+    else if (max === g) h = (b - r) / d + 2;
+    else h = (r - g) / d + 4;
+    h /= 6;
+  }
+  return { h, s, l };
+};
+const hslToHex = ({ h, s, l }) => {
+  const hue = (p, q, t) => {
+    if (t < 0) t += 1; if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+  let r, g, b;
+  if (s === 0) { r = g = b = l; }
+  else {
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue(p, q, h + 1 / 3); g = hue(p, q, h); b = hue(p, q, h - 1 / 3);
+  }
+  const to = (x) => Math.round(x * 255).toString(16).padStart(2, "0");
+  return "#" + to(r) + to(g) + to(b);
+};
+// Suggest a value for `fgHex` (hue/sat preserved, lightness moved) that clears `min` vs bg,
+// choosing the candidate closest to the original lightness. Always resolvable for AA floors.
+const suggestForContrast = (fgHex, bgHex, min) => {
+  const { h, s, l: orig } = hexToHsl(fgHex);
+  let best = null, bestDist = Infinity;
+  for (let i = 0; i <= 100; i++) {
+    const l = i / 100;
+    const cand = hslToHex({ h, s, l });
+    if (ratio(cand, bgHex) >= min) {
+      const d = Math.abs(l - orig);
+      if (d < bestDist) { bestDist = d; best = cand; }
+    }
+  }
+  return best;
+};
+
 // ── token parsing ───────────────────────────────────────────────────────────
 function parseTheme(css, selector) {
   // grab the first { ... } block for the given selector
@@ -108,13 +158,17 @@ function auditTheme(theme) {
     }
     const r = ratio(fg, bg)
     const info = min === 0
-    const ok = info || r >= min
-    if (!ok) failed++
-    const tag = info ? 'info' : ok ? bar(r) : 'FAIL'
-    const mark = ok ? '·' : '✗'
+    const okPair = info || r >= min
+    if (!okPair) failed++
+    const tag = info ? 'info' : okPair ? bar(r) : 'FAIL'
+    const mark = okPair ? '·' : '✗'
     console.log(
       `  ${mark} ${pad(fgTok + ' / ' + bgTok, 26)} ${pad(r.toFixed(2) + ':1', 9)} ${pad(tag, 6)} ${note}`,
     )
+    if (!okPair && !info) {
+      const sugg = suggestForContrast(fg, bg, min)
+      if (sugg) console.log(`      ↳ suggest --vanilla-${fgTok}: ${sugg} (keeps hue, clears ${min}:1)`)
+    }
   }
   return failed
 }
