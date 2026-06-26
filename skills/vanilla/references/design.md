@@ -4,7 +4,7 @@ name: Vanilla-design-analysis
 description: A near-black product-focused canvas built around the deepest dark surface in the system (the canvas), light gray text (ink), and a signature Vanilla lavender-blue (the primary accent) used as the single chromatic accent. The system reads as software-craft documentation: dense, technical, and quietly luxurious. Display type is set in Inter at 500–700 with measured negative tracking. Cards live as charcoal panels (surface-1) with hairline borders. The accent lavender appears on the brand mark, focus rings, and a few intentional CTAs — never decoratively. Page rhythm leans on product UI screenshots framed in dark panels rather than atmospheric color.
 ---
 
-> Values are canonical in `tokens.css` (default) and may be overridden per client by `brand.css`. This document defines the **semantics and rules** — what each token means and how to use it — never the literal values. To see current values, read `tokens.css`.
+> Brandable values — color, surfaces, radius, spacing, and the type *family* — are canonical in `tokens.css` (default) and may be overridden per client by `brand.css`; this document never pins their literals (read `tokens.css` for current values). The invariant type *scale* (weights, line-heights, tracking) and structural measures are specified here as part of the fixed engine — a brand cannot change them.
 
 ## Overview
 
@@ -69,21 +69,21 @@ The surface treats display and body sizes as one continuous voice; the size chan
 
 ### Hierarchy
 
-| Token | Size | Weight | Line Height | Letter Spacing | Use |
-|---|---|---|---|---|---|
-| `--vanilla-text-display-xl` | 80px | 600 | 1.05 | -3.0px | Largest hero headline |
-| `--vanilla-text-display-lg` | 56px | 600 | 1.10 | -1.8px | Section opener headlines |
-| `--vanilla-text-display-md` | 40px | 600 | 1.15 | -1.0px | Sub-section headlines |
-| `--vanilla-text-headline` | 28px | 600 | 1.20 | -0.6px | Pricing tier titles, CTA banner heading |
-| `--vanilla-text-card-title` | 22px | 500 | 1.25 | -0.4px | Feature card title |
-| `--vanilla-text-subhead` | 20px | 400 | 1.40 | -0.2px | Lead body, intro paragraphs |
-| `--vanilla-text-body-lg` | 18px | 400 | 1.50 | -0.1px | Hero subhead, lead paragraphs |
-| `--vanilla-text-body` | 16px | 400 | 1.50 | -0.05px | Default body |
-| `--vanilla-text-body-sm` | 14px | 400 | 1.50 | 0 | Card body, footer columns |
-| `--vanilla-text-caption` | 12px | 400 | 1.40 | 0 | Captions, meta, status |
-| (button label) | 14px | 500 | 1.20 | 0 | All button labels |
-| `--vanilla-text-eyebrow` | 13px | 500 | 1.30 | 0.4px | Section eyebrow (slight positive tracking) |
-| `--vanilla-text-mono` | 13px | 400 | 1.50 | 0 | JetBrains Mono for code in product screenshots |
+| Token | Weight | Line Height | Letter Spacing | Use |
+|---|---|---|---|---|
+| `--vanilla-text-display-xl` | 600 | 1.05 | -3.0px | Largest hero headline |
+| `--vanilla-text-display-lg` | 600 | 1.10 | -1.8px | Section opener headlines |
+| `--vanilla-text-display-md` | 600 | 1.15 | -1.0px | Sub-section headlines |
+| `--vanilla-text-headline` | 600 | 1.20 | -0.6px | Pricing tier titles, CTA banner heading |
+| `--vanilla-text-card-title` | 500 | 1.25 | -0.4px | Feature card title |
+| `--vanilla-text-subhead` | 400 | 1.40 | -0.2px | Lead body, intro paragraphs |
+| `--vanilla-text-body-lg` | 400 | 1.50 | -0.1px | Hero subhead, lead paragraphs |
+| `--vanilla-text-body` | 400 | 1.50 | -0.05px | Default body |
+| `--vanilla-text-body-sm` | 400 | 1.50 | 0 | Card body, footer columns |
+| `--vanilla-text-caption` | 400 | 1.40 | 0 | Captions, meta, status |
+| (button label) | 500 | 1.20 | 0 | All button labels |
+| `--vanilla-text-eyebrow` | 500 | 1.30 | 0.4px | Section eyebrow (slight positive tracking) |
+| `--vanilla-text-mono` | 400 | 1.50 | 0 | JetBrains Mono for code in product screenshots |
 
 ### Principles
 

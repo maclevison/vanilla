@@ -126,8 +126,11 @@ if (existsSync(tokensPath)) {
   }
 }
 
-// 8. design.md is value-free — all values live in tokens.css (the single source).
-//    A brand overrides tokens; design.md must not duplicate or pin literal values.
+// 8. design.md is value-free for BRANDABLE values — color/surface/radius/spacing live in
+//    tokens.css (the single source) and a brand overrides them; design.md must not duplicate
+//    or pin those literals. This check guards them via the hex + structured-block scans.
+//    px is intentionally out of scope: the invariant type scale (weights, line-heights,
+//    tracking) legitimately documents structural px here — a brand cannot override it.
 const designPath = join(SKILLS_DIR, "vanilla/references/design.md");
 if (existsSync(designPath)) {
   const design = readFileSync(designPath, "utf8");
