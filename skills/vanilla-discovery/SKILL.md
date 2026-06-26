@@ -27,7 +27,7 @@ Cover these dimensions (they are the brief's sections):
 7. **Density** — tight / balanced / airy, within the family range.
 8. **Key surfaces** — the main screens/areas that exist.
 9. **Shell & navigation** — the app frame around those surfaces. Offer a **shell archetype** as the starting point (full catalog in the hub's `references/shells.md`): **Console** (sidebar + top bar — dashboards/admin), **Focused** (top bar only, contained — wizards/forms), **Workbench** (split list + detail — inbox/CRM/editors), **Reader** (centered, minimal chrome — docs/content), or **Canvas** (full-bleed + floating panels — visual editors). Suggest one from the product type, then confirm the details (sidebar sections/collapsible, what the top bar holds, page shape) — or go custom. The archetype is the frame only; the soul still comes from the rest of the brief.
-10. **Stack** — framework (React or Vue), Tailwind (yes/no), and **theme**: Dark (the family default) / Light / Both (a toggle). Primitives follow the framework (Base UI for React, Reka UI for Vue); icons are always Lucide. Optionally, a reference `design.md` for a light **brand override** (only primary/secondary colors, spacing, and radius are taken — see `vanilla-build`).
+10. **Stack** — framework (React or Vue), Tailwind (yes/no), and **theme**: Dark (the family default) / Light / Both (a toggle). Primitives follow the framework (Base UI for React, Reka UI for Vue); icons are always Lucide. Brand: if this client has a visual identity, run the `vanilla-brand` skill (once per client) to capture it into `brand.css`; otherwise the build uses the default Vanilla skin.
 
 ## Before writing
 
@@ -86,7 +86,7 @@ Write exactly this structure (fill every section; keep it concise — it's an an
 - Primitives: <Base UI (React) | Reka UI (Vue)>
 - Icons: Lucide
 - Theme: <dark | light | both>
-- Brand override: <reference design.md, or none>
+- Brand: <client brand.css via vanilla-brand, or default Vanilla skin>
 ```
 
 ## Handoff
