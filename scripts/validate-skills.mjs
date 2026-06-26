@@ -142,6 +142,19 @@ if (existsSync(designPath)) {
   }
 }
 
+// 9. vanilla-brand: the brand-interview skill must reference its output (brand.css),
+//    write under docs/vanilla/, and ship the brand.css contract example.
+const brandPath = join(SKILLS_DIR, "vanilla-brand/SKILL.md");
+if (existsSync(brandPath)) {
+  const brand = readFileSync(brandPath, "utf8");
+  const mustMention = ["brand.css", "docs/vanilla/", "tokens.css", "vanilla-audit"];
+  const absent = mustMention.filter((s) => !brand.includes(s));
+  if (absent.length) errors.push(`vanilla-brand: must reference output/skin, missing: ${absent.join(", ")}`);
+  if (!existsSync(join(SKILLS_DIR, "vanilla-brand/references/brand.css.example"))) {
+    errors.push("vanilla-brand: missing references/brand.css.example (the brand.css contract)");
+  }
+}
+
 if (errors.length) {
   console.error("✗ Vanilla validation failed:");
   for (const e of errors) console.error("  - " + e);
