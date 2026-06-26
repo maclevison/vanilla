@@ -100,6 +100,9 @@ const suggestForContrast = (fgHex, bgHex, min) => {
 
 // ── token parsing ───────────────────────────────────────────────────────────
 function parseTheme(css, selector) {
+  // Strip CSS comments first so a commented-out `:root {}` (or stray braces inside
+  // a comment) can't shift the block window and hijack which block we capture.
+  css = css.replace(/\/\*[\s\S]*?\*\//g, "")
   // Tolerant: accept `:root {` or `:root{`, and single/double quotes + whitespace
   // in the data-theme attribute. Keeps default tokens.css parsing working.
   const isLight = /data-theme/.test(selector)

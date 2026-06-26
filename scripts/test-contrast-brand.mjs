@@ -100,5 +100,14 @@ const readBack = (p) => readFileSync(p, "utf8");
   ok("missing --brand path errors cleanly", r.code !== 0 && /not found|no such|brand/i.test(r.out));
 }
 
+// Test 9: a comment containing `:root {}` before the real block must not hijack parsing.
+{
+  const css = `/* note: a token set only in :root {} applies to both themes */\n:root { --vanilla-primary: #2f6df0; }`;
+  const { dir, p } = tmpBrand(css);
+  const r = run(["--brand", p, "primary", "canvas", "--theme", "dark"]);
+  ok("comment with :root {} does not hijack the dark block", r.out.includes("#2f6df0"));
+  rmSync(dir, { recursive: true, force: true });
+}
+
 console.log(failed ? `\n${failed} test(s) failed` : "\nall tests passed");
 process.exit(failed ? 1 : 0);
