@@ -100,16 +100,21 @@ const suggestForContrast = (fgHex, bgHex, min) => {
 
 // ── token parsing ───────────────────────────────────────────────────────────
 function parseTheme(css, selector) {
-  // grab the first { ... } block for the given selector
-  const start = css.indexOf(selector)
-  if (start === -1) return {}
-  const open = css.indexOf('{', start)
+  // Tolerant: accept `:root {` or `:root{`, and single/double quotes + whitespace
+  // in the data-theme attribute. Keeps default tokens.css parsing working.
+  const isLight = /data-theme/.test(selector)
+  const re = isLight
+    ? /:root\[\s*data-theme\s*=\s*['"]?\s*light\s*['"]?\s*\]\s*\{/
+    : /:root\s*\{/
+  const m = re.exec(css)
+  if (!m) return {}
+  const open = css.indexOf('{', m.index)
   const close = css.indexOf('}', open)
   const body = css.slice(open + 1, close)
   const out = {}
-  for (const m of body.matchAll(/--vanilla-([\w-]+):\s*([^;]+);/g)) {
-    const val = m[2].trim()
-    if (isHex(val)) out[m[1]] = norm3(val)
+  for (const mm of body.matchAll(/--vanilla-([\w-]+):\s*([^;]+);/g)) {
+    const val = mm[2].trim()
+    if (isHex(val)) out[mm[1]] = norm3(val)
   }
   return out
 }
@@ -117,13 +122,6 @@ function parseTheme(css, selector) {
 const css = fs.readFileSync(TOKENS, 'utf8')
 const DARK = parseTheme(css, ':root {')
 const LIGHT = { ...DARK, ...parseTheme(css, ':root[data-theme="light"]') }
-const THEMES = { dark: DARK, light: LIGHT }
-
-const resolve = (token, theme) => {
-  if (isHex(token)) return norm3(token)
-  const key = token.replace(/^--vanilla-/, '')
-  return THEMES[theme]?.[key]
-}
 
 // Curated pairs that carry real text. `min` is the AA floor for that role:
 //   4.5 = body text · 3.0 = large/non-body (≥18px or bold ≥14px, dots, icons)
@@ -187,14 +185,20 @@ const brandFlag = (() => {
   const i = args.indexOf("--brand");
   if (i === -1) return null;
   const v = args[i + 1];
+  if (!v || v.startsWith("--")) { console.error("--brand requires a path to a brand.css"); process.exit(2); }
   args.splice(i, 2);
   return v;
 })();
 let DARK_EFF = DARK, LIGHT_EFF = LIGHT;
 if (brandFlag) {
-  const bcss = fs.readFileSync(brandFlag, "utf8");
+  let bcss;
+  try { bcss = fs.readFileSync(brandFlag, "utf8"); }
+  catch { console.error(`brand.css not found: ${brandFlag}`); process.exit(2); }
   const bDark = parseTheme(bcss, ":root {");
   const bLight = parseTheme(bcss, ':root[data-theme="light"]');
+  if (Object.keys(bDark).length === 0 && Object.keys(bLight).length === 0) {
+    console.error("warning: --brand parsed 0 tokens from " + brandFlag);
+  }
   DARK_EFF = { ...DARK, ...bDark };
   LIGHT_EFF = { ...LIGHT, ...bDark, ...bLight };
 }

@@ -57,7 +57,7 @@ const readBack = (p) => readFileSync(p, "utf8");
   const huePreserved = m && (() => {
     const n = parseInt(m[1].slice(1), 16);
     const rr = (n >> 16) & 255, gg = (n >> 8) & 255, bb = n & 255;
-    return bb >= rr && bb >= gg;
+    return bb > rr && bb > gg;
   })();
   ok("suggestion preserves hue (stays blue-dominant)", !!huePreserved);
   rmSync(dir, { recursive: true, force: true });
@@ -70,6 +70,34 @@ const readBack = (p) => readFileSync(p, "utf8");
   const r = run(["--brand", p]);
   ok("clean brand audit exits 0", r.code === 0);
   rmSync(dir, { recursive: true, force: true });
+}
+
+// Test 5: a brand written with `:root{` (no space) still overlays (tolerant selector).
+{
+  const { dir, p } = tmpBrand(`:root{ --vanilla-primary: #2f6df0; }`);
+  const r = run(["--brand", p, "primary", "canvas", "--theme", "dark"]);
+  ok("no-space :root{ still overlays", r.out.includes("#2f6df0"));
+  rmSync(dir, { recursive: true, force: true });
+}
+
+// Test 6: a light block with single quotes still overlays the light theme.
+{
+  const { dir, p } = tmpBrand(`:root { --vanilla-primary: #2f6df0; }\n:root[data-theme='light'] { --vanilla-primary: #112233; }`);
+  const r = run(["--brand", p, "primary", "canvas", "--theme", "light"]);
+  ok("single-quote light block overlays", r.out.includes("#112233"));
+  rmSync(dir, { recursive: true, force: true });
+}
+
+// Test 7: --brand with no path value errors instead of silently auditing the default.
+{
+  const r = run(["--brand"]);
+  ok("--brand with no path errors (non-zero, not a false all-clear)", r.code !== 0 && /brand/i.test(r.out));
+}
+
+// Test 8: --brand pointing at a missing file errors cleanly (no raw stack only).
+{
+  const r = run(["--brand", "/no/such/brand.css"]);
+  ok("missing --brand path errors cleanly", r.code !== 0 && /not found|no such|brand/i.test(r.out));
 }
 
 console.log(failed ? `\n${failed} test(s) failed` : "\nall tests passed");
