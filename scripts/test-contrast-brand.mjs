@@ -2,6 +2,7 @@
 // Tests for contrast.mjs brand overlay + suggestions. Run: node scripts/test-contrast-brand.mjs
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 
@@ -22,12 +23,52 @@ function tmpBrand(css) {
   writeFileSync(p, css);
   return { dir, p };
 }
+const readBack = (p) => readFileSync(p, "utf8");
 
 // Test 1: --brand overlays the accent so an ad-hoc pair reflects the brand value.
 {
   const { dir, p } = tmpBrand(`:root { --vanilla-primary: #2f6df0; }`);
   const r = run(["--brand", p, "primary", "canvas", "--theme", "dark"]);
   ok("brand overlay changes resolved primary", r.out.includes("#2f6df0"));
+  rmSync(dir, { recursive: true, force: true });
+}
+
+// Test 2: a brand accent that fails AA gets reported with a suggested value (exit 1, file untouched).
+{
+  // White on-primary (#ffffff default) on a pale primary fails 4.5:1 → audit must flag it
+  // and suggest a hue-preserving on-primary value. The brand file must NOT be rewritten.
+  const css = `:root { --vanilla-primary: #cdd7ff; --vanilla-on-primary: #ffffff; }`;
+  const { dir, p } = tmpBrand(css);
+  const r = run(["--brand", p]);
+  ok("failing brand audit exits 1", r.code === 1);
+  ok("audit suggests a replacement value", /suggest/i.test(r.out) && /#[0-9a-fA-F]{6}/.test(r.out));
+  ok("brand file is NOT rewritten (report-only)", readBack(p) === css);
+  rmSync(dir, { recursive: true, force: true });
+}
+
+// Test 3: the suggestion PRESERVES HUE (the brand identity survives).
+{
+  // A saturated lavender accent as a link on canvas (primary/canvas, min 3.0). If it fails,
+  // the suggested primary must stay blue-dominant, not greyed out.
+  const { dir, p } = tmpBrand(`:root { --vanilla-primary: #3a2fb0; --vanilla-canvas: #0a0a14; }`);
+  const r = run(["--brand", p]);
+  // pull the first suggested hex from the output and check blue stays dominant
+  const m = r.out.match(/suggest[^#]*(#[0-9a-fA-F]{6})/i);
+  const huePreserved = m && (() => {
+    const n = parseInt(m[1].slice(1), 16);
+    const rr = (n >> 16) & 255, gg = (n >> 8) & 255, bb = n & 255;
+    return bb >= rr && bb >= gg;
+  })();
+  ok("suggestion preserves hue (stays blue-dominant)", !!huePreserved);
+  rmSync(dir, { recursive: true, force: true });
+}
+
+// Test 4: a clean brand passes untouched (exit 0).
+{
+  // Accent with strong contrast both ways; neutrals left to default.
+  const { dir, p } = tmpBrand(`:root { --vanilla-primary: #5e6ad2; }`);
+  const r = run(["--brand", p]);
+  ok("clean brand audit exits 0", r.code === 0);
   rmSync(dir, { recursive: true, force: true });
 }
 
