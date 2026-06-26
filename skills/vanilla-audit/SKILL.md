@@ -25,6 +25,14 @@ Five dimensions, each scored **0–4**. Don't fix here; document for `vanilla-bu
 ### 1 · Contrast & accessibility
 
 - **Run the skin audit:** `node references/contrast.mjs` — clears AA on both themes, or names the failing pair. Regression guard for anyone who edits `tokens.css`.
+- **If the project has a client brand** (`docs/vanilla/brand.css`): audit the **effective**
+  tokens with `node references/contrast.mjs --brand docs/vanilla/brand.css`. Every failing
+  curated pair prints a `↳ suggest --vanilla-<token>: #hex` line — a hue-preserving value
+  that clears AA. Apply the suggestion to `brand.css` (or re-run `vanilla-brand`) and
+  re-audit. The audit reports; it does not rewrite. A brand cannot ship with a failing
+  required pair — treat an unresolved one as **P0**. Note: a suggestion fixes one pair; when
+  the accent is both a text color and a fill, applying one suggestion can shift another pair
+  — re-run until the table is clean.
 - **Check product-specific pairs the skin audit can't know** — any text on a tinted/colored surface (status seals, chips, accent fills, gray on a hover tint). Resolve `color-mix()` to hex and run ad-hoc: `node references/contrast.mjs '#6c7079' '#eef0f3' --theme light`. Body text ≥ 4.5:1; large/bold ≥ 3:1; placeholders ≥ 4.5:1.
 - **ARIA & semantics:** interactive elements have roles/labels/states; one logical heading order; landmarks present; real `<button>`/`<a>`, not click-divs.
 - **Keyboard:** every control reachable and operable; visible `:focus-visible`; no traps; logical tab order; focus returns after dialogs.
