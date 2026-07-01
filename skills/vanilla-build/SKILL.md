@@ -25,7 +25,7 @@ Free per product, driven by the brief: **layout, composition, hierarchy/focus, d
 
 Build the frame from the brief's **Shell & navigation** first — get the shell right and every surface inherits the right structure. The brief names a **shell archetype** (Console / Focused / Workbench / Reader / Canvas); read its build notes in the skin's `references/shells.md` and frame the app from there. The archetype is the structure only — the signature, hierarchy, and content still come from the brief, so two builds of the same archetype must not look alike.
 
-- **Sidebar** (if the brief calls for one) — shares the `canvas` with a `hairline` separating it (not a different fill); groups nav by section; the active item is a quiet-but-clear state (surface lift + weight, lavender only as a thin accent); collapsible if specified. Width states a relationship: a ~240–280px nav *serves* the content; ~320px+ reads as a *peer*.
+- **Sidebar** (if the brief calls for one) — sits on `--vanilla-chrome`, a tone **distinct from the workspace `canvas`** (never the same fill — sidebar a touch darker, workspace lighter in light), a `hairline` separating them; groups nav by section; the active item is a **perceptible neutral fill** (`--vanilla-fill-selected`) + weight, at full radius, with the lavender accent on the item's **icon** — **never a side-stripe / left-accent bar**; hover uses `--vanilla-fill-hover`; collapsible if specified. Width states a relationship: a ~240–280px nav *serves* the content; ~320px+ reads as a *peer*.
 - **Top bar** (if specified) — holds only what the brief lists (wordmark, search, primary action, profile, theme toggle), as a thin band on the canvas with a hairline bottom; it must not compete with the page's focal point.
 - **Page shape** — full-width app shell, centered/contained, or split (list + detail) per the brief; hold one content max-width and consistent gutters.
 - **None** (a single focused view) — don't add chrome for its own sake; the screen is the shell.
@@ -45,7 +45,9 @@ This is the highest-leverage craft, and now the main place creativity lives.
 
 - Use the **surface ladder** from tokens: `canvas` → `surface-1` → `surface-2` → ... Each step is a whisper — a few percent of lightness. Stacked, hierarchy emerges; in isolation you barely see one step.
 - **Hairline borders** (`hairline`, `hairline-strong`) define edges without shouting.
-- **Sidebars share the canvas** (a border separates them), not a different color.
+- **Sidebars sit on `--vanilla-chrome`** — a tone distinct from the workspace `canvas` (never the same fill), a hairline separating them. White `surface-1` cards then **float** on the canvas with soft edges; that is the premium separation, not a same-value slab.
+- **One elevation language per card** — a hairline **or** a shadow token, never both (the ghost-card): in light, `--vanilla-shadow-1` already carries a 1px ring, so a light card uses the shadow alone; in dark (shadow `none`) it uses the hairline.
+- **Interactive state fills** — hover/selected on nav items, rows, and menu options use `--vanilla-fill-hover` / `--vanilla-fill-selected` (perceptible neutral overlays), not a surface step that vanishes on a same-value background.
 - **Inputs sit slightly inset/darker**, not lighter.
 - **Squint test:** blur your eyes — you still perceive structure, but nothing jumps out harshly.
 

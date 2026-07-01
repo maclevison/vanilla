@@ -36,7 +36,8 @@ The page rhythm is **dense product screenshots** — Vanilla leads with high-fid
 - **Brand Secure** (`--vanilla-brand-secure`): Muted lavender-gray — used in "Vanilla Security" surfaces.
 
 ### Surface
-- **Canvas** (`--vanilla-canvas`): Default page background — near-pure black with a faint blue tint.
+- **Canvas** (`--vanilla-canvas`): Default page / workspace background — near-pure black with a faint blue tint (an off-white workspace in light).
+- **Chrome** (`--vanilla-chrome`): The app sidebar / chrome surface — kept **distinct** from the canvas (never the same fill: a touch darker than the workspace in light, a subtle lift in dark). A same-color sidebar is only for briefs that explicitly ask for it.
 - **Surface 1** (`--vanilla-surface-1`): One step above canvas — feature cards, pricing cards, product screenshot panels.
 - **Surface 2** (`--vanilla-surface-2`): Two steps above — featured pricing card, hovered cards.
 - **Surface 3** (`--vanilla-surface-3`): Three steps above — line-tertiary backgrounds, sub-nav.
@@ -57,6 +58,14 @@ The page rhythm is **dense product screenshots** — Vanilla leads with high-fid
 ### Semantic
 - **Success Green** (`--vanilla-success`): Status pills, success indicators. The only semantic color on the canvas.
 - **Overlay** (`--vanilla-overlay`): Pure black overlay scrim for modals.
+
+### Interactive State Fills
+
+The surface ladder describes *containers*; these describe *interactive states* (hover / selected / pressed) on nav items, list rows, and menu options. They are neutral overlays — not surface steps — so they read on any surface and in both themes.
+
+- **Fill Hover** (`--vanilla-fill-hover`): Hovered nav item, row, or ghost icon button.
+- **Fill Selected** (`--vanilla-fill-selected`): The active/selected nav item — a perceptible neutral fill, stronger than hover. Selection is a fill, **never** a left-accent bar; the lavender accent is carried by the item's icon.
+- **Fill Pressed** (`--vanilla-fill-pressed`): Momentary pressed state.
 
 ## Typography
 
@@ -222,6 +231,16 @@ Vanilla's depth is carried by surface ladder + hairline borders. The system resi
 **`top-nav`** — Sticky dark bar with the Vanilla wordmark left, primary nav links centered, and a `button-secondary` ("Sign in") + `button-primary` ("Get started") pair right.
 - Background `--vanilla-canvas`, text `--vanilla-ink`, body-sm type, height 56px.
 
+**`app-sidebar`** — the product's left rail. Background `--vanilla-chrome` (distinct from the workspace `--vanilla-canvas` — never the same fill), 1px `--vanilla-hairline` on its inner edge. Holds `nav-item`s.
+
+**`nav-item`** (app sidebar) — a row in the product sidebar. Default / hover / selected are one component, not three improvised looks.
+- **Default:** transparent background, `--vanilla-ink-subtle` icon, `--vanilla-ink-muted` label, `--vanilla-radius-md`, ~34–38px height (≥44px touch), consistent horizontal inset so the fill has air from the sidebar edge.
+- **Hover:** background `--vanilla-fill-hover`, label brightens toward `--vanilla-ink-muted`.
+- **Selected:** background `--vanilla-fill-selected`, label `--vanilla-ink` at weight 500–600, icon `--vanilla-primary`. Full radius on all four corners. **No side-stripe / left-accent bar** — the fill + weight + lavender icon carry the state.
+
+**`app-topbar`** — the product's thin top band (Console / Workbench shells). Height ~56–60px, `--vanilla-canvas` (optionally a translucent canvas with `backdrop-filter`), 1px `--vanilla-hairline` bottom.
+- Controls are **quiet**: the account/context switcher is a low-key `surface-1` pill (hairline, chevron, hover fill) — not a heavy bordered box. Icon actions are **ghost buttons** (transparent, fill with `--vanilla-fill-hover` on hover), grouped at the right edge — never individually boxed with borders + shadows. Left content aligns to the page gutter.
+
 ### Footer
 
 **`footer`** — Dense link grid on `--vanilla-canvas` with the Vanilla wordmark left.
@@ -238,6 +257,10 @@ Vanilla's depth is carried by surface ladder + hairline borders. The system resi
 - Apply negative letter-spacing aggressively on display.
 - Use product UI screenshots as the protagonist of every section.
 - Compose CTAs as `--vanilla-radius-md` corners.
+- Keep the sidebar on `--vanilla-chrome`, distinct from the workspace `--vanilla-canvas` (sidebar a touch darker, workspace lighter).
+- Let white/`surface-1` cards float on the workspace canvas — the soft edge (light card on the canvas) *is* the premium separation; don't repaint the whole workspace to force it.
+- Give each card one elevation language — a hairline **or** a shadow token (in light, `--vanilla-shadow-1` already carries a ring, so use the shadow alone).
+- Express selection/active state as a `--vanilla-fill-selected` fill + weight + lavender icon.
 
 ### Don't
 
@@ -247,6 +270,10 @@ Vanilla's depth is carried by surface ladder + hairline borders. The system resi
 - Don't pill-round CTAs.
 - Don't use true black (`--vanilla-overlay` is reserved for scrims, not the canvas) as the canvas.
 - Don't combine multiple bright accents in product screenshot mockups.
+- **Don't paint the sidebar the same fill as the workspace.** Use `--vanilla-chrome` (a distinct tone — sidebar darker, workspace lighter in light); a same-color sidebar reads flat. Only override when the brief explicitly asks.
+- **Don't use a side-stripe / left-accent bar** (`border-left` or an inset box-shadow bar) to mark selected nav items, rows, or callouts — it reads as unfinished. Use a fill, weight, and the lavender icon.
+- **Don't stack a 1px border and a diffuse drop shadow** on the same card/button ("ghost card"). Pick one elevation language: a hairline **or** a defined shadow token.
+- **Don't let muted text drop below contrast.** `--vanilla-ink-subtle`/`-tertiary` on a tinted near-white must still clear WCAG AA (verify with `contrast.mjs`); nudge toward `--vanilla-ink` if close.
 
 ## Responsive Behavior
 
