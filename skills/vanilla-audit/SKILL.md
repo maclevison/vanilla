@@ -87,8 +87,14 @@ The measurable half of family conformance (the *taste* half belongs to `vanilla-
 - **Icons:** Lucide only (`lucide-react` / `lucide-vue-next`) — `grep` for any other icon import (heroicons, material-icons, font-awesome, tabler) → finding.
 - **Controls:** native or headless primitive (Base UI / Reka UI). `grep` package imports for a styled kit (`@mui`, `vuetify`, `@chakra-ui`, `antd`, `react-bootstrap`) → blocker; it ships its own skin.
 - **Depth:** surface ladder + hairlines; shadows resolve via `--vanilla-shadow-*` (real on light, `none` on dark) — no hardcoded `box-shadow` on dark, no ad-hoc border colors.
+- **Chrome separation:** the app sidebar sits on `--vanilla-chrome` (a tone distinct from `--vanilla-canvas`), never the workspace fill — `grep` the sidebar/rail background; a sidebar set to `--vanilla-canvas` (matching the workspace) is a finding unless the brief asks for it.
+- **No side-stripe:** no colored `border-left`/`border-right` > 1px and no inset accent bar on nav items / rows / callouts —
+  `grep -rnE 'inset [0-9]+px 0 0|border-(left|right):\s*(2|3|4|5|6)px' src`.
+- **One elevation language (no ghost-card):** no element carries **both** a 1px border and a `--vanilla-shadow-*` at once (in light the shadow token already rings) — flag `border` + `box-shadow` pairs on cards/panels.
+- **Interactive fills:** hover/selected use `--vanilla-fill-hover` / `--vanilla-fill-selected` (perceptible on any surface), not a surface step that vanishes on a same-value background —
+  `grep -rnE '(hover|active|selected)[^{]*\{[^}]*background' src` and confirm the fill reads.
 
-**0**=styled kit / foreign icons · **2**=mostly family, some foreign deps · **3**=family, minor depth drift · **4**=Lucide + primitives + ladder, clean.
+**0**=styled kit / foreign icons · **2**=mostly family, some foreign deps · **3**=family, minor depth drift · **4**=Lucide + primitives + ladder, distinct chrome, one elevation language, no side-stripe.
 
 ## Severity
 

@@ -17,6 +17,7 @@
 
   /* Surfaces */
   --vanilla-canvas: #010102;
+  --vanilla-chrome: #0a0b0d;      /* app sidebar/chrome — distinct from canvas, never the same */
   --vanilla-surface-1: #0f1011;
   --vanilla-surface-2: #141516;
   --vanilla-surface-3: #18191a;
@@ -90,6 +91,14 @@
   color-scheme: dark;
   --vanilla-shadow-1: none;
   --vanilla-shadow-2: none;
+
+  /* Interactive state fills — hover / selected / pressed for nav items, rows,
+     menu options. Neutral overlays (not surface steps) so they read on any
+     surface and in both themes. The selected state is a perceptible fill, never
+     a side-stripe; the lavender accent lives in the item's icon, not a bar. */
+  --vanilla-fill-hover: rgba(255, 255, 255, 0.05);
+  --vanilla-fill-selected: rgba(255, 255, 255, 0.09);
+  --vanilla-fill-pressed: rgba(255, 255, 255, 0.13);
 }
 
 /* ── Light theme ──────────────────────────────────────────────────────────
@@ -103,7 +112,8 @@
   --vanilla-ink-subtle: #6c7079;
   --vanilla-ink-tertiary: #9499a2;
 
-  --vanilla-canvas: #f4f5f7;     /* off-white "whitespace", not pure white */
+  --vanilla-canvas: #f4f5f7;     /* off-white workspace "whitespace", not pure white */
+  --vanilla-chrome: #ebedf1;     /* sidebar/chrome — a touch darker than canvas, never equal */
   --vanilla-surface-1: #ffffff;  /* cards lift to white */
   --vanilla-surface-2: #f7f8fa;
   --vanilla-surface-3: #eef0f3;
@@ -122,6 +132,11 @@
   /* Elevation by shadow on light */
   --vanilla-shadow-1: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
   --vanilla-shadow-2: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 4px 8px -2px rgba(0, 0, 0, 0.08), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
+
+  /* Interactive state fills — darker overlays for light surfaces */
+  --vanilla-fill-hover: rgba(17, 20, 28, 0.045);
+  --vanilla-fill-selected: rgba(17, 20, 28, 0.075);
+  --vanilla-fill-pressed: rgba(17, 20, 28, 0.10);
 
   color-scheme: light;
 }
