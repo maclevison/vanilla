@@ -10,7 +10,7 @@
 
 The *skin* (color, type, depth, icons) is fixed and guarantees recognition; the *soul* (domain, layout, hierarchy, and each product's *signature*) is free. Vanilla handles the *craft* — hierarchy, accessible primitives, polish, motion, states — so every UI ships with product quality, without looking "AI-generated."
 
-These are plain `SKILL.md` skills, **portable across Claude Code and OpenCode** (no subagents, plugins, or environment-specific config).
+These are plain `SKILL.md` skills, **portable across Claude Code and OpenCode** (no subagents, plugins, or environment-specific config). An **optional** Claude-Code-only plugin wrapper (below) adds native install/update and a soft review nudge — it is a convenience, not a dependency; the skills never require it.
 
 ---
 
@@ -224,6 +224,20 @@ cd vanilla
 Copy the `vanilla*` folders from `skills/` into the target repo's `.claude/skills/`, or into `~/.claude/skills/` for a global install.
 
 > The skills are versioned at `skills/` in the repo root. The installer copies (or symlinks) them into each agent's skills directory, so the repo itself carries no `.claude/` folder. For local development, `./install.sh --link --project .` symlinks them into `.claude/skills/` (gitignored) so the repo's own skills auto-load in Claude Code / OpenCode.
+
+### Claude Code plugin (optional)
+
+Claude Code users can install Vanilla as a plugin — same skills, plus native
+`/plugin` updates and a soft review nudge on finish:
+
+    /plugin marketplace add maclevison/vanilla
+    /plugin install vanilla@vanilla
+
+The plugin is a thin wrapper: it bundles the same `skills/` and adds a `Stop`
+hook that, once per session and only when UI files changed in a Vanilla project,
+nudges the model to run the `vanilla-review` skill before finalizing (soft —
+never a hard gate). Prefer the portable `install.sh` for OpenCode / claude.ai;
+the two coexist.
 
 ---
 
