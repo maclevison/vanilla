@@ -33,6 +33,10 @@ marker="$data_dir/vanilla-nudge-$sid_safe"
 [ -n "$cwd" ] || exit 0
 git -C "$cwd" rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
 
+# 3b. Vanilla-project scope: only nudge inside a Vanilla project (has docs/vanilla/).
+# Checked on disk so it works even where docs/ is gitignored. Tune the marker here.
+[ -d "$cwd/docs/vanilla" ] || exit 0
+
 # 4. UI scope: staged + unstaged + untracked, filtered by the UI regex.
 changed="$(
   {

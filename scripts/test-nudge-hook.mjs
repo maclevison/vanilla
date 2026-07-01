@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Drives hooks/nudge-review.sh with fake Stop stdin. Zero deps. Run: node scripts/test-nudge-hook.mjs
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, writeFileSync, existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, existsSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 
@@ -20,13 +20,15 @@ function runHook(payload, dataDir) {
   }
 }
 
-// Make a throwaway git repo; optionally leave an uncommitted UI file in it.
-function makeRepo({ withUiChange }) {
+// Make a throwaway git repo; optionally mark it as a Vanilla project (docs/vanilla/)
+// and optionally leave an uncommitted UI file in it.
+function makeRepo({ withUiChange, vanilla = true }) {
   const dir = mkdtempSync(join(tmpdir(), "vnudge-repo-"));
   execFileSync("git", ["init", "-q"], { cwd: dir });
   execFileSync("git", ["config", "user.email", "t@t.t"], { cwd: dir });
   execFileSync("git", ["config", "user.name", "t"], { cwd: dir });
   writeFileSync(join(dir, "README.md"), "seed\n");
+  if (vanilla) { mkdirSync(join(dir, "docs", "vanilla"), { recursive: true }); writeFileSync(join(dir, "docs", "vanilla", "vanilla-brief.md"), "# brief\n"); }
   execFileSync("git", ["add", "."], { cwd: dir });
   execFileSync("git", ["commit", "-qm", "seed"], { cwd: dir });
   if (withUiChange) writeFileSync(join(dir, "App.tsx"), "export const A = () => null;\n"); // untracked UI file
@@ -60,7 +62,15 @@ const cleanup = (...dirs) => dirs.forEach((d) => rmSync(d, { recursive: true, fo
   cleanup(data, repo);
 }
 
-// 4. git repo, UI change, first fire → re-wake (exit 2), file on stderr, marker created.
+// 3b. non-Vanilla project (no docs/vanilla/), UI change → quiet (project-scope gate).
+{
+  const data = newDataDir(), repo = makeRepo({ withUiChange: true, vanilla: false });
+  const r = runHook({ hook_event_name: "Stop", session_id: "s3b", cwd: repo, stop_hook_active: false }, data);
+  ok("UI diff but not a Vanilla project → exit 0", r.code === 0);
+  cleanup(data, repo);
+}
+
+// 4. Vanilla project, UI change, first fire → re-wake (exit 2), file on stderr, marker created.
 {
   const data = newDataDir(), repo = makeRepo({ withUiChange: true });
   const r = runHook({ hook_event_name: "Stop", session_id: "s4", cwd: repo, stop_hook_active: false }, data);
