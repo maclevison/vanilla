@@ -6,6 +6,11 @@
 #   curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash
 #   curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --project ./my-app
 #
+# Update to a specific release (or check first):
+#   curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --check
+#   curl -fsSL https://raw.githubusercontent.com/maclevison/vanilla/main/install.sh | bash -s -- --ref v1.3.0
+#   (or, from Claude Code / OpenCode, ask the agent to use the "vanilla-update" skill)
+#
 # From a local clone:
 #   ./install.sh                 # installs globally into ~/.claude/skills
 #   ./install.sh --project .     # installs into ./.claude/skills
@@ -29,6 +34,7 @@ MODE="global"       # global | project | zip
 TARGET_DIR=""       # project mode target; defaults to the current directory
 TARGET="claude"     # destination layout: claude | opencode | agents
 USE_LINK=0
+CHECK=0             # --check: report installed vs latest, then stop (scope stays global/project)
 
 c_info='\033[0;36m'; c_ok='\033[0;32m'; c_warn='\033[0;33m'; c_err='\033[0;31m'; c_off='\033[0m'
 info() { printf "${c_info}›${c_off} %s\n" "$1"; }
@@ -52,6 +58,7 @@ Options:
                    agents   → ~/.agents/skills          | DIR/.agents/skills
                    (OpenCode also reads .claude/skills, so claude works there too.)
   --zip            Package each skill as ./VanillaSkills/<skill>.zip for claude.ai upload.
+  --check          Compare the installed version against the latest release, then stop.
   --link           Symlink the skills instead of copying (local clone only).
   --ref REF        Branch or tag to fetch in remote mode (default: main).
   -h, --help       Show this help.
@@ -66,6 +73,7 @@ while [ $# -gt 0 ]; do
       if [ $# -ge 2 ] && [ "${2#-}" = "$2" ]; then TARGET_DIR="$2"; shift 2; else shift; fi ;;
     --target)  TARGET="${2:?--target needs a value}"; shift 2 ;;
     --zip)     MODE="zip"; shift ;;
+    --check)   CHECK=1; shift ;;
     --link)    USE_LINK=1; shift ;;
     --ref)     REF="${2:?--ref needs a value}"; shift 2 ;;
     -h|--help) usage; exit 0 ;;
@@ -87,6 +95,42 @@ if [ "$MODE" != "zip" ]; then
   else
     DEST="${TARGET_DIR:-$PWD}/${PROJECT_SUBDIR}"
   fi
+fi
+
+# Resolve the latest published release tag (git first — no API rate limit; curl fallback).
+latest_release() {
+  local tag=""
+  if command -v git >/dev/null 2>&1; then
+    tag="$(git ls-remote --tags --refs "https://github.com/${REPO}.git" 'v*' 2>/dev/null \
+      | awk -F/ '{print $NF}' | sort -V | tail -1)"
+  fi
+  if [ -z "$tag" ] && command -v curl >/dev/null 2>&1; then
+    tag="$(curl -fsSL "https://api.github.com/repos/${REPO}/releases/latest" 2>/dev/null \
+      | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -1)"
+  fi
+  printf '%s' "$tag"
+}
+
+# --check: compare the installed version marker against the latest release, then stop.
+if [ "$CHECK" = "1" ]; then
+  installed="not installed"
+  if [ -L "$DEST/vanilla" ]; then
+    installed="symlinked clone ($(readlink "$DEST/vanilla" 2>/dev/null)) — 'git pull' there to update"
+  elif [ -f "$DEST/vanilla/VERSION" ]; then
+    installed="$(cat "$DEST/vanilla/VERSION")"
+  fi
+  latest="$(latest_release)"
+  [ -n "$latest" ] || die "could not determine the latest release (need network + git or curl)"
+  info "Target dir: $DEST"
+  info "Installed:  $installed"
+  info "Latest:     $latest"
+  if [ "$installed" = "$latest" ]; then
+    ok "Up to date."
+  else
+    warn "Update available. Re-run:"
+    warn "  curl -fsSL https://raw.githubusercontent.com/${REPO}/main/install.sh | bash -s -- --ref ${latest}"
+  fi
+  exit 0
 fi
 
 # Locate the skills source: a local clone if we're inside one, else download a tarball.
@@ -111,6 +155,13 @@ if [ -z "$SRC" ]; then
   EXTRACTED="$(find "$TMP" -maxdepth 1 -type d -name "${REPO##*/}-*" | head -1)"
   [ -n "$EXTRACTED" ] && [ -d "$EXTRACTED/skills" ] || die "skills not found in the downloaded archive"
   SRC="$EXTRACTED/skills"
+fi
+
+# Version marker to stamp on the install: a tag from the local clone, else the fetched ref.
+VERSION_STR="$REF"
+if [ -n "${SCRIPT_DIR:-}" ] && command -v git >/dev/null 2>&1 \
+   && git -C "$SCRIPT_DIR" rev-parse --git-dir >/dev/null 2>&1; then
+  VERSION_STR="$(git -C "$SCRIPT_DIR" describe --tags --always 2>/dev/null || printf '%s' "$REF")"
 fi
 
 # --zip: package each skill as VanillaSkills/<skill>.zip for claude.ai upload, then stop.
@@ -151,7 +202,13 @@ for d in "$SRC"/vanilla*; do
 done
 [ "$count" -gt 0 ] || die "no vanilla* skills found in $SRC"
 
+# Stamp the installed version (copy installs only; symlinks track the clone's git).
+if [ "$USE_LINK" != "1" ] && [ -d "$DEST/vanilla" ]; then
+  printf '%s\n' "$VERSION_STR" > "$DEST/vanilla/VERSION"
+fi
+
 echo
-ok "Installed $count skill(s) → $DEST"
+ok "Installed $count skill(s) → $DEST  (version: ${VERSION_STR})"
 [ "$USE_LINK" = "1" ] && info "Symlinked — pull the clone to update."
+info "Run \"$0 --check\" (or ask your agent to use the vanilla-update skill) to check for updates."
 info "Ask your agent to \"use the vanilla skill\" to build product UI."
